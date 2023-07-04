@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_to_addBookMarkFragment"
+            app:destination="@id/addBookMarkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBookMarkFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.AddBookmarkFragment"
+        android:label="fragment_add_bookmark"
+        tools:layout="@layout/fragment_add_bookmark" />
+</navigation>

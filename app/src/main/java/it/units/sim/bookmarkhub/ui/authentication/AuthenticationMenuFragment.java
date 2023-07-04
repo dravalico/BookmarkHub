@@ -12,14 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.persistence.DatabaseAuthListener;
 
-public class AuthenticationMenuFragment extends Fragment implements DatabaseAuthListener {
+public class AuthenticationMenuFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,16 +39,6 @@ public class AuthenticationMenuFragment extends Fragment implements DatabaseAuth
             navController.navigate(action);
         });
         return view;
-    }
-
-    @Override
-    public void onSuccess(FirebaseUser user) {
-
-    }
-
-    @Override
-    public void onFailure(String errorMessage) {
-
     }
 
 }
