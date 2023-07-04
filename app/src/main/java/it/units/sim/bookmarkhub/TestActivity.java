@@ -14,7 +14,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         TextView textView = findViewById(R.id.text_view_id);
-        textView.setText(FirebaseManager.getCurrentUser().getDisplayName());
+        textView.setText(FirebaseManager.getCurrentUserUsername());
     }
 
 }

@@ -51,6 +51,10 @@ public class FirebaseManager {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
+    public static String getCurrentUserUsername() {
+        return Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName();
+    }
+
     public static void signOut() {
         FirebaseAuth.getInstance().signOut();
     }
