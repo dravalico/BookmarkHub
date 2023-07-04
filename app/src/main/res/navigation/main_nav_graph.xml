@@ -9,12 +9,9 @@
         android:name="it.units.sim.bookmarkhub.ui.core.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_to_addBookMarkFragment"
-            app:destination="@id/addBookMarkFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addBookMarkFragment"
+        android:id="@+id/addBookmarkFragment"
         android:name="it.units.sim.bookmarkhub.ui.core.AddBookmarkFragment"
         android:label="fragment_add_bookmark"
         tools:layout="@layout/fragment_add_bookmark" />
