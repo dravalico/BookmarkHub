@@ -13,6 +13,9 @@
         android:theme="@style/Theme.BookmarkHub"
         tools:targetApi="31">
         <activity
+            android:name=".ui.authentication.AuthenticationActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TestActivity" />
     </application>
 
 </manifest>
