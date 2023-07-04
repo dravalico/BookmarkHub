@@ -47,8 +47,8 @@ public class FirebaseManager {
         });
     }
 
-    public static FirebaseUser getCurrentUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
+    public static boolean isSomeoneLoggedIn() {
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     public static void signOut() {

@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (FirebaseManager.getCurrentUser() == null) {
+        if (!FirebaseManager.isSomeoneLoggedIn()) {
             startActivity(new Intent(this, AuthenticationActivity.class));
         } else {
             startActivity(new Intent(this, TestActivity.class));
