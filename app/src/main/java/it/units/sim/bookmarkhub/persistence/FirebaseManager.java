@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 
@@ -18,7 +19,10 @@ public class FirebaseManager {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                databaseAuthListener.onSuccess(firebaseAuth.getCurrentUser());
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                assert firebaseUser != null;
+                updateUserName(firebaseUser, username, databaseAuthListener);
+                databaseAuthListener.onSuccess(firebaseUser);
             } else {
                 databaseAuthListener.onFailure(Objects.requireNonNull(task.getException()).getMessage());
             }
@@ -68,6 +72,18 @@ public class FirebaseManager {
         if (!password.equals(confirmPassword)) {
             throw new IllegalArgumentException("Passwords do not match");
         }
+    }
+
+    private static void updateUserName(FirebaseUser firebaseUser, String username,
+                                       DatabaseAuthListener databaseAuthListener) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
+        firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                databaseAuthListener.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+            }
+        });
     }
 
 }

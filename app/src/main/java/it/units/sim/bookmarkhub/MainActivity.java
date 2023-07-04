@@ -4,15 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
-
-import it.units.sim.bookmarkhub.persistence.DatabaseAuthListener;
 import it.units.sim.bookmarkhub.persistence.FirebaseManager;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 
