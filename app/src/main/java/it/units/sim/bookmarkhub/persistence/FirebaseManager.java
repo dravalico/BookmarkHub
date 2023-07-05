@@ -1,14 +1,25 @@
 package it.units.sim.bookmarkhub.persistence;
 
+import static android.content.ContentValues.TAG;
+
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
+import java.util.List;
 import java.util.Objects;
 
+import it.units.sim.bookmarkhub.business.Bookmark;
+
 public class FirebaseManager {
+    private static final String BOOKMARKS_COLLECTION_NAME = "bookmarks";
+    private static final String CATEGORIES_COLLECTION_NAME = "categories";
 
     private FirebaseManager() {
     }
@@ -57,6 +68,25 @@ public class FirebaseManager {
 
     public static void signOut() {
         FirebaseAuth.getInstance().signOut();
+    }
+
+    public static void retrieveCategoriesListOfCurrentUser(DatabaseDataListener<List<String>> databaseDataListener) {
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
+        Query query = collectionRef.whereEqualTo("owner_id",
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        query.get().addOnSuccessListener(q -> {
+                    List<String> categories = (List<String>) q.getDocuments().get(0).get("name");
+                    databaseDataListener.onSuccess(categories);
+                })
+                .addOnFailureListener(e -> databaseDataListener.onFailure(e.getMessage()));
+    }
+
+    public static void addNewBookmark(String name, String url, String category) {
+        FirebaseFirestore.getInstance()
+                .collection(BOOKMARKS_COLLECTION_NAME)
+                .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, category))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 
     private static void checkSignUpFields(String username, String email, String password,

@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.core.AddBookmarkFragment">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/bookmarkNameEditText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="culo" />
+        android:layout_height="wrap_content"
+        android:autofillHints="name"
+        android:hint="@string/name"
+        android:inputType="text"
+        android:minHeight="48dp" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/bookmarkUrlEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/url"
+        android:inputType="textUri"
+        android:minHeight="48dp" />
+
+    <Spinner
+        android:id="@+id/bookmarkCategorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/addBookmarkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_bookmark" />
+
+</LinearLayout>

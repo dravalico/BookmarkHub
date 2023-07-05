@@ -30,7 +30,7 @@
         android:text="@string/sign_in" />
 
     <TextView
-        android:id="@+id/signUpRedirect"
+        android:id="@+id/signUpRedirectTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"

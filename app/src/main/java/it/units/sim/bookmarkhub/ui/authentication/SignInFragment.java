@@ -46,7 +46,7 @@ public class SignInFragment extends Fragment implements DatabaseAuthListener {
                 onFailure(e.getMessage());
             }
         });
-        view.findViewById(R.id.signUpRedirect).setOnClickListener(v -> {
+        view.findViewById(R.id.signUpRedirectTextView).setOnClickListener(v -> {
             NavDirections action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment();
             navController.navigate(action);
         });
