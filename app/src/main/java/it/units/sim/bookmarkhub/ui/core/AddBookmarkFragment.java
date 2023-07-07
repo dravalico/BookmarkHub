@@ -3,8 +3,10 @@ package it.units.sim.bookmarkhub.ui.core;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -30,6 +32,7 @@ import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class AddBookmarkFragment extends Fragment {
+    private NavController navController;
     private EditText nameEditText;
     private EditText urlEditText;
     private ArrayAdapter<String> spinnerAdapter;
@@ -94,22 +97,28 @@ public class AddBookmarkFragment extends Fragment {
                                 Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         }));
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
+            resetEditTextViews();
+        });
         return view;
     }
 
     public void clearViewAndOpenHomeFragment() {
-        nameEditText.setText("");
-        urlEditText.setText("");
+        resetEditTextViews();
         Toast.makeText(requireActivity(), "Bookmark inserted successfully", Toast.LENGTH_SHORT).show();
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        NavDirections action = AddBookmarkFragmentDirections.actionToHomeFragment();
-        navController.navigate(action);
+        navController.navigate(AddBookmarkFragmentDirections.actionToHomeFragment());
     }
 
     public void setAdapterSpinnerValues(List<String> values) {
         spinnerAdapter.addAll(values);
+    }
+
+    private void resetEditTextViews() {
+        nameEditText.setText("");
+        urlEditText.setText("");
     }
 
 }
