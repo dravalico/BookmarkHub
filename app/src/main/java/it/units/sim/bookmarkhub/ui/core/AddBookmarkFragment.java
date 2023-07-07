@@ -8,10 +8,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,6 +33,24 @@ public class AddBookmarkFragment extends Fragment {
     private EditText nameEditText;
     private EditText urlEditText;
     private ArrayAdapter<String> spinnerAdapter;
+    private Button addBookmarkButton;
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            boolean isNameEditTextFilled = !nameEditText.getText().toString().isEmpty();
+            boolean isUrlEditTextFilled = !urlEditText.getText().toString().isEmpty();
+            boolean isSpinnerAdapterFilled = !spinnerAdapter.isEmpty();
+            addBookmarkButton.setEnabled(isNameEditTextFilled && isUrlEditTextFilled && isSpinnerAdapterFilled);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +66,9 @@ public class AddBookmarkFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         nameEditText = view.findViewById(R.id.bookmarkNameEditText);
+        nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
+        urlEditText.addTextChangedListener(textWatcher);
         FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
             @Override
             public void onSuccess(CategoriesEntity categoriesEntity) {
@@ -57,7 +80,8 @@ public class AddBookmarkFragment extends Fragment {
                 Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
-        view.findViewById(R.id.addBookmarkButton).setOnClickListener(v ->
+        addBookmarkButton = view.findViewById(R.id.addBookmarkButton);
+        addBookmarkButton.setOnClickListener(v ->
                 FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
                         spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
