@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-import it.units.sim.bookmarkhub.persistence.FirebaseManager;
+import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (!FirebaseManager.isSomeoneLoggedIn()) {
+        if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
             startActivity(new Intent(this, AuthenticationActivity.class));
         }
         NavHostFragment navHostFragment =

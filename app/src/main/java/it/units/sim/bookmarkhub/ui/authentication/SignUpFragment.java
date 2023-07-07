@@ -14,16 +14,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.MainActivity;
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.persistence.DatabaseAuthListener;
-import it.units.sim.bookmarkhub.persistence.FirebaseManager;
+import it.units.sim.bookmarkhub.repository.DatabaseEventListener;
+import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 
-public class SignUpFragment extends Fragment implements DatabaseAuthListener {
+public class SignUpFragment extends Fragment implements DatabaseEventListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,7 @@ public class SignUpFragment extends Fragment implements DatabaseAuthListener {
             EditText passwordEditText = view.findViewById(R.id.passwordEditText);
             EditText confirmPasswordEditText = view.findViewById(R.id.confirmPasswordEditText);
             try {
-                FirebaseManager.signUp(usernameEditText.getText().toString(), emailEditText.getText().toString(),
+                FirebaseAuthenticationHelper.signUp(usernameEditText.getText().toString(), emailEditText.getText().toString(),
                         passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(), this);
             } catch (IllegalArgumentException e) {
                 onFailure(e.getMessage());
@@ -57,7 +55,7 @@ public class SignUpFragment extends Fragment implements DatabaseAuthListener {
     }
 
     @Override
-    public void onSuccess(FirebaseUser user) {
+    public void onSuccess() {
         startActivity(new Intent(requireActivity(), MainActivity.class));
     }
 
