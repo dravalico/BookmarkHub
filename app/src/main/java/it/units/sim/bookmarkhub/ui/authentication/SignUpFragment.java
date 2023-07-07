@@ -18,10 +18,9 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.MainActivity;
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.repository.DatabaseEventListener;
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 
-public class SignUpFragment extends Fragment implements DatabaseEventListener {
+public class SignUpFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,28 +39,25 @@ public class SignUpFragment extends Fragment implements DatabaseEventListener {
             EditText emailEditText = view.findViewById(R.id.emailEditText);
             EditText passwordEditText = view.findViewById(R.id.passwordEditText);
             EditText confirmPasswordEditText = view.findViewById(R.id.confirmPasswordEditText);
-            try {
-                FirebaseAuthenticationHelper.signUp(usernameEditText.getText().toString(), emailEditText.getText().toString(),
-                        passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(), this);
-            } catch (IllegalArgumentException e) {
-                onFailure(e.getMessage());
-            }
+            FirebaseAuthenticationHelper.signUp(usernameEditText.getText().toString(), emailEditText.getText().toString(),
+                    passwordEditText.getText().toString(), confirmPasswordEditText.getText().toString(),
+                    new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            startActivity(new Intent(requireActivity(), MainActivity.class));
+                        }
+
+                        @Override
+                        public void onFailure(String errorMessage) {
+                            Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
         view.findViewById(R.id.signInRedirect).setOnClickListener(v -> {
             NavDirections action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment();
             navController.navigate(action);
         });
         return view;
-    }
-
-    @Override
-    public void onSuccess() {
-        startActivity(new Intent(requireActivity(), MainActivity.class));
-    }
-
-    @Override
-    public void onFailure(String errorMessage) {
-        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
 }

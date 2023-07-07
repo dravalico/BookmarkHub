@@ -9,39 +9,43 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.Objects;
 
 public class FirebaseAuthenticationHelper {
+
     private FirebaseAuthenticationHelper() {
     }
 
     public static void signUp(String username, String email, String password, String confirmPassword,
-                              DatabaseEventListener databaseEventListener) throws IllegalArgumentException {
-        checkSignUpFields(username, email, password, confirmPassword);
+                              AuthenticationCallback callback) {
+        try {
+            checkSignUpFields(username, email, password, confirmPassword);
+        } catch (IllegalArgumentException e) {
+            callback.onFailure(e.getMessage());
+        }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
-                updateUserName(firebaseUser, username, databaseEventListener);
-                databaseEventListener.onSuccess();
+                updateUserName(firebaseUser, username, callback);
+                callback.onSuccess();
             } else {
-                databaseEventListener.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
 
-    public static void signIn(String email, String password,
-                              DatabaseEventListener databaseEventListener) throws IllegalArgumentException {
+    public static void signIn(String email, String password, AuthenticationCallback callback) {
         if (TextUtils.isEmpty(email)) {
-            throw new IllegalArgumentException("Email cannot be empty");
+            callback.onFailure("Email cannot be empty");
         }
         if (TextUtils.isEmpty(password)) {
-            throw new IllegalArgumentException("Password cannot be empty");
+            callback.onFailure("Password cannot be empty");
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                databaseEventListener.onSuccess();
+                callback.onSuccess();
             } else {
-                databaseEventListener.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -77,15 +81,22 @@ public class FirebaseAuthenticationHelper {
         }
     }
 
-    private static void updateUserName(FirebaseUser firebaseUser, String username, DatabaseEventListener databaseEventListener) {
+    private static void updateUserName(FirebaseUser firebaseUser, String username,
+                                       AuthenticationCallback callback) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
         firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                databaseEventListener.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
+    }
+
+    public interface AuthenticationCallback {
+        void onSuccess();
+
+        void onFailure(String errorMessage);
     }
 
 }

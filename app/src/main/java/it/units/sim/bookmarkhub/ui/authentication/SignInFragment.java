@@ -18,10 +18,9 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.MainActivity;
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.repository.DatabaseEventListener;
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 
-public class SignInFragment extends Fragment implements DatabaseEventListener {
+public class SignInFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,27 +37,26 @@ public class SignInFragment extends Fragment implements DatabaseEventListener {
         view.findViewById(R.id.signInButton).setOnClickListener(v -> {
             EditText emailEditText = view.findViewById(R.id.emailEditText);
             EditText passwordEditText = view.findViewById(R.id.passwordEditText);
-            try {
-                FirebaseAuthenticationHelper.signIn(emailEditText.getText().toString(), passwordEditText.getText().toString(), this);
-            } catch (IllegalArgumentException e) {
-                onFailure(e.getMessage());
-            }
+            FirebaseAuthenticationHelper.signIn(emailEditText.getText().toString(),
+                    passwordEditText.getText().toString(),
+                    new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            startActivity(new Intent(requireActivity(), MainActivity.class));
+                        }
+
+                        @Override
+                        public void onFailure(String errorMessage) {
+                            Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         });
         view.findViewById(R.id.signUpRedirectTextView).setOnClickListener(v -> {
             NavDirections action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment();
             navController.navigate(action);
         });
         return view;
-    }
-
-    @Override
-    public void onSuccess() {
-        startActivity(new Intent(requireActivity(), MainActivity.class));
-    }
-
-    @Override
-    public void onFailure(String errorMessage) {
-        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
 }

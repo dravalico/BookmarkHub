@@ -8,11 +8,14 @@
         android:id="@+id/homeFragment"
         android:name="it.units.sim.bookmarkhub.ui.core.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/addBookmarkFragment"
         android:name="it.units.sim.bookmarkhub.ui.core.AddBookmarkFragment"
         android:label="fragment_add_bookmark"
-        tools:layout="@layout/fragment_add_bookmark" />
+        tools:layout="@layout/fragment_add_bookmark">
+        <action
+            android:id="@+id/action_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.BookmarkEntity;
@@ -23,6 +27,8 @@ import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class AddBookmarkFragment extends Fragment {
+    private EditText nameEditText;
+    private EditText urlEditText;
     private ArrayAdapter<String> spinnerAdapter;
 
     @Override
@@ -38,6 +44,8 @@ public class AddBookmarkFragment extends Fragment {
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
+        nameEditText = view.findViewById(R.id.bookmarkNameEditText);
+        urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
         FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
             @Override
             public void onSuccess(CategoriesEntity categoriesEntity) {
@@ -46,38 +54,38 @@ public class AddBookmarkFragment extends Fragment {
 
             @Override
             public void onError(String errorMessage) {
-                AddBookmarkFragment.this.showToast(errorMessage);
+                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
-        view.findViewById(R.id.addBookmarkButton).setOnClickListener(v -> {
-            EditText nameEditText = view.findViewById(R.id.bookmarkNameEditText);
-            EditText urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
-            FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
-                    spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
-                        @Override
-                        public void onSuccess(BookmarkEntity BookmarkEntity) {
-                            AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
-                        }
+        view.findViewById(R.id.addBookmarkButton).setOnClickListener(v ->
+                FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
+                        spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
+                            @Override
+                            public void onSuccess(BookmarkEntity BookmarkEntity) {
+                                AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
+                            }
 
-                        @Override
-                        public void onError(String errorMessage) {
-                            AddBookmarkFragment.this.showToast(errorMessage);
-                        }
-                    });
-        });
+                            @Override
+                            public void onError(String errorMessage) {
+                                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        }));
         return view;
     }
 
     public void clearViewAndOpenHomeFragment() {
-        Toast.makeText(requireActivity(), "Inserito!!!!", Toast.LENGTH_SHORT).show();
+        nameEditText.setText("");
+        urlEditText.setText("");
+        Toast.makeText(requireActivity(), "Bookmark inserted successfully", Toast.LENGTH_SHORT).show();
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+        NavDirections action = AddBookmarkFragmentDirections.actionToHomeFragment();
+        navController.navigate(action);
     }
 
     public void setAdapterSpinnerValues(List<String> values) {
         spinnerAdapter.addAll(values);
-    }
-
-    public void showToast(String msg) {
-        Toast.makeText(requireActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
 }
