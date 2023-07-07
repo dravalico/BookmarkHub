@@ -19,13 +19,13 @@ public class FirebaseCategoriesHelper {
         query.get()
                 .addOnSuccessListener(q ->
                         callback.onSuccess(q.getDocuments().get(0).toObject(CategoriesEntity.class)))
-                .addOnFailureListener(callback::onError);
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
     public interface CategoriesCallback {
         void onSuccess(CategoriesEntity categoriesEntity);
 
-        void onError(Exception error);
+        void onError(String errorMessage);
     }
 
 }

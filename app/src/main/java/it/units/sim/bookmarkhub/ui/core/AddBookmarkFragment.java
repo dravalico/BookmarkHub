@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
+import it.units.sim.bookmarkhub.model.BookmarkEntity;
 import it.units.sim.bookmarkhub.model.CategoriesEntity;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
@@ -44,17 +45,31 @@ public class AddBookmarkFragment extends Fragment {
             }
 
             @Override
-            public void onError(Exception error) {
-                AddBookmarkFragment.this.showToast(error.getMessage());
+            public void onError(String errorMessage) {
+                AddBookmarkFragment.this.showToast(errorMessage);
             }
         });
         view.findViewById(R.id.addBookmarkButton).setOnClickListener(v -> {
             EditText nameEditText = view.findViewById(R.id.bookmarkNameEditText);
             EditText urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
             FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
-                    spinner.getSelectedItem().toString());
+                    spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
+                        @Override
+                        public void onSuccess(BookmarkEntity BookmarkEntity) {
+                            AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
+                        }
+
+                        @Override
+                        public void onError(String errorMessage) {
+                            AddBookmarkFragment.this.showToast(errorMessage);
+                        }
+                    });
         });
         return view;
+    }
+
+    public void clearViewAndOpenHomeFragment() {
+        Toast.makeText(requireActivity(), "Inserito!!!!", Toast.LENGTH_SHORT).show();
     }
 
     public void setAdapterSpinnerValues(List<String> values) {
