@@ -3,11 +3,8 @@ package it.units.sim.bookmarkhub.ui.core;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.Editable;
@@ -100,9 +97,7 @@ public class AddBookmarkFragment extends Fragment {
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
-        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
-            resetEditTextViews();
-        });
+        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> resetEditTextViews());
         return view;
     }
 
