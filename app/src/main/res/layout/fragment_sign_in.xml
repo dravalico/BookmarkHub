@@ -1,27 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:hint="@string/email"
         android:autofillHints="emailAddress"
-        android:inputType="textEmailAddress"/>
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:hint="@string/password"
         android:autofillHints="password"
-        android:inputType="textPassword"/>
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/signInButton"
@@ -33,8 +34,8 @@
         android:id="@+id/signUpRedirectTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_margin="10dp"
+        android:gravity="center_horizontal"
         android:text="@string/create_an_account"
         android:textColor="#18206F"
         android:textSize="16sp" />
