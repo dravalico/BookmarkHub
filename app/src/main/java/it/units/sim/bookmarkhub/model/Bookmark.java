@@ -4,7 +4,7 @@ import com.google.firebase.firestore.PropertyName;
 
 import java.util.Objects;
 
-public final class BookmarkEntity {
+public final class Bookmark {
     @PropertyName("user_id")
     public String userId;
     @PropertyName("name")
@@ -14,10 +14,10 @@ public final class BookmarkEntity {
     @PropertyName("category")
     public String category;
 
-    public BookmarkEntity() {
+    public Bookmark() {
     }
 
-    public BookmarkEntity(String userId, String name, String url, String category) {
+    public Bookmark(String userId, String name, String url, String category) {
         this.userId = userId;
         this.name = name;
         this.url = url;
@@ -28,7 +28,7 @@ public final class BookmarkEntity {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (BookmarkEntity) obj;
+        var that = (Bookmark) obj;
         return Objects.equals(this.userId, that.userId) &&
                 Objects.equals(this.name, that.name) &&
                 Objects.equals(this.url, that.url) &&

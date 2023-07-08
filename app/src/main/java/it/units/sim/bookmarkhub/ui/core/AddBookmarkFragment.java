@@ -1,12 +1,6 @@
 package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,13 +12,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.model.BookmarkEntity;
-import it.units.sim.bookmarkhub.model.CategoriesEntity;
+import it.units.sim.bookmarkhub.model.Bookmark;
+import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
@@ -71,8 +71,11 @@ public class AddBookmarkFragment extends Fragment {
         urlEditText.addTextChangedListener(textWatcher);
         FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
             @Override
-            public void onSuccess(CategoriesEntity categoriesEntity) {
-                AddBookmarkFragment.this.setAdapterSpinnerValues(categoriesEntity.categories);
+            public void onSuccess(List<Category> category) {
+                AddBookmarkFragment.this.setAdapterSpinnerValues(
+                        category.stream()
+                                .map(c -> c.name)
+                                .collect(Collectors.toList()));
             }
 
             @Override
@@ -85,7 +88,7 @@ public class AddBookmarkFragment extends Fragment {
                 FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
                         spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
-                            public void onSuccess(BookmarkEntity BookmarkEntity) {
+                            public void onSuccess(Bookmark Bookmark) {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
                             }
 
