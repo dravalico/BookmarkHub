@@ -2,13 +2,12 @@ package it.units.sim.bookmarkhub.repository;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.model.Category;
 
@@ -27,11 +26,11 @@ public class FirebaseCategoriesHelper {
                 callback.onError(e.getMessage());
             }
             assert snapshot != null;
-            List<Category> categoryList = new ArrayList<>();
-            for (DocumentSnapshot documentSnapshot : snapshot.getDocuments()) {
-                categoryList.add(documentSnapshot.toObject(Category.class));
-            }
-            callback.onSuccess(categoryList);
+            callback.onSuccess(
+                    snapshot.getDocuments()
+                            .stream()
+                            .map(s -> s.toObject(Category.class))
+                            .collect(Collectors.toList()));
         });
     }
 
