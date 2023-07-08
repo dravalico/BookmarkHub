@@ -108,6 +108,7 @@ public class AddBookmarkFragment extends Fragment {
     }
 
     public void setAdapterSpinnerValues(List<String> values) {
+        spinnerAdapter.clear();
         spinnerAdapter.addAll(values);
     }
 

@@ -16,10 +16,13 @@ public class FirebaseCategoriesHelper {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
         Query query = collectionRef.whereEqualTo("owner_id",
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-        query.get()
-                .addOnSuccessListener(q ->
-                        callback.onSuccess(q.getDocuments().get(0).toObject(CategoriesEntity.class)))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+        query.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                callback.onError(e.getMessage());
+            }
+            assert snapshot != null;
+            callback.onSuccess(snapshot.getDocuments().get(0).toObject(CategoriesEntity.class));
+        });
     }
 
     public interface CategoriesCallback {
