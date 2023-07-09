@@ -18,7 +18,7 @@ public class FirebaseBookmarkHelper {
     }
 
     public interface BookmarkCallback {
-        void onSuccess(Bookmark Bookmark);
+        void onSuccess(Bookmark bookmark);
 
         void onError(String errorMessage);
     }

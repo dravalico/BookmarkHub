@@ -53,11 +53,6 @@ public class AddBookmarkFragment extends Fragment {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_bookmark, container, false);
@@ -92,7 +87,7 @@ public class AddBookmarkFragment extends Fragment {
                         spinner.getSelectedItem().toString(),
                         new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
-                            public void onSuccess(Bookmark Bookmark) {
+                            public void onSuccess(Bookmark bookmark) {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
                             }
 

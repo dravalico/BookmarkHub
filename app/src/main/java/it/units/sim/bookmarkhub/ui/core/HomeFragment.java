@@ -19,11 +19,6 @@ import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 public class HomeFragment extends Fragment {
     private CategoryAdapter categoryAdapter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
