@@ -1,6 +1,8 @@
 package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +24,31 @@ import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class AddCategoryFragment extends Fragment {
     private NavController navController;
+    private EditText nameEditText;
+    private Button addCategoryButton;
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            boolean isNameEditTextFilled = !nameEditText.getText().toString().isEmpty();
+            addCategoryButton.setEnabled(isNameEditTextFilled);
+        }
+    };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_category, container, false);
-        EditText nameEditText = view.findViewById(R.id.categoryNameEditText);
-        Button addCategoryButton = view.findViewById(R.id.addCategoryButton);
+        nameEditText = view.findViewById(R.id.categoryNameEditText);
+        nameEditText.addTextChangedListener(textWatcher);
+        addCategoryButton = view.findViewById(R.id.addCategoryButton);
         addCategoryButton.setOnClickListener(v ->
                 new Thread(() -> FirebaseCategoriesHelper.addNewCategory(
                         nameEditText.getText().toString(),
