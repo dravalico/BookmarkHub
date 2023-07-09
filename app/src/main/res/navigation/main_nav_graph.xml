@@ -15,7 +15,16 @@
         android:label="fragment_add_bookmark"
         tools:layout="@layout/fragment_add_bookmark">
         <action
-            android:id="@+id/action_to_homeFragment"
+            android:id="@+id/action_bookmark_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCategoryFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.AddCategoryFragment"
+        android:label="fragment_add_category"
+        tools:layout="@layout/fragment_add_category">
+        <action
+            android:id="@+id/action_category_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

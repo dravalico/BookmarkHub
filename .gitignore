@@ -20,3 +20,5 @@ local.properties
 /.idea/gradle.xml
 /.idea/misc.xml
 /.idea/vcs.xml
+/.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint/securityhotspotstore/index.pb

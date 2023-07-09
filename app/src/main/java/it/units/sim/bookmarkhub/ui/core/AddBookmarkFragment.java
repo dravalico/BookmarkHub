@@ -106,7 +106,7 @@ public class AddBookmarkFragment extends Fragment {
     public void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
         Toast.makeText(requireActivity(), "Bookmark inserted successfully", Toast.LENGTH_SHORT).show();
-        navController.navigate(AddBookmarkFragmentDirections.actionToHomeFragment());
+        navController.navigate(AddBookmarkFragmentDirections.actionBookmarkToHomeFragment());
     }
 
     public void setAdapterSpinnerValues(List<String> values) {
