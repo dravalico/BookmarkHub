@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -14,15 +15,18 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 
-public class CategoryAdapter extends FirestoreRecyclerAdapter<Category, CategoryAdapter.CategoriesViewHolder> {
+public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, CategoriesAdapter.CategoriesViewHolder> {
 
-    public CategoryAdapter(@NonNull FirestoreRecyclerOptions<Category> options) {
+    public CategoriesAdapter(@NonNull FirestoreRecyclerOptions<Category> options) {
         super(options);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull CategoriesViewHolder holder, int position, @NonNull Category model) {
         holder.item.setText(model.name);
+        holder.cardView.setOnClickListener(v -> {
+            // TODO
+        });
     }
 
     @NonNull
@@ -33,10 +37,12 @@ public class CategoryAdapter extends FirestoreRecyclerAdapter<Category, Category
     }
 
     static class CategoriesViewHolder extends RecyclerView.ViewHolder {
+        public final CardView cardView;
         public final TextView item;
 
         CategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card);
             item = itemView.findViewById(R.id.item);
         }
     }

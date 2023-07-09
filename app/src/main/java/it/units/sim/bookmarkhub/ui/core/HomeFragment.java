@@ -17,7 +17,7 @@ import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class HomeFragment extends Fragment {
-    private CategoryAdapter categoryAdapter;
+    private CategoriesAdapter categoriesAdapter;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -28,21 +28,21 @@ public class HomeFragment extends Fragment {
         FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
                 .setQuery(FirebaseCategoriesHelper.getQueryForCategoriesListOfCurrentUser(), Category.class)
                 .build();
-        categoryAdapter = new CategoryAdapter(options);
-        recyclerView.setAdapter(categoryAdapter);
+        categoriesAdapter = new CategoriesAdapter(options);
+        recyclerView.setAdapter(categoriesAdapter);
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        categoryAdapter.startListening();
+        categoriesAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        categoryAdapter.stopListening();
+        categoriesAdapter.stopListening();
     }
 
 }
