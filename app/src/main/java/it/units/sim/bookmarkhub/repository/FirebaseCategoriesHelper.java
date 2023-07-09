@@ -21,17 +21,25 @@ public class FirebaseCategoriesHelper {
     }
 
     public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
-        getQueryForCategoriesListOfCurrentUser().addSnapshotListener((snapshot, e) -> {
+        getQueryForCategoriesListOfCurrentUser().addSnapshotListener((s, e) -> {
             if (e != null) {
                 callback.onError(e.getMessage());
             }
-            assert snapshot != null;
+            assert s != null;
             callback.onSuccess(
-                    snapshot.getDocuments()
+                    s.getDocuments()
                             .stream()
-                            .map(s -> s.toObject(Category.class))
+                            .map(s1 -> s1.toObject(Category.class))
                             .collect(Collectors.toList()));
         });
+    }
+
+    public static void addNewCategory(String categoryName, CategoriesCallback callback) {
+        FirebaseFirestore.getInstance()
+                .collection(CATEGORIES_COLLECTION_NAME)
+                .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName))
+                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
     public interface CategoriesCallback {
