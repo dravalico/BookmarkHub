@@ -13,6 +13,11 @@ public final class Category {
     public Category() {
     }
 
+    public Category(String userId, String name) {
+        this.userId = userId;
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
