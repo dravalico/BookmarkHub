@@ -69,24 +69,28 @@ public class AddBookmarkFragment extends Fragment {
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
         urlEditText.addTextChangedListener(textWatcher);
-        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
-            @Override
-            public void onSuccess(List<Category> category) {
-                AddBookmarkFragment.this.setAdapterSpinnerValues(
-                        category.stream()
-                                .map(c -> c.name)
-                                .collect(Collectors.toList()));
-            }
+        new Thread(() -> FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(
+                new FirebaseCategoriesHelper.CategoriesCallback() {
+                    @Override
+                    public void onSuccess(List<Category> category) {
+                        AddBookmarkFragment.this.setAdapterSpinnerValues(
+                                category.stream()
+                                        .map(c -> c.name)
+                                        .collect(Collectors.toList()));
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                })).start();
         addBookmarkButton = view.findViewById(R.id.addBookmarkButton);
         addBookmarkButton.setOnClickListener(v ->
-                FirebaseBookmarkHelper.addNewBookmark(nameEditText.getText().toString(), urlEditText.getText().toString(),
-                        spinner.getSelectedItem().toString(), new FirebaseBookmarkHelper.BookmarkCallback() {
+                new Thread(() -> FirebaseBookmarkHelper.addNewBookmark(
+                        nameEditText.getText().toString(),
+                        urlEditText.getText().toString(),
+                        spinner.getSelectedItem().toString(),
+                        new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
                             public void onSuccess(Bookmark Bookmark) {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
@@ -96,7 +100,7 @@ public class AddBookmarkFragment extends Fragment {
                             public void onError(String errorMessage) {
                                 Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
                             }
-                        }));
+                        })).start());
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
