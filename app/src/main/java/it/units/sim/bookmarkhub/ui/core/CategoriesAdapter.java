@@ -1,5 +1,6 @@
 package it.units.sim.bookmarkhub.ui.core;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -16,16 +18,25 @@ import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 
 public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, CategoriesAdapter.CategoriesViewHolder> {
+    private final FragmentManager fragmentManager;
 
-    public CategoriesAdapter(@NonNull FirestoreRecyclerOptions<Category> options) {
+    public CategoriesAdapter(@NonNull FirestoreRecyclerOptions<Category> options, FragmentManager fragmentManager) {
         super(options);
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull CategoriesViewHolder holder, int position, @NonNull Category model) {
         holder.item.setText(model.name);
         holder.cardView.setOnClickListener(v -> {
-            // TODO
+            BookmarkDataFragment fragment = new BookmarkDataFragment();
+            Bundle args = new Bundle();
+            args.putString("category_name", model.name);
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 

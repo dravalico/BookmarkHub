@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
         FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
                 .setQuery(FirebaseCategoriesHelper.getQueryForCategoriesListOfCurrentUser(), Category.class)
                 .build();
-        categoriesAdapter = new CategoriesAdapter(options);
+        categoriesAdapter = new CategoriesAdapter(options, getParentFragmentManager());
         recyclerView.setAdapter(categoriesAdapter);
         return view;
     }
