@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 
 import it.units.sim.bookmarkhub.R;
 
-public class BookmarkDataFragment extends Fragment {
+public class CategoryEntriesFragment extends Fragment {
     private static final String ARG = "category_name";
     private String category;
 
-    public static BookmarkDataFragment newInstance(String param1) {
-        BookmarkDataFragment fragment = new BookmarkDataFragment();
+    public static CategoryEntriesFragment newInstance(String param1) {
+        CategoryEntriesFragment fragment = new CategoryEntriesFragment();
         Bundle args = new Bundle();
         args.putString(ARG, param1);
         fragment.setArguments(args);
@@ -34,7 +34,7 @@ public class BookmarkDataFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_bookmark_data, container, false);
+        View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
         EditText editText = view.findViewById(R.id.prova);
         editText.setText(category);
         return view;

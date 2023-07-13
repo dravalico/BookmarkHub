@@ -29,7 +29,7 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
     protected void onBindViewHolder(@NonNull CategoriesViewHolder holder, int position, @NonNull Category model) {
         holder.item.setText(model.name);
         holder.cardView.setOnClickListener(v -> {
-            BookmarkDataFragment fragment = new BookmarkDataFragment();
+            CategoryEntriesFragment fragment = new CategoryEntriesFragment();
             Bundle args = new Bundle();
             args.putString("category_name", model.name);
             fragment.setArguments(args);
