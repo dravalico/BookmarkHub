@@ -87,7 +87,7 @@ public class AddBookmarkFragment extends Fragment {
                         spinner.getSelectedItem().toString(),
                         new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
-                            public void onSuccess(Bookmark bookmark) {
+                            public void onSuccess(List<Bookmark> bookmark) {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
                             }
 
