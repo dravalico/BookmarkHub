@@ -14,14 +14,12 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ciao"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AAAAAA"
             android:textSize="16sp" />
     </LinearLayout>
 
