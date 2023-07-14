@@ -1,5 +1,6 @@
 package it.units.sim.bookmarkhub.ui.core;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -16,9 +18,11 @@ import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 
 public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, BookmarksAdapter.BookmarkViewHolder> {
+    private final FragmentManager fragmentManager;
 
-    public BookmarksAdapter(@NonNull FirestoreRecyclerOptions<Bookmark> options) {
+    public BookmarksAdapter(@NonNull FirestoreRecyclerOptions<Bookmark> options, FragmentManager fragmentManager) {
         super(options);
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -26,7 +30,14 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
         holder.name.setText(model.name);
         holder.url.setText(model.url);
         holder.cardView.setOnClickListener(v -> {
-            // TODO
+            BookmarkWebViewFragment fragment = new BookmarkWebViewFragment();
+            Bundle args = new Bundle();
+            args.putString("url", model.url);
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
