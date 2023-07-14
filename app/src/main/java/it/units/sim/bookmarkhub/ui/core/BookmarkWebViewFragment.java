@@ -10,8 +10,6 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,6 +20,7 @@ import it.units.sim.bookmarkhub.R;
 public class BookmarkWebViewFragment extends Fragment {
     private static final String ARG = "url";
     private String url;
+    private BottomNavigationView bottomNavigationView;
 
     public static BookmarkWebViewFragment newInstance(String param1) {
         BookmarkWebViewFragment fragment = new BookmarkWebViewFragment();
@@ -44,7 +43,7 @@ public class BookmarkWebViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookmark_web_view, container, false);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
-        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setVisibility(View.GONE);
         WebView webView = view.findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -57,7 +56,7 @@ public class BookmarkWebViewFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
-        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
