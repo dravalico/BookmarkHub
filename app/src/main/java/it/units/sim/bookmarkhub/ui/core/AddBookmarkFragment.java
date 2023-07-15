@@ -33,6 +33,7 @@ public class AddBookmarkFragment extends Fragment {
     private NavController navController;
     private EditText nameEditText;
     private EditText urlEditText;
+    private EditText dataEditText;
     private ArrayAdapter<String> spinnerAdapter;
     private Button addBookmarkButton;
     private final TextWatcher textWatcher = new TextWatcher() {
@@ -65,7 +66,7 @@ public class AddBookmarkFragment extends Fragment {
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
         urlEditText.addTextChangedListener(textWatcher);
-        EditText dataEditText = view.findViewById(R.id.bookmarkDataEditText);
+        dataEditText = view.findViewById(R.id.bookmarkDataEditText);
         new Thread(() -> FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(
                 new FirebaseCategoriesHelper.CategoriesCallback() {
                     @Override
@@ -126,6 +127,7 @@ public class AddBookmarkFragment extends Fragment {
     private void resetEditTextViews() {
         nameEditText.setText("");
         urlEditText.setText("");
+        dataEditText.setText("");
     }
 
 }
