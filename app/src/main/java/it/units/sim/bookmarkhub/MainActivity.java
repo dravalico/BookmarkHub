@@ -2,11 +2,8 @@ package it.units.sim.bookmarkhub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -24,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
             startActivity(new Intent(this, AuthenticationActivity.class));
         }
@@ -34,15 +29,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            getSupportFragmentManager().popBackStack();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }
