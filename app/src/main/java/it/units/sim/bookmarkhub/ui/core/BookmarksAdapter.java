@@ -1,12 +1,14 @@
 package it.units.sim.bookmarkhub.ui.core;
 
-import android.os.Bundle;
+import android.app.Activity;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,27 +20,20 @@ import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 
 public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, BookmarksAdapter.BookmarkViewHolder> {
-    private final FragmentManager fragmentManager;
+    private final Activity activity;
 
-    public BookmarksAdapter(@NonNull FirestoreRecyclerOptions<Bookmark> options, FragmentManager fragmentManager) {
+    public BookmarksAdapter(@NonNull FirestoreRecyclerOptions<Bookmark> options, Activity activity) {
         super(options);
-        this.fragmentManager = fragmentManager;
+        this.activity = activity;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position, @NonNull Bookmark model) {
         holder.name.setText(model.name);
         holder.url.setText(model.url);
-        holder.cardView.setOnClickListener(v -> {
-            BookmarkWebViewFragment fragment = new BookmarkWebViewFragment();
-            Bundle args = new Bundle();
-            args.putString("url", model.url);
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_nav_host_fragment, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
+        holder.cardView.setOnClickListener(v ->
+                new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))
+        );
     }
 
     @NonNull

@@ -46,7 +46,7 @@ public class CategoryEntriesFragment extends Fragment {
         FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
                 .setQuery(FirebaseBookmarkHelper.getQueryForBookmarksListOfCurrentUser(category), Bookmark.class)
                 .build();
-        bookmarksAdapter = new BookmarksAdapter(options, getParentFragmentManager());
+        bookmarksAdapter = new BookmarksAdapter(options, requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
         return view;
     }
