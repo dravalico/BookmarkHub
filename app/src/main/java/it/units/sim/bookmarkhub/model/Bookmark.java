@@ -11,16 +11,19 @@ public final class Bookmark {
     public String name;
     @PropertyName("url")
     public String url;
+    @PropertyName("additional_data")
+    public String data;
     @PropertyName("category")
     public String category;
 
     public Bookmark() {
     }
 
-    public Bookmark(String userId, String name, String url, String category) {
+    public Bookmark(String userId, String name, String url, String data, String category) {
         this.userId = userId;
         this.name = name;
         this.url = url;
+        this.data = data;
         this.category = category;
     }
 
@@ -32,12 +35,13 @@ public final class Bookmark {
         return Objects.equals(this.userId, that.userId) &&
                 Objects.equals(this.name, that.name) &&
                 Objects.equals(this.url, that.url) &&
+                Objects.equals(this.data, that.data) &&
                 Objects.equals(this.category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name, url, category);
+        return Objects.hash(userId, name, url, data, category);
     }
 
     @Override
@@ -46,6 +50,7 @@ public final class Bookmark {
                 "userId=" + userId + ", " +
                 "name=" + name + ", " +
                 "url=" + url + ", " +
+                "data=" + data + ", " +
                 "category=" + category + ']';
     }
 

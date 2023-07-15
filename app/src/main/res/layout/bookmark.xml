@@ -17,7 +17,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/url"
+            android:id="@+id/data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp" />

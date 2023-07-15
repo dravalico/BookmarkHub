@@ -64,6 +64,7 @@ public class AddBookmarkFragment extends Fragment {
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
         urlEditText.addTextChangedListener(textWatcher);
+        EditText dataEditText = view.findViewById(R.id.bookmarkDataEditText);
         new Thread(() -> FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(
                 new FirebaseCategoriesHelper.CategoriesCallback() {
                     @Override
@@ -81,21 +82,24 @@ public class AddBookmarkFragment extends Fragment {
                 })).start();
         addBookmarkButton = view.findViewById(R.id.addBookmarkButton);
         addBookmarkButton.setOnClickListener(v ->
-                new Thread(() -> FirebaseBookmarkHelper.addNewBookmark(
-                        nameEditText.getText().toString(),
-                        urlEditText.getText().toString(),
-                        spinner.getSelectedItem().toString(),
-                        new FirebaseBookmarkHelper.BookmarkCallback() {
-                            @Override
-                            public void onSuccess(List<Bookmark> bookmark) {
-                                AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
-                            }
+                new Thread(() -> {
+                    FirebaseBookmarkHelper.addNewBookmark(
+                            nameEditText.getText().toString(),
+                            urlEditText.getText().toString(),
+                            dataEditText.getText().toString(),
+                            spinner.getSelectedItem().toString(),
+                            new FirebaseBookmarkHelper.BookmarkCallback() {
+                                @Override
+                                public void onSuccess(List<Bookmark> bookmark) {
+                                    AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
+                                }
 
-                            @Override
-                            public void onError(String errorMessage) {
-                                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                            }
-                        })).start());
+                                @Override
+                                public void onError(String errorMessage) {
+                                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }).start());
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();

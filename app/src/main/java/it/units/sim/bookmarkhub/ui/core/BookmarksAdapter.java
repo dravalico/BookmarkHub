@@ -30,7 +30,7 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
     @Override
     protected void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position, @NonNull Bookmark model) {
         holder.name.setText(model.name);
-        holder.url.setText(model.url);
+        holder.data.setText(model.data);
         holder.cardView.setOnClickListener(v ->
                 new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))
         );
@@ -46,13 +46,13 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
     static class BookmarkViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
         public final TextView name;
-        public final TextView url;
+        public final TextView data;
 
         BookmarkViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
             name = itemView.findViewById(R.id.name);
-            url = itemView.findViewById(R.id.url);
+            data = itemView.findViewById(R.id.data);
         }
     }
 

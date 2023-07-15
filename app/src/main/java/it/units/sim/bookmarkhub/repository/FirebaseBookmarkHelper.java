@@ -13,10 +13,10 @@ import it.units.sim.bookmarkhub.model.Bookmark;
 public class FirebaseBookmarkHelper {
     private static final String BOOKMARKS_COLLECTION_NAME = "bookmarks";
 
-    public static void addNewBookmark(String name, String url, String category, BookmarkCallback callback) {
+    public static void addNewBookmark(String name, String url, String data, String category, BookmarkCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
-                .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, category))
+                .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, data, category))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
