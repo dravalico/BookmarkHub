@@ -43,12 +43,12 @@ public class AddBookmarkFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            int maxNameLength = 15;
+            int maxNameLength = 25;
             if (nameEditText.getText().toString().length() > maxNameLength) {
                 nameEditText.setText(s.subSequence(0, maxNameLength));
                 nameEditText.setSelection(maxNameLength);
             }
-            int maxDataLength = 30;
+            int maxDataLength = 40;
             if (dataEditText.getText().toString().length() > maxDataLength) {
                 dataEditText.setText(s.subSequence(0, maxDataLength));
                 dataEditText.setSelection(maxDataLength);
