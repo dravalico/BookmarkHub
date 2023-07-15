@@ -43,6 +43,15 @@ public class AddBookmarkFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            int maxLength = 15;
+            if (nameEditText.getText().toString().length() > maxLength) {
+                nameEditText.setText(s.subSequence(0, maxLength));
+                nameEditText.setSelection(maxLength);
+            }
+            if (dataEditText.getText().toString().length() > maxLength) {
+                dataEditText.setText(s.subSequence(0, maxLength));
+                dataEditText.setSelection(maxLength);
+            }
         }
 
         @Override
@@ -67,6 +76,7 @@ public class AddBookmarkFragment extends Fragment {
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
         urlEditText.addTextChangedListener(textWatcher);
         dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
+        dataEditText.addTextChangedListener(textWatcher);
         new Thread(() -> FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(
                 new FirebaseCategoriesHelper.CategoriesCallback() {
                     @Override
