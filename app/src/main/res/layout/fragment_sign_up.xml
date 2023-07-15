@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/usernameEditText"
+        android:id="@+id/username_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="name"
@@ -16,7 +16,7 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/email_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="emailAddress"
@@ -25,7 +25,7 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="password"
@@ -34,7 +34,7 @@
         android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/confirmPasswordEditText"
+        android:id="@+id/confirm_password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="password"
@@ -43,13 +43,13 @@
         android:minHeight="48dp" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />
 
     <TextView
-        android:id="@+id/signInRedirect"
+        android:id="@+id/sign_in_redirect_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

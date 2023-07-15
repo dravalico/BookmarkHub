@@ -6,7 +6,7 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/item"
+        android:id="@+id/category_item_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"

@@ -46,9 +46,9 @@ public class AddCategoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_category, container, false);
-        nameEditText = view.findViewById(R.id.categoryNameEditText);
+        nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
-        addCategoryButton = view.findViewById(R.id.addCategoryButton);
+        addCategoryButton = view.findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v ->
                 new Thread(() -> FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
                         nameEditText.getText().toString(),
@@ -73,7 +73,7 @@ public class AddCategoryFragment extends Fragment {
 
     public void clearViewAndOpenHomeFragment() {
         Toast.makeText(requireActivity(), "Category inserted successfully", Toast.LENGTH_SHORT).show();
-        navController.navigate(AddCategoryFragmentDirections.actionCategoryToHomeFragment());
+        navController.navigate(AddCategoryFragmentDirections.actionAddCategoryFragmentToHomeFragment());
     }
 
 }

@@ -29,9 +29,9 @@ public class SignInFragment extends Fragment {
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        view.findViewById(R.id.signInButton).setOnClickListener(v -> {
-            EditText emailEditText = view.findViewById(R.id.emailEditText);
-            EditText passwordEditText = view.findViewById(R.id.passwordEditText);
+        view.findViewById(R.id.sign_in_button).setOnClickListener(v -> {
+            EditText emailEditText = view.findViewById(R.id.email_edit_text);
+            EditText passwordEditText = view.findViewById(R.id.password_edit_text);
             FirebaseAuthenticationHelper.signIn(emailEditText.getText().toString(),
                     passwordEditText.getText().toString(),
                     new FirebaseAuthenticationHelper.AuthenticationCallback() {
@@ -47,7 +47,7 @@ public class SignInFragment extends Fragment {
                     });
 
         });
-        view.findViewById(R.id.signUpRedirectTextView).setOnClickListener(v -> {
+        view.findViewById(R.id.sign_up_redirect_button).setOnClickListener(v -> {
             NavDirections action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment();
             navController.navigate(action);
         });

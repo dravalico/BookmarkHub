@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler1);
+        RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
                 .setQuery(FirebaseCategoriesHelper.getQueryForCategoriesListOfCurrentUser(), Category.class)

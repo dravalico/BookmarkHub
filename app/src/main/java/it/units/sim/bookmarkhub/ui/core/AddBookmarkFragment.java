@@ -58,15 +58,15 @@ public class AddBookmarkFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_bookmark, container, false);
-        Spinner spinner = view.findViewById(R.id.bookmarkCategorySpinner);
+        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        nameEditText = view.findViewById(R.id.bookmarkNameEditText);
+        nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
-        urlEditText = view.findViewById(R.id.bookmarkUrlEditText);
+        urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
         urlEditText.addTextChangedListener(textWatcher);
-        dataEditText = view.findViewById(R.id.bookmarkDataEditText);
+        dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
         new Thread(() -> FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(
                 new FirebaseCategoriesHelper.CategoriesCallback() {
                     @Override
@@ -82,7 +82,7 @@ public class AddBookmarkFragment extends Fragment {
                         Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 })).start();
-        addBookmarkButton = view.findViewById(R.id.addBookmarkButton);
+        addBookmarkButton = view.findViewById(R.id.add_bookmark_button);
         addBookmarkButton.setOnClickListener(v -> {
             if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
                 new Thread(() ->
@@ -116,7 +116,7 @@ public class AddBookmarkFragment extends Fragment {
     public void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
         Toast.makeText(requireActivity(), "Bookmark inserted successfully", Toast.LENGTH_SHORT).show();
-        navController.navigate(AddBookmarkFragmentDirections.actionBookmarkToHomeFragment());
+        navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
     }
 
     public void setAdapterSpinnerValues(List<String> values) {

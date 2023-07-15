@@ -7,13 +7,13 @@
     android:padding="16dp">
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_in" />

@@ -41,7 +41,7 @@ public class CategoryEntriesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler2);
+        RecyclerView recyclerView = view.findViewById(R.id.category_entries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
                 .setQuery(FirebaseBookmarkHelper.getQueryForBookmarksListOfCurrentUser(category), Bookmark.class)

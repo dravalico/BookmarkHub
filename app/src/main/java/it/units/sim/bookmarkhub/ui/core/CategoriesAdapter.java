@@ -54,7 +54,7 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
         CategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
-            item = itemView.findViewById(R.id.item);
+            item = itemView.findViewById(R.id.category_item_text_view);
         }
     }
 

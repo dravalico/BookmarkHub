@@ -68,9 +68,9 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
         BookmarkViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
-            name = itemView.findViewById(R.id.name);
-            data = itemView.findViewById(R.id.data);
-            favicon = itemView.findViewById(R.id.faviconImageView);
+            name = itemView.findViewById(R.id.bookmark_name_text_view);
+            data = itemView.findViewById(R.id.bookmark_data_text_view);
+            favicon = itemView.findViewById(R.id.favicon_image_view);
         }
     }
 

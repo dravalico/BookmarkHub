@@ -25,11 +25,11 @@ public class AuthenticationMenuFragment extends Fragment {
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        view.findViewById(R.id.signInButton).setOnClickListener(v -> {
+        view.findViewById(R.id.sign_in_button).setOnClickListener(v -> {
             NavDirections action = AuthenticationMenuFragmentDirections.actionToSignInFragment();
             navController.navigate(action);
         });
-        view.findViewById(R.id.signUpButton).setOnClickListener(v -> {
+        view.findViewById(R.id.sign_up_button).setOnClickListener(v -> {
             NavDirections action = AuthenticationMenuFragmentDirections.actionToSignUpFragment();
             navController.navigate(action);
         });
