@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,25 +82,29 @@ public class AddBookmarkFragment extends Fragment {
                     }
                 })).start();
         addBookmarkButton = view.findViewById(R.id.addBookmarkButton);
-        addBookmarkButton.setOnClickListener(v ->
-                new Thread(() -> {
-                    FirebaseBookmarkHelper.addNewBookmark(
-                            nameEditText.getText().toString(),
-                            urlEditText.getText().toString(),
-                            dataEditText.getText().toString(),
-                            spinner.getSelectedItem().toString(),
-                            new FirebaseBookmarkHelper.BookmarkCallback() {
-                                @Override
-                                public void onSuccess(List<Bookmark> bookmark) {
-                                    AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
-                                }
+        addBookmarkButton.setOnClickListener(v -> {
+            if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
+                new Thread(() ->
+                        FirebaseBookmarkHelper.addNewBookmark(
+                                nameEditText.getText().toString(),
+                                urlEditText.getText().toString(),
+                                dataEditText.getText().toString(),
+                                spinner.getSelectedItem().toString(),
+                                new FirebaseBookmarkHelper.BookmarkCallback() {
+                                    @Override
+                                    public void onSuccess(List<Bookmark> bookmark) {
+                                        AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
+                                    }
 
-                                @Override
-                                public void onError(String errorMessage) {
-                                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }).start());
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                })).start();
+            } else {
+                Toast.makeText(requireActivity(), "The URL is not valid", Toast.LENGTH_SHORT).show();
+            }
+        });
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
