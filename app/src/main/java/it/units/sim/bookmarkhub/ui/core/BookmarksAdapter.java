@@ -45,7 +45,7 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
                         .override(Target.SIZE_ORIGINAL)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .skipMemoryCache(false))
-                .error(R.drawable.image_not_supported)
+                .error(R.drawable.image_not_found)
                 .into(holder.favicon);
         holder.cardView.setOnClickListener(v ->
                 new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))

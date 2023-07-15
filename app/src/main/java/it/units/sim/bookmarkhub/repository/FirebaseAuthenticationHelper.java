@@ -81,8 +81,7 @@ public class FirebaseAuthenticationHelper {
         }
     }
 
-    private static void updateUserName(FirebaseUser firebaseUser, String username,
-                                       AuthenticationCallback callback) {
+    private static void updateUserName(FirebaseUser firebaseUser, String username, AuthenticationCallback callback) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
