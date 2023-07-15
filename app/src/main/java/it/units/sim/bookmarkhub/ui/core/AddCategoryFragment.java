@@ -50,7 +50,7 @@ public class AddCategoryFragment extends Fragment {
         nameEditText.addTextChangedListener(textWatcher);
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         addCategoryButton.setOnClickListener(v ->
-                new Thread(() -> FirebaseCategoriesHelper.addNewCategory(
+                new Thread(() -> FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
                         nameEditText.getText().toString(),
                         new FirebaseCategoriesHelper.CategoriesCallback() {
                             @Override
