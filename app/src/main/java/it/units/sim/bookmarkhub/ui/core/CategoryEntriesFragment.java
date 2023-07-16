@@ -91,7 +91,7 @@ public class CategoryEntriesFragment extends Fragment {
                             .setPositiveButton("Confirm", (dialog, which) -> {
                                 int swipedPosition = viewHolder.getAdapterPosition();
                                 Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
-                                FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
+                                new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
                                         new FirebaseBookmarkHelper.BookmarkCallback() {
                                             @Override
                                             public void onSuccess(List<Bookmark> bookmark) {
@@ -101,7 +101,7 @@ public class CategoryEntriesFragment extends Fragment {
                                             public void onError(String errorMessage) {
                                                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                                             }
-                                        });
+                                        })).start();
                             })
                             .setNegativeButton("Cancel", (dialog, which) ->
                                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
