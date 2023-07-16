@@ -26,6 +26,16 @@ public class FirebaseBookmarkHelper {
         return collectionRef.whereEqualTo("category", category);
     }
 
+    public static void deleteBookmark(Bookmark bookmark, BookmarkCallback callback) {
+        FirebaseFirestore.getInstance()
+                .collection(BOOKMARKS_COLLECTION_NAME)
+                .document(bookmark.id)
+                .delete().addOnSuccessListener(aVoid ->
+                        callback.onSuccess(null))
+                .addOnFailureListener(aVoid ->
+                        callback.onError(aVoid.getMessage()));
+    }
+
     public interface BookmarkCallback {
         void onSuccess(List<Bookmark> bookmark);
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.Objects;
+import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -85,22 +86,31 @@ public class CategoryEntriesFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.LEFT) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                    builder.setTitle("Conferma azione")
-                            .setMessage("Vuoi eseguire questa azione?")
-                            .setPositiveButton("OK", (dialog, which) -> {
-                                //eseguiAzione();
+                    builder.setTitle("")
+                            .setMessage("Are you sure you want to delete the bookmark?")
+                            .setPositiveButton("Confirm", (dialog, which) -> {
+                                int swipedPosition = viewHolder.getAdapterPosition();
+                                Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
+                                FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
+                                        new FirebaseBookmarkHelper.BookmarkCallback() {
+                                            @Override
+                                            public void onSuccess(List<Bookmark> bookmark) {
+                                            }
+
+                                            @Override
+                                            public void onError(String errorMessage) {
+                                                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             })
-                            .setNegativeButton("Annulla", (dialog, which) ->
-                                    Objects.requireNonNull(recyclerView.getAdapter())
-                                            .notifyItemChanged(viewHolder.getAdapterPosition()))
+                            .setNegativeButton("Cancel", (dialog, which) ->
+                                    bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                             .setOnCancelListener(dialog ->
-                                    Objects.requireNonNull(recyclerView.getAdapter())
-                                            .notifyItemChanged(viewHolder.getAdapterPosition()))
+                                    bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                             .show();
                 }
                 if (direction == ItemTouchHelper.RIGHT) {
-                    Objects.requireNonNull(recyclerView.getAdapter())
-                            .notifyItemChanged(viewHolder.getAdapterPosition());
+                    bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                 }
             }
         };
