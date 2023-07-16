@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -67,6 +69,10 @@ public class AddBookmarkFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Add bookmark");
+        }
         View view = inflater.inflate(R.layout.fragment_add_bookmark, container, false);
         Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());

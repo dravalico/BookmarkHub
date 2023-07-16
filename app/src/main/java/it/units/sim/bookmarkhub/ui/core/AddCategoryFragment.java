@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -45,6 +47,10 @@ public class AddCategoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Add category");
+        }
         View view = inflater.inflate(R.layout.fragment_add_category, container, false);
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
