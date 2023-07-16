@@ -30,10 +30,8 @@ public class FirebaseBookmarkHelper {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
-                .delete().addOnSuccessListener(aVoid ->
-                        callback.onSuccess(null))
-                .addOnFailureListener(aVoid ->
-                        callback.onError(aVoid.getMessage()));
+                .delete().addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
     public interface BookmarkCallback {
