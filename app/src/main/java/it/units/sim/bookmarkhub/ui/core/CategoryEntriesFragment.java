@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -54,6 +58,7 @@ public class CategoryEntriesFragment extends Fragment {
                 .build();
         bookmarksAdapter = new BookmarksAdapter(options, requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
+        addSwipeListenerToRecyclerView(recyclerView);
         return view;
     }
 
@@ -67,6 +72,40 @@ public class CategoryEntriesFragment extends Fragment {
     public void onStop() {
         super.onStop();
         bookmarksAdapter.stopListening();
+    }
+
+    private void addSwipeListenerToRecyclerView(RecyclerView recyclerView) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Conferma azione")
+                            .setMessage("Vuoi eseguire questa azione?")
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                //eseguiAzione();
+                            })
+                            .setNegativeButton("Annulla", (dialog, which) ->
+                                    Objects.requireNonNull(recyclerView.getAdapter())
+                                            .notifyItemChanged(viewHolder.getAdapterPosition()))
+                            .setOnCancelListener(dialog ->
+                                    Objects.requireNonNull(recyclerView.getAdapter())
+                                            .notifyItemChanged(viewHolder.getAdapterPosition()))
+                            .show();
+                }
+                if (direction == ItemTouchHelper.RIGHT) {
+                    Objects.requireNonNull(recyclerView.getAdapter())
+                            .notifyItemChanged(viewHolder.getAdapterPosition());
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
 }
