@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -52,16 +53,22 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         EditText dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
         dataEditText.setText(bookmark.data);
         builder.setView(view)
-                .setPositiveButton("Ok", (dialogInterface, i) -> {
-                    if ((nameEditText.getText().toString().equals(bookmark.name)) ||
-                            (urlEditText.getText().toString().equals(bookmark.url)) ||
-                            (dataEditText.getText().toString().equals(bookmark.data))) {
-                        Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
-                    } else {
-                    }
-                })
+                .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", (dialog, id) -> dismiss());
-        return builder.create();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(v -> {
+                if ((nameEditText.getText().toString().equals(bookmark.name)) ||
+                        (urlEditText.getText().toString().equals(bookmark.url)) ||
+                        (dataEditText.getText().toString().equals(bookmark.data))) {
+                    Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+            });
+        });
+        return alertDialog;
     }
 
 }
