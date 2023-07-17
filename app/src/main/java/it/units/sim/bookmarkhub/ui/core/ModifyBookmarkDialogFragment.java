@@ -55,7 +55,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         urlEditText.setText(bookmark.url);
         EditText dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
         dataEditText.setText(bookmark.data);
-        builder.setView(view)
+        builder.setView(view) // TODO fill the spinner
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
@@ -70,19 +70,20 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                     bookmark.name = nameEditText.getText().toString();
                     bookmark.url = urlEditText.getText().toString();
                     bookmark.data = dataEditText.getText().toString();
-                    FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
-                        @Override
-                        public void onSuccess(List<Bookmark> bookmark) {
-                            Toast.makeText(requireContext(), "Modification completed successfully",
-                                    Toast.LENGTH_SHORT).show();
-                            dismiss();
-                        }
+                    new Thread(() ->
+                            FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
+                                @Override
+                                public void onSuccess(List<Bookmark> bookmark) {
+                                    Toast.makeText(requireContext(), "Modification completed successfully",
+                                            Toast.LENGTH_SHORT).show();
+                                    dismiss();
+                                }
 
-                        @Override
-                        public void onError(String errorMessage) {
-                            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                @Override
+                                public void onError(String errorMessage) {
+                                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            })).start();
                 }
             });
         });
