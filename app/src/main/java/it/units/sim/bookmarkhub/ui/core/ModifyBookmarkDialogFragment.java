@@ -14,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.List;
+
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
+import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
@@ -59,12 +62,27 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         alertDialog.setOnShowListener(dialogInterface -> {
             Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(v -> {
-                if ((nameEditText.getText().toString().equals(bookmark.name)) ||
-                        (urlEditText.getText().toString().equals(bookmark.url)) ||
+                if ((nameEditText.getText().toString().equals(bookmark.name)) &&
+                        (urlEditText.getText().toString().equals(bookmark.url)) &&
                         (dataEditText.getText().toString().equals(bookmark.data))) {
                     Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
                 } else {
+                    bookmark.name = nameEditText.getText().toString();
+                    bookmark.url = urlEditText.getText().toString();
+                    bookmark.data = dataEditText.getText().toString();
+                    FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
+                        @Override
+                        public void onSuccess(List<Bookmark> bookmark) {
+                            Toast.makeText(requireContext(), "Modification completed successfully",
+                                    Toast.LENGTH_SHORT).show();
+                            dismiss();
+                        }
 
+                        @Override
+                        public void onError(String errorMessage) {
+                            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         });
