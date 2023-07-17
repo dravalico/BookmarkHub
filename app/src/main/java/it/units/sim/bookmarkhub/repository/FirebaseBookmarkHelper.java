@@ -30,7 +30,17 @@ public class FirebaseBookmarkHelper {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
-                .delete().addOnSuccessListener(r -> callback.onSuccess(null))
+                .delete()
+                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public static void modifyBookmark(Bookmark bookmark, BookmarkCallback callback) {
+        FirebaseFirestore.getInstance()
+                .collection(BOOKMARKS_COLLECTION_NAME)
+                .document(bookmark.id)
+                .set(bookmark)
+                .addOnSuccessListener(r -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
