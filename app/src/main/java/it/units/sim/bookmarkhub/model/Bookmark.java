@@ -3,9 +3,10 @@ package it.units.sim.bookmarkhub.model;
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public final class Bookmark {
+public final class Bookmark implements Serializable {
     @DocumentId
     public String id;
     @PropertyName("user_id")

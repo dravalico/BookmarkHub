@@ -86,12 +86,12 @@ public class CategoryEntriesFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int swipedPosition = viewHolder.getAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                     builder.setTitle("")
                             .setMessage("Are you sure you want to delete the bookmark?")
                             .setPositiveButton("Confirm", (dialog, which) -> {
-                                int swipedPosition = viewHolder.getAdapterPosition();
                                 Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
                                 new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
                                         new FirebaseBookmarkHelper.BookmarkCallback() {
@@ -113,6 +113,9 @@ public class CategoryEntriesFragment extends Fragment {
                 }
                 if (direction == ItemTouchHelper.RIGHT) {
                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    ModifyBookmarkDialogFragment dialogFragment =
+                            ModifyBookmarkDialogFragment.newInstance(bookmarksAdapter.getItem(swipedPosition));
+                    dialogFragment.show(getChildFragmentManager(), ModifyBookmarkDialogFragment.TAG);
                 }
             }
         };
