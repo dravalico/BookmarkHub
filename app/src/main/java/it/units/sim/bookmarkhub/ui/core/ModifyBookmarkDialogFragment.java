@@ -37,7 +37,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            bookmark = (Bookmark) getArguments().getSerializable(ARG);
+            bookmark = (Bookmark) getArguments().getSerializable(ARG); // TODO find an alternative
         }
     }
 
@@ -46,7 +46,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("Modify bookmark:\n" + bookmark.name);
+        builder.setTitle("Modify '" + bookmark.name + "' bookmark"); // TODO improve it to allow extraction
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_modify_bookmark, null);
         EditText nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
@@ -66,7 +66,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                         (urlEditText.getText().toString().equals(bookmark.url)) &&
                         (dataEditText.getText().toString().equals(bookmark.data))) {
                     Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
-                } else {
+                } else { // TODO check if name and data aren't too long and if is a valid URL
                     bookmark.name = nameEditText.getText().toString();
                     bookmark.url = urlEditText.getText().toString();
                     bookmark.data = dataEditText.getText().toString();
