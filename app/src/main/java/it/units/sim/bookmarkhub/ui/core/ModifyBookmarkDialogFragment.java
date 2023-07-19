@@ -6,19 +6,23 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
+import it.units.sim.bookmarkhub.ui.util.ViewUtil;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
@@ -55,7 +59,12 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         urlEditText.setText(bookmark.url);
         EditText dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
         dataEditText.setText(bookmark.data);
-        builder.setView(view) // TODO fill the spinner
+        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+        builder.setView(view)
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
