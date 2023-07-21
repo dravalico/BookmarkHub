@@ -28,6 +28,11 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
     private static final String ARG = "bookmark";
     private Bookmark bookmark;
+    private EditText nameEditText;
+    private EditText urlEditText;
+    private EditText additionalDataEditText;
+    private Spinner spinner;
+    private ArrayAdapter<String> spinnerAdapter;
 
     public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark) {
         ModifyBookmarkDialogFragment fragment = new ModifyBookmarkDialogFragment();
@@ -53,50 +58,56 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         builder.setTitle("Modify '" + bookmark.name + "' bookmark"); // TODO improve it to allow extraction
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_modify_bookmark, null);
-        EditText nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
-        nameEditText.setText(bookmark.name);
-        EditText urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
-        urlEditText.setText(bookmark.url);
-        EditText dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
-        dataEditText.setText(bookmark.data);
-        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
+        nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
+        urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
+        additionalDataEditText = view.findViewById(R.id.bookmark_data_edit_text);
+        spinner = view.findViewById(R.id.bookmark_category_spinner);
+        spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+        setFieldAsActualBookmark();
         builder.setView(view)
                 .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
-        alertDialog.setOnShowListener(dialogInterface -> {
-            Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(v -> {
-                if ((nameEditText.getText().toString().equals(bookmark.name)) &&
-                        (urlEditText.getText().toString().equals(bookmark.url)) &&
-                        (dataEditText.getText().toString().equals(bookmark.data))) {
-                    Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
-                } else { // TODO check if name and data aren't too long and if is a valid URL
-                    bookmark.name = nameEditText.getText().toString();
-                    bookmark.url = urlEditText.getText().toString();
-                    bookmark.data = dataEditText.getText().toString();
-                    new Thread(() ->
-                            FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
-                                @Override
-                                public void onSuccess(List<Bookmark> bookmark) {
-                                    Toast.makeText(requireContext(), "Modification completed successfully",
-                                            Toast.LENGTH_SHORT).show();
-                                    dismiss();
-                                }
-
-                                @Override
-                                public void onError(String errorMessage) {
-                                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                                }
-                            })).start();
-                }
-            });
-        });
+        alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
         return alertDialog;
+    }
+
+    private void setFieldAsActualBookmark() {
+        nameEditText.setText(bookmark.name);
+        urlEditText.setText(bookmark.url);
+        additionalDataEditText.setText(bookmark.additionalData);
+        ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+    }
+
+    private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
+        Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(v -> {
+            if ((nameEditText.getText().toString().equals(bookmark.name)) &&
+                    (urlEditText.getText().toString().equals(bookmark.url)) &&
+                    (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
+                Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
+            } else { // TODO check if name and data aren't too long and if is a valid URL
+                bookmark.name = nameEditText.getText().toString();
+                bookmark.url = urlEditText.getText().toString();
+                bookmark.additionalData = additionalDataEditText.getText().toString();
+                new Thread(() ->
+                        FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
+                            @Override
+                            public void onSuccess(List<Bookmark> bookmark) {
+                                Toast.makeText(requireContext(), "Modification completed successfully",
+                                        Toast.LENGTH_SHORT).show();
+                                dismiss();
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+                                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        })).start();
+            }
+        });
     }
 
 }

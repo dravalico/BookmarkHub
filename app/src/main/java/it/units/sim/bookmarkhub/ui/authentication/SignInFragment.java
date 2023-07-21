@@ -26,32 +26,33 @@ public class SignInFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        EditText emailEditText = view.findViewById(R.id.email_edit_text);
+        EditText passwordEditText = view.findViewById(R.id.password_edit_text);
+        view.findViewById(R.id.sign_in_button).setOnClickListener(v -> signIn(emailEditText, passwordEditText));
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        view.findViewById(R.id.sign_in_button).setOnClickListener(v -> {
-            EditText emailEditText = view.findViewById(R.id.email_edit_text);
-            EditText passwordEditText = view.findViewById(R.id.password_edit_text);
-            FirebaseAuthenticationHelper.signIn(emailEditText.getText().toString(),
-                    passwordEditText.getText().toString(),
-                    new FirebaseAuthenticationHelper.AuthenticationCallback() {
-                        @Override
-                        public void onSuccess() {
-                            startActivity(new Intent(requireActivity(), MainActivity.class));
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-        });
         view.findViewById(R.id.sign_up_redirect_button).setOnClickListener(v -> {
             NavDirections action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment();
             navController.navigate(action);
         });
         return view;
+    }
+
+    private void signIn(EditText emailEditText, EditText passwordEditText) {
+        FirebaseAuthenticationHelper.signIn(emailEditText.getText().toString(),
+                passwordEditText.getText().toString(),
+                new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(requireActivity(), MainActivity.class));
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

@@ -33,8 +33,8 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
 
     @Override
     protected void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position, @NonNull Bookmark model) {
-        holder.name.setText(model.name);
-        holder.data.setText(model.data);
+        holder.nameTextView.setText(model.name);
+        holder.additionalDataTextView.setText(model.additionalData);
         Uri uri = Uri.parse(model.url);
         String scheme = uri.getScheme();
         String host = uri.getHost();
@@ -46,7 +46,7 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .skipMemoryCache(false))
                 .error(R.drawable.image_not_found)
-                .into(holder.favicon);
+                .into(holder.faviconImageView);
         holder.cardView.setOnClickListener(v ->
                 new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))
         );
@@ -61,16 +61,16 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
 
     static class BookmarkViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
-        public final TextView name;
-        public final TextView data;
-        public final ImageView favicon;
+        public final TextView nameTextView;
+        public final TextView additionalDataTextView;
+        public final ImageView faviconImageView;
 
         BookmarkViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
-            name = itemView.findViewById(R.id.bookmark_name_text_view);
-            data = itemView.findViewById(R.id.bookmark_data_text_view);
-            favicon = itemView.findViewById(R.id.favicon_image_view);
+            nameTextView = itemView.findViewById(R.id.bookmark_name_text_view);
+            additionalDataTextView = itemView.findViewById(R.id.bookmark_data_text_view);
+            faviconImageView = itemView.findViewById(R.id.favicon_image_view);
         }
     }
 

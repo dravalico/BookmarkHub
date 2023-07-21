@@ -13,6 +13,9 @@ import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class ViewUtil {
 
+    private ViewUtil() {
+    }
+
     public static void fetchCategoriesFromFirebase(Context context, ArrayAdapter<String> adapter) {
         FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
             @Override

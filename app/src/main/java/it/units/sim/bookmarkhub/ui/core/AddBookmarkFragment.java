@@ -1,10 +1,8 @@
 package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +35,7 @@ public class AddBookmarkFragment extends Fragment {
     private EditText urlEditText;
     private EditText dataEditText;
     private ArrayAdapter<String> spinnerAdapter;
+    private Spinner spinner;
     private Button addBookmarkButton;
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -74,7 +73,7 @@ public class AddBookmarkFragment extends Fragment {
             actionBar.setTitle("Add bookmark");
         }
         View view = inflater.inflate(R.layout.fragment_add_bookmark, container, false);
-        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
+        spinner = view.findViewById(R.id.bookmark_category_spinner);
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
@@ -86,6 +85,15 @@ public class AddBookmarkFragment extends Fragment {
         dataEditText = view.findViewById(R.id.bookmark_data_edit_text);
         dataEditText.addTextChangedListener(textWatcher);
         addBookmarkButton = view.findViewById(R.id.add_bookmark_button);
+        addCLickListenerForNewBookmarkAndInsertIfValid();
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> resetEditTextViews());
+        return view;
+    }
+
+    private void addCLickListenerForNewBookmarkAndInsertIfValid() {
         addBookmarkButton.setOnClickListener(v -> {
             if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
                 new Thread(() ->
@@ -109,11 +117,6 @@ public class AddBookmarkFragment extends Fragment {
                 Toast.makeText(requireActivity(), "The URL is not valid", Toast.LENGTH_SHORT).show();
             }
         });
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        navController = Objects.requireNonNull(navHostFragment).getNavController();
-        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> resetEditTextViews());
-        return view;
     }
 
     public void clearViewAndOpenHomeFragment() {

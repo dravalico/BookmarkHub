@@ -16,18 +16,18 @@ public final class Bookmark implements Serializable {
     @PropertyName("url")
     public String url;
     @PropertyName("additional_data")
-    public String data;
+    public String additionalData;
     @PropertyName("category")
     public String category;
 
     public Bookmark() {
     }
 
-    public Bookmark(String userId, String name, String url, String data, String category) {
+    public Bookmark(String userId, String name, String url, String additionalData, String category) {
         this.userId = userId;
         this.name = name;
         this.url = url;
-        this.data = data;
+        this.additionalData = additionalData;
         this.category = category;
     }
 
@@ -40,13 +40,13 @@ public final class Bookmark implements Serializable {
                 Objects.equals(this.userId, that.userId) &&
                 Objects.equals(this.name, that.name) &&
                 Objects.equals(this.url, that.url) &&
-                Objects.equals(this.data, that.data) &&
+                Objects.equals(this.additionalData, that.additionalData) &&
                 Objects.equals(this.category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, name, url, data, category);
+        return Objects.hash(id, userId, name, url, additionalData, category);
     }
 
     @Override
@@ -56,7 +56,7 @@ public final class Bookmark implements Serializable {
                 "userId=" + userId + ", " +
                 "name=" + name + ", " +
                 "url=" + url + ", " +
-                "data=" + data + ", " +
+                "data=" + additionalData + ", " +
                 "category=" + category + ']';
     }
 

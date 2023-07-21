@@ -27,7 +27,7 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
 
     @Override
     protected void onBindViewHolder(@NonNull CategoriesViewHolder holder, int position, @NonNull Category model) {
-        holder.item.setText(model.name);
+        holder.itemTextView.setText(model.name);
         holder.cardView.setOnClickListener(v -> {
             CategoryEntriesFragment fragment = new CategoryEntriesFragment();
             Bundle args = new Bundle();
@@ -49,12 +49,12 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
 
     static class CategoriesViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
-        public final TextView item;
+        public final TextView itemTextView;
 
         CategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
-            item = itemView.findViewById(R.id.category_item_text_view);
+            itemTextView = itemView.findViewById(R.id.category_item_text_view);
         }
     }
 

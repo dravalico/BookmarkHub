@@ -55,26 +55,29 @@ public class AddCategoryFragment extends Fragment {
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
         addCategoryButton = view.findViewById(R.id.add_category_button);
-        addCategoryButton.setOnClickListener(v ->
-                new Thread(() -> FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
-                        nameEditText.getText().toString(),
-                        new FirebaseCategoriesHelper.CategoriesCallback() {
-                            @Override
-                            public void onSuccess(List<Category> category) {
-                                AddCategoryFragment.this.clearViewAndOpenHomeFragment();
-                            }
-
-                            @Override
-                            public void onError(String errorMessage) {
-                                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                )).start());
+        addCategoryButton.setOnClickListener(v -> addNewCategory());
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
         navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> nameEditText.setText(""));
         return view;
+    }
+
+    private void addNewCategory() {
+        new Thread(() -> FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
+                nameEditText.getText().toString(),
+                new FirebaseCategoriesHelper.CategoriesCallback() {
+                    @Override
+                    public void onSuccess(List<Category> category) {
+                        AddCategoryFragment.this.clearViewAndOpenHomeFragment();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        )).start();
     }
 
     public void clearViewAndOpenHomeFragment() {
