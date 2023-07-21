@@ -11,7 +11,7 @@ public final class Bookmark implements Serializable {
     public String id;
     @PropertyName("user_id")
     public String userId;
-    @PropertyName("name")
+    @PropertyName("bookmark_name")
     public String name;
     @PropertyName("url")
     public String url;

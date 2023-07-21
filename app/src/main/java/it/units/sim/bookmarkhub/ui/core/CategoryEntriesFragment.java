@@ -80,23 +80,23 @@ public class CategoryEntriesFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int swipedPosition = viewHolder.getAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
+                    Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                     builder.setTitle("")
-                            .setMessage("Are you sure you want to delete the bookmark?")
-                            .setPositiveButton("Confirm", (dialog, which) -> {
-                                Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
-                                new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
-                                        new FirebaseBookmarkHelper.BookmarkCallback() {
-                                            @Override
-                                            public void onSuccess(List<Bookmark> bookmark) {
-                                            }
+                            .setMessage(String.format("Are you sure you want to delete '%s' bookmark?",
+                                    bookmarkToDelete.name))
+                            .setPositiveButton("Confirm", (dialog, which) ->
+                                    new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
+                                            new FirebaseBookmarkHelper.BookmarkCallback() {
+                                                @Override
+                                                public void onSuccess(List<Bookmark> bookmark) {
+                                                }
 
-                                            @Override
-                                            public void onError(String errorMessage) {
-                                                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                                            }
-                                        })).start();
-                            })
+                                                @Override
+                                                public void onError(String errorMessage) {
+                                                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                                }
+                                            })).start())
                             .setNegativeButton("Cancel", (dialog, which) ->
                                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                             .setOnCancelListener(dialog ->
