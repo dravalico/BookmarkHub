@@ -30,12 +30,12 @@ public class SignUpFragment extends Fragment {
         EditText emailEditText = view.findViewById(R.id.email_edit_text);
         EditText passwordEditText = view.findViewById(R.id.password_edit_text);
         EditText confirmPasswordEditText = view.findViewById(R.id.confirm_password_edit_text);
-        view.findViewById(R.id.sign_up_button).setOnClickListener(v ->
+        view.findViewById(R.id.sign_up_button).setOnClickListener(view1 ->
                 signUp(usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText));
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        view.findViewById(R.id.sign_in_redirect_button).setOnClickListener(v -> {
+        view.findViewById(R.id.sign_in_redirect_button).setOnClickListener(view1 -> {
             NavDirections action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment();
             navController.navigate(action);
         });

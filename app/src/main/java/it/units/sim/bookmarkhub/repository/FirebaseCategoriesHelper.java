@@ -27,13 +27,13 @@ public class FirebaseCategoriesHelper {
     }
 
     public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
-        getQueryForCategoriesListOfCurrentUser().addSnapshotListener((s, e) -> {
-            if (e != null) {
-                callback.onError(e.getMessage());
+        getQueryForCategoriesListOfCurrentUser().addSnapshotListener((value, error) -> {
+            if (error != null) {
+                callback.onError(error.getMessage());
             }
-            assert s != null;
+            assert value != null;
             callback.onSuccess(
-                    s.getDocuments()
+                    value.getDocuments()
                             .stream()
                             .map(s1 -> s1.toObject(Category.class))
                             .collect(Collectors.toList()));
@@ -46,16 +46,16 @@ public class FirebaseCategoriesHelper {
                 .whereEqualTo("category_name", categoryName)
                 .whereEqualTo("user_id", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .get();
-        queryTask.addOnCompleteListener(t -> {
-            if (t.isSuccessful()) {
-                QuerySnapshot querySnapshot = t.getResult();
+        queryTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                     callback.onError("This category is already present in the database");
                 } else {
                     addNewCategory(categoryName, callback);
                 }
             } else {
-                callback.onError(Objects.requireNonNull(t.getException()).getMessage());
+                callback.onError(Objects.requireNonNull(task.getException()).getMessage());
             }
         });
     }
@@ -70,10 +70,10 @@ public class FirebaseCategoriesHelper {
 
     public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Task<Void> transactionTask = db.runTransaction(t -> {
+        Task<Void> transactionTask = db.runTransaction(transaction -> {
             DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME)
                     .document(category.id);
-            t.delete(categoryRef);
+            transaction.delete(categoryRef);
             Query query = db.collection(FirebaseBookmarkHelper.BOOKMARKS_COLLECTION_NAME)
                     .whereEqualTo("category", category.name);
             QuerySnapshot querySnapshot = null;
@@ -85,12 +85,12 @@ public class FirebaseCategoriesHelper {
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                 DocumentReference documentRef = document.getReference();
-                t.delete(documentRef);
+                transaction.delete(documentRef);
             }
             return null;
         });
         transactionTask
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnSuccessListener(unused -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
