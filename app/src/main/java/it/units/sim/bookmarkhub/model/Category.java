@@ -1,10 +1,13 @@
 package it.units.sim.bookmarkhub.model;
 
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.Objects;
 
 public final class Category {
+    @DocumentId
+    public String id;
     @PropertyName("user_id")
     public String userId;
     @PropertyName("category_name")
@@ -23,7 +26,9 @@ public final class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category that = (Category) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(name, that.name);
+        return Objects.equals(this.id, that.id) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(name, that.name);
     }
 
     @Override
@@ -34,6 +39,7 @@ public final class Category {
     @Override
     public String toString() {
         return "CategoriesEntity{" +
+                "id=" + id + ", " +
                 "ownerId='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 '}';

@@ -18,4 +18,15 @@
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
+    <ImageButton
+        android:id="@+id/menu_image_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/options"
+        android:src="@drawable/more_icon"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"/>
+
 </androidx.cardview.widget.CardView>

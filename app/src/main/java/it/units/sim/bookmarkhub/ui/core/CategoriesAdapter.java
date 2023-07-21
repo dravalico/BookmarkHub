@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.List;
+
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
 
 public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, CategoriesAdapter.CategoriesViewHolder> {
     private final FragmentManager fragmentManager;
@@ -38,6 +45,48 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
                     .addToBackStack(null)
                     .commit();
         });
+        holder.menuImageButton.setOnClickListener(v -> showPopupMenu(v, model));
+    }
+
+    private void showPopupMenu(View view, Category category) {
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+        popupMenu.inflate(R.menu.card_view_menu);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_edit) {
+                return true;
+            }
+            if (itemId == R.id.action_delete) {
+                showConfirmationDialog(view, category);
+                return true;
+            } else {
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void showConfirmationDialog(View view, Category category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("");
+        builder.setMessage(
+                String.format("Are you sure you want to delete the '%s' category and all its content?", category.name));
+        builder.setPositiveButton("Confirm", (dialogInterface, i) ->
+                new Thread(() ->
+                        FirebaseCategoriesHelper.deleteCategoryAndContent(category,
+                                new FirebaseCategoriesHelper.CategoriesCallback() {
+                                    @Override
+                                    public void onSuccess(List<Category> category) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                })).start());
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
     }
 
     @NonNull
@@ -50,11 +99,13 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
     static class CategoriesViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
         public final TextView itemTextView;
+        public final ImageButton menuImageButton;
 
         CategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
             itemTextView = itemView.findViewById(R.id.category_item_text_view);
+            menuImageButton = itemView.findViewById(R.id.menu_image_button);
         }
     }
 

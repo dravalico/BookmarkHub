@@ -11,7 +11,7 @@ import java.util.List;
 import it.units.sim.bookmarkhub.model.Bookmark;
 
 public class FirebaseBookmarkHelper {
-    private static final String BOOKMARKS_COLLECTION_NAME = "bookmarks";
+    public static final String BOOKMARKS_COLLECTION_NAME = "bookmarks";
 
     public static void addNewBookmark(String name, String url, String data, String category, BookmarkCallback callback) {
         FirebaseFirestore.getInstance()

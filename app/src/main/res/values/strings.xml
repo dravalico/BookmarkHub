@@ -22,4 +22,7 @@
     <string name="url">URL</string>
     <string name="additional_info">Additional info</string>
     <string name="favicon_of_the_website">Favicon of the website</string>
+    <string name="options">Options</string>
+    <string name="modify">Modify</string>
+    <string name="delete">Delete</string>
 </resources>

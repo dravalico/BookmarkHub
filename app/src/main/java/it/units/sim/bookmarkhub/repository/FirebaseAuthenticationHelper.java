@@ -21,14 +21,14 @@ public class FirebaseAuthenticationHelper {
             callback.onFailure(e.getMessage());
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(t -> {
+            if (t.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
                 updateUserName(firebaseUser, username, callback);
                 callback.onSuccess();
             } else {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(Objects.requireNonNull(t.getException()).getMessage());
             }
         });
     }
@@ -41,11 +41,11 @@ public class FirebaseAuthenticationHelper {
             callback.onFailure("Password cannot be empty");
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(t -> {
+            if (t.isSuccessful()) {
                 callback.onSuccess();
             } else {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(Objects.requireNonNull(t.getException()).getMessage());
             }
         });
     }
@@ -85,9 +85,9 @@ public class FirebaseAuthenticationHelper {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
-        firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+        firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(t -> {
+            if (!t.isSuccessful()) {
+                callback.onFailure(Objects.requireNonNull(t.getException()).getMessage());
             }
         });
     }

@@ -31,7 +31,6 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private EditText nameEditText;
     private EditText urlEditText;
     private EditText additionalDataEditText;
-    private Spinner spinner;
     private ArrayAdapter<String> spinnerAdapter;
 
     public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark) {
@@ -61,7 +60,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
         additionalDataEditText = view.findViewById(R.id.bookmark_data_edit_text);
-        spinner = view.findViewById(R.id.bookmark_category_spinner);
+        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);

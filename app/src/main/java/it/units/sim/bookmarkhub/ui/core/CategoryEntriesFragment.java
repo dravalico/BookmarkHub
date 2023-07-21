@@ -28,14 +28,6 @@ public class CategoryEntriesFragment extends Fragment {
     private String category;
     private BookmarksAdapter bookmarksAdapter;
 
-    public static CategoryEntriesFragment newInstance(String param1) {
-        CategoryEntriesFragment fragment = new CategoryEntriesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
