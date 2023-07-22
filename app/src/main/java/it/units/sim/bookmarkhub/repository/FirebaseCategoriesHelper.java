@@ -71,8 +71,7 @@ public class FirebaseCategoriesHelper {
     public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<Void> transactionTask = db.runTransaction(transaction -> {
-            DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME)
-                    .document(category.id);
+            DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(category.id);
             transaction.delete(categoryRef);
             Query query = db.collection(FirebaseBookmarkHelper.BOOKMARKS_COLLECTION_NAME)
                     .whereEqualTo("category", category.name);
@@ -94,14 +93,31 @@ public class FirebaseCategoriesHelper {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    public static void modifyCategoryName(Category category, CategoriesCallback callback) {
-        FirebaseFirestore.getInstance()
-                .collection(CATEGORIES_COLLECTION_NAME)
-                .document(category.id)
-                .set(category)
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+    public static void modifyCategoryName(Category categoryOld, Category categoryNew, CategoriesCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Task<Void> transactionTask = db.runTransaction(transaction -> {
+            DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(categoryNew.id);
+            transaction.update(categoryRef, "category_name", categoryNew.name);
+            Query query = db.collection(FirebaseBookmarkHelper.BOOKMARKS_COLLECTION_NAME)
+                    .whereEqualTo("category", categoryOld.name);
+            QuerySnapshot querySnapshot = null;
+            try {
+                querySnapshot = Tasks.await(query.get());
+            } catch (ExecutionException | InterruptedException e) {
+                callback.onError(e.getMessage());
+            }
+            assert querySnapshot != null;
+            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                DocumentReference documentRef = document.getReference();
+                transaction.update(documentRef, "category", categoryNew.name);
+            }
+            return null;
+        });
+        transactionTask
+                .addOnSuccessListener(unused -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
+
 
     public interface CategoriesCallback {
         void onSuccess(List<Category> category);

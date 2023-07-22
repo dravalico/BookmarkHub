@@ -65,8 +65,11 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
             if (nameEditText.getText().toString().equals(category.name)) {
                 Toast.makeText(requireContext(), "You have to modify the name", Toast.LENGTH_SHORT).show();
             } else {
-                category.name = nameEditText.getText().toString();
-                new Thread(() -> FirebaseCategoriesHelper.modifyCategoryName(category,
+                Category categoryNew = new Category();
+                categoryNew.id = category.id;
+                categoryNew.userId = category.userId;
+                categoryNew.name = nameEditText.getText().toString();
+                new Thread(() -> FirebaseCategoriesHelper.modifyCategoryName(category, categoryNew,
                         new FirebaseCategoriesHelper.CategoriesCallback() {
                             @Override
                             public void onSuccess(List<Category> category) {
