@@ -11,8 +11,6 @@
     <string name="sign_in">Sign In</string>
     <string name="create_an_account">Create an account</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!--> Bottom menu and settings <-->
     <string name="home">Home</string>
     <string name="add_bookmark">Add bookmark</string>

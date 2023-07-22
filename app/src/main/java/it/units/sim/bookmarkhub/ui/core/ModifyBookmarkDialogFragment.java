@@ -82,7 +82,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
 
     private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        positiveButton.setOnClickListener(v -> {
+        positiveButton.setOnClickListener(view -> {
             if ((nameEditText.getText().toString().equals(bookmark.name)) &&
                     (urlEditText.getText().toString().equals(bookmark.url)) &&
                     (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
@@ -104,7 +104,8 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                             public void onError(String errorMessage) {
                                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
                             }
-                        })).start();
+                        })
+                ).start();
             }
         });
     }

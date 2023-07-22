@@ -94,6 +94,15 @@ public class FirebaseCategoriesHelper {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    public static void modifyCategoryName(Category category, CategoriesCallback callback) {
+        FirebaseFirestore.getInstance()
+                .collection(CATEGORIES_COLLECTION_NAME)
+                .document(category.id)
+                .set(category)
+                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
     public interface CategoriesCallback {
         void onSuccess(List<Category> category);
 

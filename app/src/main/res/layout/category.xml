@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
     android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
     android:layout_marginBottom="2dp"
     android:padding="10dp"
     app:cardBackgroundColor="@color/card_view_color">
 
     <TextView
         android:id="@+id/category_item_text_view"
+        style="@style/EditTextNoUnderline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20sp"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/menu_image_button"
@@ -24,9 +25,9 @@
         android:layout_height="48dp"
         android:layout_gravity="end"
         android:layout_margin="10dp"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/options"
-        android:src="@drawable/more_icon"
         android:scaleType="centerInside"
-        android:background="@android:color/transparent"/>
+        android:src="@drawable/more_icon" />
 
 </androidx.cardview.widget.CardView>
