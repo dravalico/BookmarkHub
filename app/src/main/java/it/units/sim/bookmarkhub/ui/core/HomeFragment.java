@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Home");
+            actionBar.setTitle("Your categories");
         }
         RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));

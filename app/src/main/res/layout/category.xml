@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/category_item_text_view"
         style="@style/EditTextNoUnderline"
-        android:layout_width="match_parent"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:padding="20sp"
         android:textColor="@color/black"
