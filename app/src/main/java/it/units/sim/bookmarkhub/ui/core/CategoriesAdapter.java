@@ -67,21 +67,27 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
         popupMenu.show();
     }
 
-    private static void showConfirmationDialogForDeletion(View view, Category category) {
+    private static void showConfirmationDialogForDeletion(View view, Category category1) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("");
-        builder.setMessage(String.format("Are you sure you want to delete the '%s' category and all its content?", category.name));
-        builder.setPositiveButton("Confirm", (dialogInterface, i) -> new Thread(() -> FirebaseCategoriesHelper.deleteCategoryAndContent(category, new FirebaseCategoriesHelper.CategoriesCallback() {
-            @Override
-            public void onSuccess(List<Category> category) {
+        builder.setMessage(String.format("Are you sure you want to delete the '%s' category and all its content?",
+                category1.name));
+        builder.setPositiveButton("Confirm", (dialogInterface, i) ->
+                new Thread(() ->
+                        FirebaseCategoriesHelper.deleteCategoryAndContent(category1,
+                                new FirebaseCategoriesHelper.CategoriesCallback() {
+                                    @Override
+                                    public void onSuccess(List<Category> category) {
+                                        Toast.makeText(view.getContext(),
+                                                "Category '" + category1.name + "' deleted", Toast.LENGTH_SHORT).show();
+                                    }
 
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        })).start());
+                                    @Override
+                                    public void onError(String errorMessage) {
+                                        Toast.makeText(view.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                ).start());
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
