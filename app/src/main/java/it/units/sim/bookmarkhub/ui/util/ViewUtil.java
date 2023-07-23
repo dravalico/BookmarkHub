@@ -5,6 +5,8 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.Query;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,19 +19,20 @@ public class ViewUtil {
     }
 
     public static void fetchCategoriesFromFirebase(Context context, ArrayAdapter<String> adapter) {
-        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser(new FirebaseCategoriesHelper.CategoriesCallback() {
-            @Override
-            public void onSuccess(List<Category> category) {
-                setAdapterSpinnerValues(context, adapter, category.stream()
-                        .map(c -> c.name)
-                        .collect(Collectors.toList()));
-            }
+        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+                new FirebaseCategoriesHelper.CategoriesCallback() {
+                    @Override
+                    public void onSuccess(List<Category> category) {
+                        setAdapterSpinnerValues(context, adapter, category.stream()
+                                .map(c -> c.name)
+                                .collect(Collectors.toList()));
+                    }
 
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private static void setAdapterSpinnerValues(Context context, ArrayAdapter<String> adapter, List<String> categories) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/add_category_menu_icon"
+        android:orderInCategory="100"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_options"
+        android:icon="@drawable/more_icon"
+        android:orderInCategory="200"
+        android:title="@string/ordering"
+        android:visible="true"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/name_order_a_z"
+                android:title="@string/order_name_a_z" />
+            <item
+                android:id="@+id/name_order_z_a"
+                android:title="@string/order_name_z_a" />
+            <item
+                android:id="@+id/date_ascending"
+                android:title="@string/order_date_ascending" />
+            <item
+                android:id="@+id/date_descending"
+                android:title="@string/order_date_descending" />
+        </menu>
+    </item>
+</menu>

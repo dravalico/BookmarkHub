@@ -23,4 +23,10 @@
     <string name="options">Options</string>
     <string name="modify">Modify</string>
     <string name="delete">Delete</string>
+    <string name="logout">Logout</string>
+    <string name="order_name_a_z">Order name A - Z</string>
+    <string name="order_name_z_a">Order name Z - A</string>
+    <string name="order_date_ascending">Order date ascending</string>
+    <string name="order_date_descending">Order date descending</string>
+    <string name="ordering">Ordering</string>
 </resources>

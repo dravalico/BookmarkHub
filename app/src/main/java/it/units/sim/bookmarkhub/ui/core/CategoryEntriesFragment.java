@@ -2,6 +2,9 @@ package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,10 +27,11 @@ import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 
-public class CategoryEntriesFragment extends Fragment {
+public class CategoryEntriesFragment extends Fragment implements MenuProvider {
     private static final String ARG = "category_name";
     private String category;
     private BookmarksAdapter bookmarksAdapter;
+    private ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,13 @@ public class CategoryEntriesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
+        actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(category);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            requireActivity().addMenuProvider(this);
         }
-        View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.category_entries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
@@ -65,6 +72,7 @@ public class CategoryEntriesFragment extends Fragment {
     public void onStop() {
         super.onStop();
         bookmarksAdapter.stopListening();
+        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     private void addSwipeListenerToRecyclerView(RecyclerView recyclerView) {
@@ -113,6 +121,26 @@ public class CategoryEntriesFragment extends Fragment {
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                getParentFragmentManager().popBackStackImmediate();
+            } else {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.main_nav_host_fragment, HomeFragment.class, null)
+                        .commit();
+            }
+            return true;
+        }
+        return false;
     }
 
 }
