@@ -66,6 +66,7 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
     public void onStart() {
         super.onStart();
         bookmarksAdapter.startListening();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

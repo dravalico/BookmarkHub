@@ -19,7 +19,7 @@ public class ViewUtil {
     }
 
     public static void fetchCategoriesFromFirebase(Context context, ArrayAdapter<String> adapter) {
-        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING, // TODO better if in a new thread
                 new FirebaseCategoriesHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
@@ -33,10 +33,11 @@ public class ViewUtil {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
+        // TODO what if empty?
     }
 
     private static void setAdapterSpinnerValues(Context context, ArrayAdapter<String> adapter, List<String> categories) {
-        ((Activity) context).runOnUiThread(() -> {
+        ((Activity) context).runOnUiThread(() -> { // TODO probably useless
             adapter.clear();
             adapter.addAll(categories);
             adapter.notifyDataSetChanged();
