@@ -4,6 +4,7 @@ import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public final class Category implements Serializable {
@@ -13,13 +14,16 @@ public final class Category implements Serializable {
     public String userId;
     @PropertyName("category_name")
     public String name;
+    @PropertyName("creation_date")
+    public Date creationDate;
 
     public Category() {
     }
 
-    public Category(String userId, String name) {
+    public Category(String userId, String name, Date creationDate) {
         this.userId = userId;
         this.name = name;
+        this.creationDate = creationDate;
     }
 
     @Override
@@ -29,12 +33,13 @@ public final class Category implements Serializable {
         Category that = (Category) o;
         return Objects.equals(this.id, that.id) &&
                 Objects.equals(userId, that.userId) &&
-                Objects.equals(name, that.name);
+                Objects.equals(name, that.name) &&
+                Objects.equals(creationDate, that.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name);
+        return Objects.hash(id, userId, name, creationDate);
     }
 
     @Override
@@ -43,6 +48,7 @@ public final class Category implements Serializable {
                 "id=" + id + ", " +
                 "ownerId='" + userId + '\'' +
                 ", name='" + name + '\'' +
+                ", creationDate='" + creationDate + '\'' +
                 '}';
     }
 
