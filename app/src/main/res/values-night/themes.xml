@@ -1,8 +1,8 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.BookmarkHub" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Base.Theme.BookmarkHub" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimaryDark">@color/green</item>
-        <item name="android:windowBackground">@color/night_mode</item>
+
     </style>
 </resources>
