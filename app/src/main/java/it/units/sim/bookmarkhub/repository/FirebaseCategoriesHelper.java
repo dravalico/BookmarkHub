@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -20,14 +21,18 @@ import it.units.sim.bookmarkhub.model.Category;
 public class FirebaseCategoriesHelper {
     private static final String CATEGORIES_COLLECTION_NAME = "categories";
 
-    public static Query getQueryForCategoriesListOfCurrentUser() {
+    public static Query getQueryForCategoriesListOfCurrentUser(String orderBy, Query.Direction direction) {
+        if (orderBy == null || orderBy.equals("")) {
+            orderBy = "category_name";
+        }
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
         return collectionRef.whereEqualTo("user_id",
                 Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+        //.orderBy(orderBy, direction);
     }
 
-    public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
-        getQueryForCategoriesListOfCurrentUser().addSnapshotListener((value, error) -> {
+    public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback callback) {
+        getQueryForCategoriesListOfCurrentUser(orderBy, direction).addSnapshotListener((value, error) -> {
             if (error != null) {
                 callback.onError(error.getMessage());
             }
@@ -63,7 +68,7 @@ public class FirebaseCategoriesHelper {
     private static void addNewCategory(String categoryName, CategoriesCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
-                .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName))
+                .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
