@@ -68,15 +68,9 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.name_order_a_z) {
-            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                getParentFragmentManager().popBackStackImmediate();
-            } else {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.main_nav_host_fragment, HomeFragment.class, null)
-                        .commit();
-            }
-            return true;
+        if (menuItem.getItemId() == R.id.add_category) {
+            AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
+            addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
         }
         return false;
     }

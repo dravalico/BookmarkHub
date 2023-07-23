@@ -48,7 +48,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle("");
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_dialog_modify_category, null);
+        View view = inflater.inflate(R.layout.fragment_dialog_category_name, null);
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.setText(category.name);
         builder.setView(view)
