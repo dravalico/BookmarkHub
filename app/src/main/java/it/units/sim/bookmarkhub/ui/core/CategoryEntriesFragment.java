@@ -98,13 +98,18 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                                             new FirebaseBookmarkHelper.BookmarkCallback() {
                                                 @Override
                                                 public void onSuccess(List<Bookmark> bookmark) {
+                                                    Toast.makeText(requireContext(),
+                                                            "Bookmark '" + bookmarkToDelete.name + "' deleted",
+                                                            Toast.LENGTH_SHORT).show();
                                                 }
 
                                                 @Override
                                                 public void onError(String errorMessage) {
-                                                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT)
+                                                            .show();
                                                 }
-                                            })).start())
+                                            })
+                                    ).start())
                             .setNegativeButton("Cancel", (dialog, which) ->
                                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                             .setOnCancelListener(dialog ->
