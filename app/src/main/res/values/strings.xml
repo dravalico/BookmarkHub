@@ -31,9 +31,9 @@
     <string name="ordering">Ordering</string>
     <string name="category_name">Category name</string>
 
-    <!--> Firebase authentication<-->
-    <string name="sign_up_failure">Sign up failed; retry later</string>
-    <string name="sign_in_failure">Sign in failed; retry later</string>
+    <!--> Firebase authentication errors<-->
+    <string name="sign_up_failure">Sign up failed</string>
+    <string name="sign_in_failure">Sign in failed</string>
     <string name="update_user_info_failure">Cannot update username</string>
     <string name="email_not_empty">Email field cannot be empty</string>
     <string name="password_not_empty">Password field cannot be empty</string>
@@ -41,8 +41,15 @@
     <string name="password_match_error">Passwords do not coincide</string>
     <string name="username_not_empty">Username field cannot be empty</string>
 
-    <!--> Firestore bookmarks<-->
-    <string name="add_bookmark_failure">Cannot add new bookmark; retry later</string>
-    <string name="delete_bookmark_failure">Cannot delete bookmark; retry later</string>
-    <string name="modify_bookmark_failure">Cannot modify bookmark; retry later</string>
+    <!--> Firestore bookmarks errors<-->
+    <string name="add_bookmark_failure">Cannot add new bookmark</string>
+    <string name="delete_bookmark_failure">Cannot delete bookmark</string>
+    <string name="modify_bookmark_failure">Cannot modify bookmark</string>
+
+    <!--> Firestore categories errors<-->
+    <string name="categories_retrieve_failure">Cannot retrieve the list of yours categories</string>
+    <string name="duplicated_category">This category is already present in the database, change the name</string>
+    <string name="add_category_failure">Cannot add new category</string>
+    <string name="delete_category_failure">Cannot delete category</string>
+    <string name="modify_category_failure">Cannot modify category name</string>
 </resources>

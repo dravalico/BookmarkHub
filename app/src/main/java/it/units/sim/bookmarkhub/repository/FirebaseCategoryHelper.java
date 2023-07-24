@@ -16,9 +16,10 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 
-public class FirebaseCategoriesHelper {
+public class FirebaseCategoryHelper {
     private static final String CATEGORIES_COLLECTION_NAME = "categories";
 
     public static Query getQueryForCategoriesListOfCurrentUser(String orderBy, Query.Direction direction) {
@@ -34,14 +35,15 @@ public class FirebaseCategoriesHelper {
     public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback callback) {
         getQueryForCategoriesListOfCurrentUser(orderBy, direction).addSnapshotListener((value, error) -> {
             if (error != null) {
-                callback.onError(error.getMessage());
+                callback.onError(String.valueOf(R.string.categories_retrieve_failure));
             }
-            assert value != null;
-            callback.onSuccess(
-                    value.getDocuments()
-                            .stream()
-                            .map(s1 -> s1.toObject(Category.class))
-                            .collect(Collectors.toList()));
+            if (value != null) {
+                callback.onSuccess(
+                        value.getDocuments()
+                                .stream()
+                                .map(s1 -> s1.toObject(Category.class))
+                                .collect(Collectors.toList()));
+            }
         });
     }
 
@@ -55,12 +57,12 @@ public class FirebaseCategoriesHelper {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                    callback.onError("This category is already present in the database");
+                    callback.onError(String.valueOf(R.string.duplicated_category));
                 } else {
                     addNewCategory(categoryName, callback);
                 }
             } else {
-                callback.onError(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onError(String.valueOf(R.string.add_category_failure));
             }
         });
     }
@@ -70,7 +72,7 @@ public class FirebaseCategoriesHelper {
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.add_category_failure)));
     }
 
     public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
@@ -84,7 +86,7 @@ public class FirebaseCategoriesHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(e.getMessage());
+                callback.onError(String.valueOf(R.string.delete_category_failure));
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -95,7 +97,7 @@ public class FirebaseCategoriesHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.delete_category_failure)));
     }
 
     public static void modifyCategoryName(Category categoryOld, Category categoryNew, CategoriesCallback callback) {
@@ -109,7 +111,7 @@ public class FirebaseCategoriesHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(e.getMessage());
+                callback.onError(String.valueOf(R.string.modify_category_failure));
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -120,7 +122,7 @@ public class FirebaseCategoriesHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.modify_category_failure)));
     }
 
 

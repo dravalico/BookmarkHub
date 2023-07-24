@@ -22,7 +22,7 @@ import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, CategoriesAdapter.CategoriesViewHolder> {
     private final FragmentManager fragmentManager;
@@ -74,8 +74,8 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
                 category1.name));
         builder.setPositiveButton("Confirm", (dialogInterface, i) ->
                 new Thread(() ->
-                        FirebaseCategoriesHelper.deleteCategoryAndContent(category1,
-                                new FirebaseCategoriesHelper.CategoriesCallback() {
+                        FirebaseCategoryHelper.deleteCategoryAndContent(category1,
+                                new FirebaseCategoryHelper.CategoriesCallback() {
                                     @Override
                                     public void onSuccess(List<Category> category) {
                                         Toast.makeText(view.getContext(),

@@ -18,7 +18,7 @@ import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class AddCategoryDialogFragment extends DialogFragment {
     public static final String TAG = "AddCategoryDialogFragment";
@@ -47,9 +47,9 @@ public class AddCategoryDialogFragment extends DialogFragment {
                 Toast.makeText(requireActivity(), "Category name cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 new Thread(() ->
-                        FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
+                        FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
                                 nameEditText.getText().toString(),
-                                new FirebaseCategoriesHelper.CategoriesCallback() {
+                                new FirebaseCategoryHelper.CategoriesCallback() {
                                     @Override
                                     public void onSuccess(List<Category> category) {
                                         Toast.makeText(requireActivity(), "Category added", Toast.LENGTH_SHORT).show();

@@ -22,7 +22,7 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class AddCategoryFragment extends Fragment {
     private NavController navController;
@@ -64,9 +64,9 @@ public class AddCategoryFragment extends Fragment {
     }
 
     private void addNewCategory() {
-        new Thread(() -> FirebaseCategoriesHelper.addNewCategoryIfNotAlreadySaved(
+        new Thread(() -> FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
                 nameEditText.getText().toString(),
-                new FirebaseCategoriesHelper.CategoriesCallback() {
+                new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
                         AddCategoryFragment.this.clearViewAndOpenHomeFragment();

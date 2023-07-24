@@ -18,7 +18,7 @@ import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ModifyCategoryDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyCategoryDialogFragment";
@@ -69,8 +69,8 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                 categoryNew.id = category.id;
                 categoryNew.userId = category.userId;
                 categoryNew.name = nameEditText.getText().toString();
-                new Thread(() -> FirebaseCategoriesHelper.modifyCategoryName(category, categoryNew,
-                        new FirebaseCategoriesHelper.CategoriesCallback() {
+                new Thread(() -> FirebaseCategoryHelper.modifyCategoryName(category, categoryNew,
+                        new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
                             public void onSuccess(List<Category> category) {
                                 Toast.makeText(requireContext(), "Modification completed successfully",

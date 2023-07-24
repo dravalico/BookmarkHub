@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ViewUtil {
 
@@ -19,8 +19,8 @@ public class ViewUtil {
     }
 
     public static void fetchCategoriesFromFirebase(Context context, ArrayAdapter<String> adapter) {
-        FirebaseCategoriesHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING, // TODO better if in a new thread
-                new FirebaseCategoriesHelper.CategoriesCallback() {
+        FirebaseCategoryHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING, // TODO better if in a new thread
+                new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
                         setAdapterSpinnerValues(context, adapter, category.stream()

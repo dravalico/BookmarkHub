@@ -22,7 +22,7 @@ import com.google.firebase.firestore.Query;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoriesHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class HomeFragment extends Fragment implements MenuProvider {
     private CategoriesAdapter categoriesAdapter;
@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
-                .setQuery(FirebaseCategoriesHelper.getQueryForCategoriesListOfCurrentUser(null,
+                .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUser(null,
                         Query.Direction.ASCENDING), Category.class)
                 .build();
         categoriesAdapter = new CategoriesAdapter(options, getParentFragmentManager());
