@@ -8,6 +8,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Objects;
 
+import it.units.sim.bookmarkhub.R;
+
 public class FirebaseAuthenticationHelper {
 
     private FirebaseAuthenticationHelper() {
@@ -25,27 +27,27 @@ public class FirebaseAuthenticationHelper {
             if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
-                updateUserName(firebaseUser, username, callback);
+                updateUserName(firebaseUser, username, callback); // TODO check error handling
                 callback.onSuccess();
             } else {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(String.valueOf(R.string.sign_up_failure));
             }
         });
     }
 
     public static void signIn(String email, String password, AuthenticationCallback callback) {
         if (TextUtils.isEmpty(email)) {
-            callback.onFailure("Email cannot be empty");
+            callback.onFailure(String.valueOf(R.string.email_not_empty));
         }
         if (TextUtils.isEmpty(password)) {
-            callback.onFailure("Password cannot be empty");
+            callback.onFailure(String.valueOf(R.string.password_not_empty));
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 callback.onSuccess();
             } else {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(String.valueOf(R.string.sign_in_failure));
             }
         });
     }
@@ -65,19 +67,19 @@ public class FirebaseAuthenticationHelper {
     private static void checkSignUpFields(String username, String email, String password,
                                           String confirmPassword) throws IllegalArgumentException {
         if (TextUtils.isEmpty(username)) {
-            throw new IllegalArgumentException("Username cannot be empty");
+            throw new IllegalArgumentException(String.valueOf(R.string.username_not_empty));
         }
         if (TextUtils.isEmpty(email)) {
-            throw new IllegalArgumentException("Email cannot be empty");
+            throw new IllegalArgumentException(String.valueOf(R.string.email_not_empty));
         }
         if (TextUtils.isEmpty(password)) {
-            throw new IllegalArgumentException("Password cannot be empty");
+            throw new IllegalArgumentException(String.valueOf(R.string.password_not_empty));
         }
         if (TextUtils.isEmpty(confirmPassword)) {
-            throw new IllegalArgumentException("Confirm password cannot be empty");
+            throw new IllegalArgumentException(String.valueOf(R.string.confirm_password_not_empty));
         }
         if (!password.equals(confirmPassword)) {
-            throw new IllegalArgumentException("Passwords do not match");
+            throw new IllegalArgumentException(String.valueOf(R.string.password_match_error));
         }
     }
 
@@ -87,7 +89,7 @@ public class FirebaseAuthenticationHelper {
                 .build();
         firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                callback.onFailure(Objects.requireNonNull(task.getException()).getMessage());
+                callback.onFailure(String.valueOf(R.string.update_user_info_failure));
             }
         });
     }

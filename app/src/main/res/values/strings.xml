@@ -29,4 +29,15 @@
     <string name="order_date_ascending">Order date ascending</string>
     <string name="order_date_descending">Order date descending</string>
     <string name="ordering">Ordering</string>
+    <string name="category_name">Category name</string>
+
+    <!--> Firebase <-->
+    <string name="sign_up_failure">Sign up failed; retry later</string>
+    <string name="sign_in_failure">Sign in failed; retry later</string>
+    <string name="update_user_info_failure">Cannot update username</string>
+    <string name="email_not_empty">Email field cannot be empty</string>
+    <string name="password_not_empty">Password field cannot be empty</string>
+    <string name="confirm_password_not_empty">Confirm password field cannot be empty</string>
+    <string name="password_match_error">Passwords do not coincide</string>
+    <string name="username_not_empty">Username field cannot be empty</string>
 </resources>
