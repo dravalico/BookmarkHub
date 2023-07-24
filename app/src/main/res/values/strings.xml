@@ -31,7 +31,7 @@
     <string name="ordering">Ordering</string>
     <string name="category_name">Category name</string>
 
-    <!--> Firebase <-->
+    <!--> Firebase authentication<-->
     <string name="sign_up_failure">Sign up failed; retry later</string>
     <string name="sign_in_failure">Sign in failed; retry later</string>
     <string name="update_user_info_failure">Cannot update username</string>
@@ -40,4 +40,9 @@
     <string name="confirm_password_not_empty">Confirm password field cannot be empty</string>
     <string name="password_match_error">Passwords do not coincide</string>
     <string name="username_not_empty">Username field cannot be empty</string>
+
+    <!--> Firestore bookmarks<-->
+    <string name="add_bookmark_failure">Cannot add new bookmark; retry later</string>
+    <string name="delete_bookmark_failure">Cannot delete bookmark; retry later</string>
+    <string name="modify_bookmark_failure">Cannot modify bookmark; retry later</string>
 </resources>

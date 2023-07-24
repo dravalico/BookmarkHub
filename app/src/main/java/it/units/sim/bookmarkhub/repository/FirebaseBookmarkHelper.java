@@ -8,6 +8,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
+import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 
 public class FirebaseBookmarkHelper {
@@ -18,7 +19,7 @@ public class FirebaseBookmarkHelper {
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, data, category))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.add_bookmark_failure)));
     }
 
     public static Query getQueryForBookmarksListOfCurrentUser(String category) {
@@ -32,7 +33,7 @@ public class FirebaseBookmarkHelper {
                 .document(bookmark.id)
                 .delete()
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.delete_bookmark_failure)));
     }
 
     public static void modifyBookmark(Bookmark bookmark, BookmarkCallback callback) {
@@ -41,7 +42,7 @@ public class FirebaseBookmarkHelper {
                 .document(bookmark.id)
                 .set(bookmark)
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.modify_bookmark_failure)));
     }
 
     public interface BookmarkCallback {
