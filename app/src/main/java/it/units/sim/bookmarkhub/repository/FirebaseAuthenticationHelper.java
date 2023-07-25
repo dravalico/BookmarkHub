@@ -17,11 +17,7 @@ public class FirebaseAuthenticationHelper {
 
     public static void signUp(String username, String email, String password, String confirmPassword,
                               AuthenticationCallback callback) {
-        try {
-            checkSignUpFields(username, email, password, confirmPassword);
-        } catch (IllegalArgumentException e) {
-            callback.onFailure(e.getMessage());
-        }
+        checkSignUpFields(username, email, password, confirmPassword, callback);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -30,24 +26,24 @@ public class FirebaseAuthenticationHelper {
                 updateUserName(firebaseUser, username, callback); // TODO check error handling
                 callback.onSuccess();
             } else {
-                callback.onFailure(String.valueOf(R.string.sign_up_failure));
+                callback.onFailure(R.string.sign_up_failure);
             }
         });
     }
 
     public static void signIn(String email, String password, AuthenticationCallback callback) {
         if (TextUtils.isEmpty(email)) {
-            callback.onFailure(String.valueOf(R.string.email_not_empty));
+            callback.onFailure(R.string.email_not_empty);
         }
         if (TextUtils.isEmpty(password)) {
-            callback.onFailure(String.valueOf(R.string.password_not_empty));
+            callback.onFailure(R.string.password_not_empty);
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 callback.onSuccess();
             } else {
-                callback.onFailure(String.valueOf(R.string.sign_in_failure));
+                callback.onFailure(R.string.sign_in_failure);
             }
         });
     }
@@ -64,22 +60,22 @@ public class FirebaseAuthenticationHelper {
         FirebaseAuth.getInstance().signOut();
     }
 
-    private static void checkSignUpFields(String username, String email, String password,
-                                          String confirmPassword) throws IllegalArgumentException {
+    private static void checkSignUpFields(String username, String email, String password, String confirmPassword,
+                                          AuthenticationCallback callback) {
         if (TextUtils.isEmpty(username)) {
-            throw new IllegalArgumentException(String.valueOf(R.string.username_not_empty));
+            callback.onFailure(R.string.username_not_empty);
         }
         if (TextUtils.isEmpty(email)) {
-            throw new IllegalArgumentException(String.valueOf(R.string.email_not_empty));
+            callback.onFailure(R.string.email_not_empty);
         }
         if (TextUtils.isEmpty(password)) {
-            throw new IllegalArgumentException(String.valueOf(R.string.password_not_empty));
+            callback.onFailure(R.string.password_not_empty);
         }
         if (TextUtils.isEmpty(confirmPassword)) {
-            throw new IllegalArgumentException(String.valueOf(R.string.confirm_password_not_empty));
+            callback.onFailure(R.string.confirm_password_not_empty);
         }
         if (!password.equals(confirmPassword)) {
-            throw new IllegalArgumentException(String.valueOf(R.string.password_match_error));
+            callback.onFailure(R.string.password_match_error);
         }
     }
 
@@ -89,7 +85,7 @@ public class FirebaseAuthenticationHelper {
                 .build();
         firebaseUser.updateProfile(profileUpdates).addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                callback.onFailure(String.valueOf(R.string.update_user_info_failure));
+                callback.onFailure(R.string.update_user_info_failure);
             }
         });
     }
@@ -97,7 +93,7 @@ public class FirebaseAuthenticationHelper {
     public interface AuthenticationCallback {
         void onSuccess();
 
-        void onFailure(String errorMessage);
+        void onFailure(int errorStringId);
     }
 
 }

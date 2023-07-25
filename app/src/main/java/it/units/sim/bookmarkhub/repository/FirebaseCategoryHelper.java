@@ -35,7 +35,7 @@ public class FirebaseCategoryHelper {
     public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback callback) {
         getQueryForCategoriesListOfCurrentUser(orderBy, direction).addSnapshotListener((value, error) -> {
             if (error != null) {
-                callback.onError(String.valueOf(R.string.categories_retrieve_failure));
+                callback.onError(R.string.categories_retrieve_failure);
             }
             if (value != null) {
                 callback.onSuccess(
@@ -57,22 +57,26 @@ public class FirebaseCategoryHelper {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                    callback.onError(String.valueOf(R.string.duplicated_category));
+                    callback.onError(R.string.duplicated_category);
                 } else {
                     addNewCategory(categoryName, callback);
                 }
             } else {
-                callback.onError(String.valueOf(R.string.add_category_failure));
+                callback.onError(R.string.add_category_failure);
             }
         });
     }
 
     private static void addNewCategory(String categoryName, CategoriesCallback callback) {
+        if (categoryName.isEmpty()) {
+            callback.onError(R.string.category_name_not_empty);
+            return;
+        }
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.add_category_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.add_category_failure));
     }
 
     public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
@@ -86,7 +90,7 @@ public class FirebaseCategoryHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(String.valueOf(R.string.delete_category_failure));
+                callback.onError(R.string.delete_category_failure);
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -97,7 +101,7 @@ public class FirebaseCategoryHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.delete_category_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.delete_category_failure));
     }
 
     public static void modifyCategoryName(Category categoryOld, Category categoryNew, CategoriesCallback callback) {
@@ -111,7 +115,7 @@ public class FirebaseCategoryHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(String.valueOf(R.string.modify_category_failure));
+                callback.onError(R.string.modify_category_failure);
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -122,14 +126,14 @@ public class FirebaseCategoryHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.modify_category_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.modify_category_failure));
     }
 
 
     public interface CategoriesCallback {
         void onSuccess(List<Category> category);
 
-        void onError(String errorMessage);
+        void onError(int errorStringId);
     }
 
 }

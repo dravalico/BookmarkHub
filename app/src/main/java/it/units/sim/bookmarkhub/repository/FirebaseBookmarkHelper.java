@@ -19,7 +19,7 @@ public class FirebaseBookmarkHelper {
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, data, category))
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.add_bookmark_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.add_bookmark_failure));
     }
 
     public static Query getQueryForBookmarksListOfCurrentUser(String category) {
@@ -33,7 +33,7 @@ public class FirebaseBookmarkHelper {
                 .document(bookmark.id)
                 .delete()
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.delete_bookmark_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.delete_bookmark_failure));
     }
 
     public static void modifyBookmark(Bookmark bookmark, BookmarkCallback callback) {
@@ -42,13 +42,13 @@ public class FirebaseBookmarkHelper {
                 .document(bookmark.id)
                 .set(bookmark)
                 .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(String.valueOf(R.string.modify_bookmark_failure)));
+                .addOnFailureListener(e -> callback.onError(R.string.modify_bookmark_failure));
     }
 
     public interface BookmarkCallback {
         void onSuccess(List<Bookmark> bookmark);
 
-        void onError(String errorMessage);
+        void onError(int errorStringId);
     }
 
 }
