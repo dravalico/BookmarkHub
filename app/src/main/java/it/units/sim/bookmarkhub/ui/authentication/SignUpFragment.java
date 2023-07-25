@@ -54,8 +54,8 @@ public class SignUpFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(String errorMessage) {
-                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    public void onFailure(int errorStringId) {
+                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

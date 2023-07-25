@@ -52,8 +52,8 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.setText(category.name);
         builder.setView(view)
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", (dialog, id) -> dismiss());
+                .setPositiveButton(R.string.confirm_dialog, null)
+                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
         return alertDialog;
@@ -63,7 +63,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(view -> {
             if (nameEditText.getText().toString().equals(category.name)) {
-                Toast.makeText(requireContext(), "You have to modify the name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.category_modification_error, Toast.LENGTH_SHORT).show();
             } else {
                 Category categoryNew = new Category();
                 categoryNew.id = category.id;
@@ -73,14 +73,13 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
                             public void onSuccess(List<Category> category) {
-                                Toast.makeText(requireContext(), "Modification completed successfully",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), R.string.category_modified, Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
 
                             @Override
-                            public void onError(String errorMessage) {
-                                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                            public void onError(int errorStringId) {
+                                Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         })
                 ).start();

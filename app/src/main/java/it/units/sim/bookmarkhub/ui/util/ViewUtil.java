@@ -29,8 +29,8 @@ public class ViewUtil {
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    public void onError(int errorStringId) {
+                        Toast.makeText(context, errorStringId, Toast.LENGTH_SHORT).show();
                     }
                 });
         // TODO what if empty?

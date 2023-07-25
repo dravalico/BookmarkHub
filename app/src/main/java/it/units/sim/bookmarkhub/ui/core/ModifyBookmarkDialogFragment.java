@@ -54,7 +54,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("Modify '" + bookmark.name + "' bookmark"); // TODO improve it to allow extraction
+        builder.setTitle("");
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_modify_bookmark, null);
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
@@ -66,8 +66,8 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         spinner.setAdapter(spinnerAdapter);
         setFieldAsActualBookmark();
         builder.setView(view)
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", (dialog, id) -> dismiss());
+                .setPositiveButton(R.string.confirm_dialog, null)
+                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
         return alertDialog;
@@ -86,7 +86,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
             if ((nameEditText.getText().toString().equals(bookmark.name)) &&
                     (urlEditText.getText().toString().equals(bookmark.url)) &&
                     (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
-                Toast.makeText(requireContext(), "You have to modify at least one field", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
             } else { // TODO check if name and data aren't too long and if is a valid URL
                 bookmark.name = nameEditText.getText().toString();
                 bookmark.url = urlEditText.getText().toString();
@@ -95,14 +95,13 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                         FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
                             public void onSuccess(List<Bookmark> bookmark) {
-                                Toast.makeText(requireContext(), "Modification completed successfully",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
 
                             @Override
-                            public void onError(String errorMessage) {
-                                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                            public void onError(int errorStringId) {
+                                Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         })
                 ).start();

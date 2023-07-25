@@ -73,15 +73,15 @@ public class AddCategoryFragment extends Fragment {
                     }
 
                     @Override
-                    public void onError(String errorMessage) {
-                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    public void onError(int errorStringId) {
+                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                     }
                 }
         )).start();
     }
 
     public void clearViewAndOpenHomeFragment() {
-        Toast.makeText(requireActivity(), "Category inserted successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
         navController.navigate(AddCategoryFragmentDirections.actionAddCategoryFragmentToHomeFragment());
     }
 

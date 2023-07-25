@@ -33,8 +33,8 @@ public class AddCategoryDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_dialog_category_name, null);
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         builder.setView(view)
-                .setPositiveButton("Add category", null)
-                .setNegativeButton("Cancel", (dialog, id) -> dismiss());
+                .setPositiveButton(R.string.add_category_dialog, null)
+                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
         return alertDialog;
@@ -44,7 +44,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(view -> {
             if (nameEditText.getText().toString().equals("")) {
-                Toast.makeText(requireActivity(), "Category name cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), R.string.category_name_not_empty, Toast.LENGTH_SHORT).show();
             } else {
                 new Thread(() ->
                         FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
@@ -52,13 +52,13 @@ public class AddCategoryDialogFragment extends DialogFragment {
                                 new FirebaseCategoryHelper.CategoriesCallback() {
                                     @Override
                                     public void onSuccess(List<Category> category) {
-                                        Toast.makeText(requireActivity(), "Category added", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
                                         dismiss();
                                     }
 
                                     @Override
-                                    public void onError(String errorMessage) {
-                                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                                    public void onError(int errorStringId) {
+                                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                         )

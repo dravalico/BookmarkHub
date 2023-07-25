@@ -109,19 +109,19 @@ public class AddBookmarkFragment extends Fragment {
                                     }
 
                                     @Override
-                                    public void onError(String errorMessage) {
-                                        Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                                    public void onError(int errorStringId) {
+                                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                                     }
                                 })).start();
             } else {
-                Toast.makeText(requireActivity(), "The URL is not valid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
-        Toast.makeText(requireActivity(), "Bookmark inserted successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
         navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
     }
 
