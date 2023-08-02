@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
-            startActivity(new Intent(this, AuthenticationActivity.class));
+            startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
+            finish(); // TODO review this... why is it working?
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,4 +41,8 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
