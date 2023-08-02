@@ -135,17 +135,15 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) { // TODO does not work
-            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                getParentFragmentManager().popBackStackImmediate();
-            } else {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.main_nav_host_fragment, HomeFragment.class, null)
-                        .commit();
-            }
+        if (menuItem.getItemId() == android.R.id.home) {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_nav_host_fragment, new HomeFragment())
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
         return false;
     }
+
 
 }
