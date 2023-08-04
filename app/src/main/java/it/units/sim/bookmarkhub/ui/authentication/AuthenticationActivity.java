@@ -14,4 +14,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
 }
