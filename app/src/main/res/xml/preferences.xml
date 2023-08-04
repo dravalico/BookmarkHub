@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="user_interface_category"
+        android:title="User interface">
+
+        <ListPreference
+            android:key="language"
+            android:title="Language" />
+
+        <SwitchPreferenceCompat
+            android:key="dark_mode"
+            android:title="Dark mode" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="account_category"
+        android:title="Account">
+
+        <Preference
+            android:key="logout"
+            android:title="Logout" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

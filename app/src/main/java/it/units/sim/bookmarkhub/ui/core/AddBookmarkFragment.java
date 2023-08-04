@@ -60,7 +60,10 @@ public class AddBookmarkFragment extends Fragment {
         public void afterTextChanged(Editable editable) {
             boolean isNameEditTextFilled = !nameEditText.getText().toString().isEmpty();
             boolean isUrlEditTextFilled = !urlEditText.getText().toString().isEmpty();
-            boolean isSpinnerAdapterFilled = !spinnerAdapter.isEmpty();
+            boolean isSpinnerAdapterFilled = false;
+            if (spinnerAdapter != null) {
+                isSpinnerAdapterFilled = !spinnerAdapter.isEmpty();
+            }
             addBookmarkButton.setEnabled(isNameEditTextFilled && isUrlEditTextFilled && isSpinnerAdapterFilled);
         }
     };
@@ -123,6 +126,12 @@ public class AddBookmarkFragment extends Fragment {
         resetEditTextViews();
         Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
         navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        spinnerAdapter = null;
     }
 
     private void resetEditTextViews() {

@@ -9,7 +9,7 @@
         android:icon="@drawable/add_bookmark_icon"
         android:title="@string/add_bookmark"/>
     <item
-        android:id="@+id/add_category_fragment_item"
-        android:icon="@drawable/add_category_icon"
-        android:title="@string/add_category"/>
+        android:id="@+id/settings_fragment"
+        android:icon="@drawable/settings_icon"
+        android:title="@string/settings"/>
 </menu>

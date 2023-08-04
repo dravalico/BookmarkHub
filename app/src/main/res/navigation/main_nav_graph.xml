@@ -27,4 +27,9 @@
             android:id="@+id/action_addCategoryFragment_to_homeFragment"
             app:destination="@id/home_fragment_item" />
     </fragment>
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.SettingsFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

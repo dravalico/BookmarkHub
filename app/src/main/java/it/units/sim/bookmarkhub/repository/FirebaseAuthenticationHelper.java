@@ -32,11 +32,9 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static void signIn(String email, String password, AuthenticationCallback callback) {
-        if (TextUtils.isEmpty(email)) {
-            callback.onFailure(R.string.email_not_empty);
-        }
-        if (TextUtils.isEmpty(password)) {
-            callback.onFailure(R.string.password_not_empty);
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            callback.onFailure(R.string.email_password_not_empty);
+            return;
         }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -66,7 +64,7 @@ public class FirebaseAuthenticationHelper {
             callback.onFailure(R.string.username_not_empty);
         }
         if (TextUtils.isEmpty(email)) {
-            callback.onFailure(R.string.email_not_empty);
+            callback.onFailure(R.string.email_password_not_empty);
         }
         if (TextUtils.isEmpty(password)) {
             callback.onFailure(R.string.password_not_empty);

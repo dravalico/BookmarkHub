@@ -109,4 +109,10 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        spinnerAdapter = null;
+    }
+
 }
