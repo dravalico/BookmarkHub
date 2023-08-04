@@ -17,7 +17,9 @@ public class FirebaseAuthenticationHelper {
 
     public static void signUp(String username, String email, String password, String confirmPassword,
                               AuthenticationCallback callback) {
-        checkSignUpFields(username, email, password, confirmPassword, callback);
+        if (!isSignUpFieldsCompleted(username, email, password, confirmPassword, callback)) {
+            return;
+        }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -58,23 +60,29 @@ public class FirebaseAuthenticationHelper {
         FirebaseAuth.getInstance().signOut();
     }
 
-    private static void checkSignUpFields(String username, String email, String password, String confirmPassword,
-                                          AuthenticationCallback callback) {
+    private static boolean isSignUpFieldsCompleted(String username, String email, String password, String confirmPassword,
+                                                   AuthenticationCallback callback) {
         if (TextUtils.isEmpty(username)) {
             callback.onFailure(R.string.username_not_empty);
+            return false;
         }
         if (TextUtils.isEmpty(email)) {
             callback.onFailure(R.string.email_password_not_empty);
+            return false;
         }
         if (TextUtils.isEmpty(password)) {
             callback.onFailure(R.string.password_not_empty);
+            return false;
         }
         if (TextUtils.isEmpty(confirmPassword)) {
             callback.onFailure(R.string.confirm_password_not_empty);
+            return false;
         }
         if (!password.equals(confirmPassword)) {
             callback.onFailure(R.string.password_match_error);
+            return false;
         }
+        return true;
     }
 
     private static void updateUserName(FirebaseUser firebaseUser, String username, AuthenticationCallback callback) {
