@@ -24,8 +24,7 @@ public class FirebaseAuthenticationHelper {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                assert firebaseUser != null;
-                updateUserName(firebaseUser, username, callback); //TODO check error handling
+                updateUserName(Objects.requireNonNull(firebaseUser), username, callback);
                 callback.onSuccess();
             } else {
                 callback.onFailure(R.string.sign_up_failure);
