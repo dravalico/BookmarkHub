@@ -1,5 +1,7 @@
 package it.units.sim.bookmarkhub.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
@@ -49,6 +51,7 @@ public final class Bookmark implements Serializable {
         return Objects.hash(id, userId, name, url, additionalData, category);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "BookmarkEntity[" +

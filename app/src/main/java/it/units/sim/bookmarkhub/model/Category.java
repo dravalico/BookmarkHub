@@ -1,5 +1,7 @@
 package it.units.sim.bookmarkhub.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.PropertyName;
 
@@ -42,6 +44,7 @@ public final class Category implements Serializable {
         return Objects.hash(id, userId, name, creationDate);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "CategoriesEntity{" +
