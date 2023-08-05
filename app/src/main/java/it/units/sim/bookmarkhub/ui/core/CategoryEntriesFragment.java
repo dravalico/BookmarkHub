@@ -101,7 +101,7 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                                                 @Override
                                                 public void onSuccess(List<Bookmark> bookmark) {
                                                     String msg = bookmarkToDelete.name + " "
-                                                            + getContext().getResources().getString(R.string.deleted);
+                                                            + requireContext().getResources().getString(R.string.deleted);
                                                     Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                                                 }
 
@@ -131,7 +131,7 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
 
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-
+        // Not used
     }
 
     @Override

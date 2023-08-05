@@ -108,7 +108,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         positiveButton.setOnClickListener(view -> {
             if ((nameEditText.getText().toString().equals(bookmark.name)) && (urlEditText.getText().toString().equals(bookmark.url)) && (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
                 Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
-            } else { // TODO check if name and data aren't too long and if is a valid URL
+            } else { //TODO check if name and data aren't too long and if is a valid URL
                 bookmark.name = nameEditText.getText().toString();
                 bookmark.url = urlEditText.getText().toString();
                 bookmark.additionalData = additionalDataEditText.getText().toString();

@@ -25,7 +25,7 @@ public class FirebaseAuthenticationHelper {
             if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 assert firebaseUser != null;
-                updateUserName(firebaseUser, username, callback); // TODO check error handling
+                updateUserName(firebaseUser, username, callback); //TODO check error handling
                 callback.onSuccess();
             } else {
                 callback.onFailure(R.string.sign_up_failure);

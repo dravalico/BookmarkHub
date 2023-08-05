@@ -45,6 +45,7 @@ public class AddBookmarkFragment extends Fragment {
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Not used
         }
 
         @Override

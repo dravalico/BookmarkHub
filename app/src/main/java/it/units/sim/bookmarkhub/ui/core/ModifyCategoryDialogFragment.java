@@ -21,7 +21,6 @@ import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ModifyCategoryDialogFragment extends DialogFragment {
-    public static final String TAG = "ModifyCategoryDialogFragment";
     private static final String ARG = "category";
     private Category category;
     private EditText nameEditText;
@@ -46,7 +45,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_dialog_category_name, null);
+        View view = inflater.inflate(R.layout.fragment_dialog_modify_category, null);
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.setText(category.name);
         return createDialog(view);

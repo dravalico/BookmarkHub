@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         if (menuItem.getItemId() == R.id.add_category) {
             AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
             addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
-        } // TODO handle ordering options
+        } //TODO handle ordering options
         return false;
     }
 
