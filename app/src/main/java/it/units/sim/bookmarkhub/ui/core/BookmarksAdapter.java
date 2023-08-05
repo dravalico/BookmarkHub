@@ -38,17 +38,15 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
         Uri uri = Uri.parse(model.url);
         String scheme = uri.getScheme();
         String host = uri.getHost();
-        new Thread(() ->
-                Glide.with(activity)
-                        .asBitmap()
-                        .load(scheme + "://" + host + "/favicon.ico")
-                        .apply(new RequestOptions()
-                                .override(Target.SIZE_ORIGINAL)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .skipMemoryCache(false))
-                        .error(R.drawable.image_not_found)
-                        .into(holder.faviconImageView)
-        ).start();
+        Glide.with(activity)
+                .asBitmap()
+                .load(scheme + "://" + host + "/favicon.ico")
+                .apply(new RequestOptions()
+                        .override(Target.SIZE_ORIGINAL)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(false))
+                .error(R.drawable.image_not_found)
+                .into(holder.faviconImageView);
         holder.cardView.setOnClickListener(v ->
                 new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))
         );
