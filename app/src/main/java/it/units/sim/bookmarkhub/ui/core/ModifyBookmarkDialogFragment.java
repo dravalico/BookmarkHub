@@ -16,13 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
+import it.units.sim.bookmarkhub.model.Category;
+import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.ui.util.ViewUtil;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
@@ -62,15 +67,30 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        setFieldAsActualBookmark();
+        setFieldsForModification();
         return createDialog(view);
     }
 
-    private void setFieldAsActualBookmark() {
+    private void setFieldsForModification() {
         nameEditText.setText(bookmark.name);
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
-        ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+        FirebaseCategoryHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+                new FirebaseCategoryHelper.CategoriesCallback() {
+                    @Override
+                    public void onSuccess(List<Category> category) {
+                        spinnerAdapter.addAll(category.stream()
+                                .map(c -> c.name)
+                                .collect(Collectors.toList()));
+                    }
+
+                    @Override
+                    public void onError(int errorStringId) {
+                        if (FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
+                            Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @NonNull
