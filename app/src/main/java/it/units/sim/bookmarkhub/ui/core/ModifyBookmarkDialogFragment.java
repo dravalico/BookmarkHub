@@ -53,8 +53,6 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("");
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_modify_bookmark, null);
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
@@ -65,12 +63,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         setFieldAsActualBookmark();
-        builder.setView(view)
-                .setPositiveButton(R.string.confirm_dialog, null)
-                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
-        return alertDialog;
+        return createDialog(view);
     }
 
     private void setFieldAsActualBookmark() {
@@ -78,6 +71,18 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
         ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+    }
+
+    @NonNull
+    private AlertDialog createDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setTitle("");
+        builder.setView(view)
+                .setPositiveButton(R.string.confirm_dialog, null)
+                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
+        return alertDialog;
     }
 
     private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
@@ -107,12 +112,6 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 ).start();
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        spinnerAdapter = null;
     }
 
 }
