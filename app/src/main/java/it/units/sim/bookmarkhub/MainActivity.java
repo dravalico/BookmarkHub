@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_enabled", false);
         updateDarkMode(isDarkModeEnabled);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setBackButtonBehaviour();
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
@@ -41,17 +44,26 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    private void updateDarkMode(boolean isDarkModeEnabled) {
+    private static void updateDarkMode(boolean isDarkModeEnabled) {
         if (isDarkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+    }
+
+    private void setBackButtonBehaviour() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("")
+                        .setMessage(getString(R.string.close_app, getString(R.string.app_name)))
+                        .setPositiveButton(R.string.confirm_dialog, (dialog, which) -> finishAffinity())
+                        .setNegativeButton(R.string.cancel_dialog, null)
+                        .show();
+            }
+        });
     }
 
 }

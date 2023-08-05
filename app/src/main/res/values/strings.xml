@@ -77,4 +77,7 @@
         <item>Italian</item>
     </string-array>
 
+    <!--> Activities popup<-->
+    <string name="close_app">Are you sure you want to quit %1$s application</string>
+
 </resources>
