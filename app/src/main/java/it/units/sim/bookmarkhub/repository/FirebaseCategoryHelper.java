@@ -32,7 +32,8 @@ public class FirebaseCategoryHelper {
         //.orderBy(orderBy, direction);
     }
 
-    public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback callback) {
+    public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback
+            callback) {
         getQueryForCategoriesListOfCurrentUser(orderBy, direction).addSnapshotListener((value, error) -> {
             if (error != null) {
                 callback.onError(R.string.categories_retrieve_failure);
