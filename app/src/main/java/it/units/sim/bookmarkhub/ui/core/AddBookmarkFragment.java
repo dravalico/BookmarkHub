@@ -79,7 +79,7 @@ public class AddBookmarkFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Add bookmark");
+            actionBar.setTitle(getString(R.string.add_bookmark));
         }
         View view = inflater.inflate(R.layout.fragment_add_bookmark, container, false);
         spinner = view.findViewById(R.id.bookmark_category_spinner);

@@ -51,7 +51,7 @@ public class AddCategoryFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Add category");
+            actionBar.setTitle(getString(R.string.add_category));
         }
         View view = inflater.inflate(R.layout.fragment_add_category, container, false);
         nameEditText = view.findViewById(R.id.category_name_edit_text);

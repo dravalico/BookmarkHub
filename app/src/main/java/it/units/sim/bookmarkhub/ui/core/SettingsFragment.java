@@ -31,7 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         PreferenceManager.getDefaultSharedPreferences(requireContext()).registerOnSharedPreferenceChangeListener(this);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Settings");
+            actionBar.setTitle(getString(R.string.settings));
         }
         Preference logoutPreference = findPreference("logout");
         Objects.requireNonNull(logoutPreference).setOnPreferenceClickListener(preference -> {

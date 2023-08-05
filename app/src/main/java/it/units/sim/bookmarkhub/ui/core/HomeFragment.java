@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         requireActivity().addMenuProvider(this);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Your categories");
+            actionBar.setTitle(getString(R.string.home));
         }
         RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
