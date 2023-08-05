@@ -35,7 +35,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         Preference logoutPreference = findPreference("logout");
         Objects.requireNonNull(logoutPreference).setOnPreferenceClickListener(preference -> {
-            FirebaseAuthenticationHelper.signOut();
+            new Thread(FirebaseAuthenticationHelper::signOut).start();
             startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
             return true;
         });

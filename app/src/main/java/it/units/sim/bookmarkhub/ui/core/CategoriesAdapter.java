@@ -72,21 +72,20 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
         builder.setTitle(category1.name);
         builder.setMessage(R.string.confirm_category_deletion);
         builder.setPositiveButton(R.string.confirm_dialog, (dialogInterface, i) ->
-                new Thread(() ->
-                        FirebaseCategoryHelper.deleteCategoryAndContent(category1,
-                                new FirebaseCategoryHelper.CategoriesCallback() {
-                                    @Override
-                                    public void onSuccess(List<Category> category) {
-                                        String msg = category1.name + " " + view.getResources().getString(R.string.deleted);
-                                        Toast.makeText(view.getContext(), msg, Toast.LENGTH_SHORT).show();
-                                    }
+                new Thread(() -> FirebaseCategoryHelper.deleteCategoryAndContent(
+                        category1,
+                        new FirebaseCategoryHelper.CategoriesCallback() {
+                            @Override
+                            public void onSuccess(List<Category> category) {
+                                String msg = category1.name + " " + view.getResources().getString(R.string.deleted);
+                                Toast.makeText(view.getContext(), msg, Toast.LENGTH_SHORT).show();
+                            }
 
-                                    @Override
-                                    public void onError(int errorStringId) {
-                                        Toast.makeText(view.getContext(), errorStringId, Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                ).start());
+                            @Override
+                            public void onError(int errorStringId) {
+                                Toast.makeText(view.getContext(), errorStringId, Toast.LENGTH_SHORT).show();
+                            }
+                        })).start());
         builder.setNegativeButton(R.string.cancel_dialog, null);
         builder.show();
     }

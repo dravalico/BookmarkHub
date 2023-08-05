@@ -43,7 +43,8 @@ public class SignUpFragment extends Fragment {
     }
 
     private void signUp(EditText usernameEditText, EditText emailEditText, EditText passwordEditText, EditText confirmPasswordEditText) {
-        FirebaseAuthenticationHelper.signUp(usernameEditText.getText().toString(),
+        new Thread(() -> FirebaseAuthenticationHelper.signUp(
+                usernameEditText.getText().toString(),
                 emailEditText.getText().toString(),
                 passwordEditText.getText().toString(),
                 confirmPasswordEditText.getText().toString(),
@@ -57,7 +58,7 @@ public class SignUpFragment extends Fragment {
                     public void onFailure(int errorStringId) {
                         Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                     }
-                });
+                })).start();
     }
 
 }

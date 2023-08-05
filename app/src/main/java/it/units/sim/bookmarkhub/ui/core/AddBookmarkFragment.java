@@ -102,7 +102,9 @@ public class AddBookmarkFragment extends Fragment {
     }
 
     private void fetchSpinnerValues() {
-        FirebaseCategoryHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
+                "category_name",
+                Query.Direction.ASCENDING,
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
@@ -117,29 +119,29 @@ public class AddBookmarkFragment extends Fragment {
                             Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                })
+        ).start();
     }
 
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
         addBookmarkButton.setOnClickListener(v -> {
             if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
-                new Thread(() ->
-                        FirebaseBookmarkHelper.addNewBookmark(
-                                nameEditText.getText().toString(),
-                                urlEditText.getText().toString(),
-                                dataEditText.getText().toString(),
-                                spinner.getSelectedItem().toString(),
-                                new FirebaseBookmarkHelper.BookmarkCallback() {
-                                    @Override
-                                    public void onSuccess(List<Bookmark> bookmark) {
-                                        AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
-                                    }
+                new Thread(() -> FirebaseBookmarkHelper.addNewBookmark(
+                        nameEditText.getText().toString(),
+                        urlEditText.getText().toString(),
+                        dataEditText.getText().toString(),
+                        spinner.getSelectedItem().toString(),
+                        new FirebaseBookmarkHelper.BookmarkCallback() {
+                            @Override
+                            public void onSuccess(List<Bookmark> bookmark) {
+                                AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
+                            }
 
-                                    @Override
-                                    public void onError(int errorStringId) {
-                                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
-                                    }
-                                })).start();
+                            @Override
+                            public void onError(int errorStringId) {
+                                Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
+                            }
+                        })).start();
             } else {
                 Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
             }

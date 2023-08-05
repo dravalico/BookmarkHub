@@ -1,7 +1,6 @@
 package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,7 +95,8 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                     builder.setTitle(bookmarkToDelete.name)
                             .setMessage(R.string.confirm_bookmark_deletion)
                             .setPositiveButton(R.string.confirm_dialog, (dialog, which) ->
-                                    new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(bookmarkToDelete,
+                                    new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(
+                                            bookmarkToDelete,
                                             new FirebaseBookmarkHelper.BookmarkCallback() {
                                                 @Override
                                                 public void onSuccess(List<Bookmark> bookmark) {
@@ -110,8 +110,7 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                                                     Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT)
                                                             .show();
                                                 }
-                                            })
-                                    ).start())
+                                            })).start())
                             .setNegativeButton(R.string.cancel_dialog, (dialog, which) ->
                                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                             .setOnCancelListener(dialog ->
@@ -140,23 +139,19 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
         if (menuItem.getItemId() == android.R.id.home) {
             HomeFragment homeFragment = (HomeFragment) getParentFragmentManager().findFragmentById(R.id.home_fragment_item);
             if (homeFragment == null) {
-                Log.d("", "qua");
                 homeFragment = new HomeFragment();
             }
-            Log.d("", String.valueOf(getParentFragmentManager().getBackStackEntryCount()));
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.hide(this); // Nascondi il fragment corrente
+            transaction.hide(this);
             if (!homeFragment.isAdded()) {
-                transaction.add(R.id.main_nav_host_fragment, homeFragment); // Aggiungi il fragment HomeFragment solo se non è già stato aggiunto
+                transaction.add(R.id.main_nav_host_fragment, homeFragment);
             } else {
-                transaction.show(homeFragment); // Mostra il fragment HomeFragment se è già stato aggiunto
+                transaction.show(homeFragment);
             }
             transaction.commit();
-
             return true;
         }
         return false;
     }
-
 
 }

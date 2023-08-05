@@ -46,23 +46,20 @@ public class AddCategoryDialogFragment extends DialogFragment {
             if (nameEditText.getText().toString().equals("")) {
                 Toast.makeText(requireActivity(), R.string.category_name_not_empty, Toast.LENGTH_SHORT).show();
             } else {
-                new Thread(() ->
-                        FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
-                                nameEditText.getText().toString(),
-                                new FirebaseCategoryHelper.CategoriesCallback() {
-                                    @Override
-                                    public void onSuccess(List<Category> category) {
-                                        Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
-                                        dismiss();
-                                    }
+                new Thread(() -> FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
+                        nameEditText.getText().toString(),
+                        new FirebaseCategoryHelper.CategoriesCallback() {
+                            @Override
+                            public void onSuccess(List<Category> category) {
+                                Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
+                                dismiss();
+                            }
 
-                                    @Override
-                                    public void onError(int errorStringId) {
-                                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        )
-                ).start();
+                            @Override
+                            public void onError(int errorStringId) {
+                                Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
+                            }
+                        })).start();
             }
         });
     }

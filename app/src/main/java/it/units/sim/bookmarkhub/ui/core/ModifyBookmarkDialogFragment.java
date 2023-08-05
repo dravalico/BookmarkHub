@@ -75,13 +75,13 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         nameEditText.setText(bookmark.name);
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
-        FirebaseCategoryHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
+                "category_name",
+                Query.Direction.ASCENDING,
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
-                        spinnerAdapter.addAll(category.stream()
-                                .map(c -> c.name)
-                                .collect(Collectors.toList()));
+                        spinnerAdapter.addAll(category.stream().map(c -> c.name).collect(Collectors.toList()));
                     }
 
                     @Override
@@ -90,16 +90,14 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                             Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                })).start();
     }
 
     @NonNull
     private AlertDialog createDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle("");
-        builder.setView(view)
-                .setPositiveButton(R.string.confirm_dialog, null)
-                .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
+        builder.setView(view).setPositiveButton(R.string.confirm_dialog, null).setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
         return alertDialog;
@@ -108,28 +106,24 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(view -> {
-            if ((nameEditText.getText().toString().equals(bookmark.name)) &&
-                    (urlEditText.getText().toString().equals(bookmark.url)) &&
-                    (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
+            if ((nameEditText.getText().toString().equals(bookmark.name)) && (urlEditText.getText().toString().equals(bookmark.url)) && (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
                 Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
             } else { // TODO check if name and data aren't too long and if is a valid URL
                 bookmark.name = nameEditText.getText().toString();
                 bookmark.url = urlEditText.getText().toString();
                 bookmark.additionalData = additionalDataEditText.getText().toString();
-                new Thread(() ->
-                        FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
-                            @Override
-                            public void onSuccess(List<Bookmark> bookmark) {
-                                Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
-                                dismiss();
-                            }
+                new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
+                    @Override
+                    public void onSuccess(List<Bookmark> bookmark) {
+                        Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    }
 
-                            @Override
-                            public void onError(int errorStringId) {
-                                Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                ).start();
+                    @Override
+                    public void onError(int errorStringId) {
+                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
+                    }
+                })).start();
             }
         });
     }

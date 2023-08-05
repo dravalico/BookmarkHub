@@ -76,8 +76,7 @@ public class AddCategoryFragment extends Fragment {
                     public void onError(int errorStringId) {
                         Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                     }
-                }
-        )).start();
+                })).start();
     }
 
     public void clearViewAndOpenHomeFragment() {
