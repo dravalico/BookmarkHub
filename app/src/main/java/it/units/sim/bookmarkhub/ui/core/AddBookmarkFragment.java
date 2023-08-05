@@ -20,14 +20,19 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
+import it.units.sim.bookmarkhub.model.Category;
+import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.ui.util.ViewUtil;
+import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class AddBookmarkFragment extends Fragment {
     private NavController navController;
@@ -80,7 +85,7 @@ public class AddBookmarkFragment extends Fragment {
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        ViewUtil.fetchCategoriesFromFirebase(requireContext(), spinnerAdapter);
+        fetchSpinnerValues();
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
@@ -94,6 +99,25 @@ public class AddBookmarkFragment extends Fragment {
         navController = Objects.requireNonNull(navHostFragment).getNavController();
         navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> resetEditTextViews());
         return view;
+    }
+
+    private void fetchSpinnerValues() {
+        FirebaseCategoryHelper.getCategoriesListOfCurrentUser("category_name", Query.Direction.ASCENDING,
+                new FirebaseCategoryHelper.CategoriesCallback() {
+                    @Override
+                    public void onSuccess(List<Category> category) {
+                        spinnerAdapter.addAll(category.stream()
+                                .map(c -> c.name)
+                                .collect(Collectors.toList()));
+                    }
+
+                    @Override
+                    public void onError(int errorStringId) {
+                        if (FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
+                            Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
@@ -126,12 +150,6 @@ public class AddBookmarkFragment extends Fragment {
         resetEditTextViews();
         Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
         navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        spinnerAdapter = null;
     }
 
     private void resetEditTextViews() {
