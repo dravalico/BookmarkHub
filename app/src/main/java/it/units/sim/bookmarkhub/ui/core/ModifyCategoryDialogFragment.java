@@ -45,12 +45,17 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("");
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_category_name, null);
         nameEditText = view.findViewById(R.id.category_name_edit_text);
         nameEditText.setText(category.name);
+        return createDialog(view);
+    }
+
+    @NonNull
+    private AlertDialog createDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        builder.setTitle("");
         builder.setView(view)
                 .setPositiveButton(R.string.confirm_dialog, null)
                 .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
