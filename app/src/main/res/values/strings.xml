@@ -78,6 +78,8 @@
         <item>Italian</item>
     </string-array>
     <string name="logout_msg">Goodbye, %1$s</string>
+    <string name="sign_in_msg">Welcome back, %1$s</string>
+    <string name="sign_up_msg">Welcome, %1$s</string>
 
     <!--> Activities popup<-->
     <string name="close_app">Are you sure you want to quit %1$s application</string>

@@ -51,6 +51,8 @@ public class SignUpFragment extends Fragment {
                 new FirebaseAuthenticationHelper.AuthenticationCallback() {
                     @Override
                     public void onSuccess() {
+                        String msg = getString(R.string.sign_up_msg, usernameEditText);
+                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(requireActivity(), MainActivity.class));
                     }
 
