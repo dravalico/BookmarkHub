@@ -35,28 +35,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             actionBar.setTitle(getString(R.string.settings));
         }
         Preference logoutPreference = findPreference("logout");
-        Objects.requireNonNull(logoutPreference).setOnPreferenceClickListener(preference -> {
-            new Thread(() -> {
-                String username = FirebaseAuthenticationHelper.getCurrentUserUsername();
-                FirebaseAuthenticationHelper.signOut(
-                        new FirebaseAuthenticationHelper.AuthenticationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                String msg = getString(R.string.logout_msg, username);
-                                requireActivity().runOnUiThread(() ->
-                                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show());
-                                startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
-                            }
-
-                            @Override
-                            public void onFailure(int errorStringId) {
-                                requireActivity().runOnUiThread(() ->
-                                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
-                            }
-                        });
-            }).start();
-            return true;
-        });
+        setOnClickLogoutPreference(Objects.requireNonNull(logoutPreference));
     }
 
     @Override
@@ -83,6 +62,31 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         requireActivity().recreate();
+    }
+
+    private void setOnClickLogoutPreference(Preference logoutPreference) {
+        logoutPreference.setOnPreferenceClickListener(preference -> {
+            new Thread(() -> {
+                String username = FirebaseAuthenticationHelper.getCurrentUserUsername();
+                FirebaseAuthenticationHelper.signOut(
+                        new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                            @Override
+                            public void onSuccess() {
+                                String msg = getString(R.string.logout_msg, username);
+                                requireActivity().runOnUiThread(() ->
+                                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show());
+                                startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                            }
+
+                            @Override
+                            public void onFailure(int errorStringId) {
+                                requireActivity().runOnUiThread(() ->
+                                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
+                            }
+                        });
+            }).start();
+            return true;
+        });
     }
 
 }
