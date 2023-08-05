@@ -56,8 +56,13 @@ public class FirebaseAuthenticationHelper {
         return Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName();
     }
 
-    public static void signOut() {
-        FirebaseAuth.getInstance().signOut();
+    public static void signOut(AuthenticationCallback callback) {
+        try {
+            FirebaseAuth.getInstance().signOut();
+            callback.onSuccess();
+        } catch (Exception e) {
+            callback.onFailure(R.string.logout_failure);
+        }
     }
 
     private static boolean isSignUpFieldsCompleted(String username, String email, String password, String confirmPassword,

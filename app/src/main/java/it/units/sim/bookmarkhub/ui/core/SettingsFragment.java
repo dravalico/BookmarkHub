@@ -3,6 +3,7 @@ package it.units.sim.bookmarkhub.ui.core;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -35,8 +36,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         Preference logoutPreference = findPreference("logout");
         Objects.requireNonNull(logoutPreference).setOnPreferenceClickListener(preference -> {
-            new Thread(FirebaseAuthenticationHelper::signOut).start();
-            startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+            new Thread(() -> {
+                String username = FirebaseAuthenticationHelper.getCurrentUserUsername();
+                FirebaseAuthenticationHelper.signOut(
+                        new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                            @Override
+                            public void onSuccess() {
+                                String msg = getString(R.string.logout_msg, username);
+                                requireActivity().runOnUiThread(() ->
+                                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show());
+                                startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                            }
+
+                            @Override
+                            public void onFailure(int errorStringId) {
+                                requireActivity().runOnUiThread(() ->
+                                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
+                            }
+                        });
+            }).start();
             return true;
         });
     }

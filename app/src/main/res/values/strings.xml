@@ -40,6 +40,7 @@
     <string name="confirm_password_not_empty">Confirm password field cannot be empty</string>
     <string name="password_match_error">Passwords do not coincide</string>
     <string name="username_not_empty">Username field cannot be empty</string>
+    <string name="logout_failure">Error during logout</string>
 
     <!--> Firestore bookmarks errors<-->
     <string name="add_bookmark_failure">Cannot add new bookmark</string>
@@ -76,6 +77,7 @@
         <item>English</item>
         <item>Italian</item>
     </string-array>
+    <string name="logout_msg">Goodbye, %1$s</string>
 
     <!--> Activities popup<-->
     <string name="close_app">Are you sure you want to quit %1$s application</string>
