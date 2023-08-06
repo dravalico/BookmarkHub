@@ -28,7 +28,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("Add category");
+        builder.setTitle(getString(R.string.add_category));
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_modify_category, null);
         nameEditText = view.findViewById(R.id.category_name_edit_text);

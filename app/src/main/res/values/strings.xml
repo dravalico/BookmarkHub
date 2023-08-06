@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">BookmarkHub</string>
+    <string name="app_name" translatable="false">BookmarkHub</string>
 
     <!--> Sign up and sing in <-->
     <string name="username">Username</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password" translatable="false">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign Up</string>
     <string name="already_member_sign_in">Already member? Sign in</string>
@@ -12,12 +12,12 @@
     <string name="create_an_account">Create an account</string>
 
     <!--> Bottom menu and settings <-->
-    <string name="home">Home</string>
+    <string name="home" translatable="false">Home</string>
     <string name="add_bookmark">Add bookmark</string>
     <string name="add_category">Add category</string>
     <string name="settings">Settings</string>
     <string name="name">Name</string>
-    <string name="url">URL</string>
+    <string name="url" translatable="false">URL</string>
     <string name="additional_info">Additional info</string>
     <string name="favicon_of_the_website">Favicon of the website</string>
     <string name="options">Options</string>
@@ -49,7 +49,7 @@
 
     <!--> Firestore categories errors<-->
     <string name="categories_retrieve_failure">Cannot retrieve the list of yours categories</string>
-    <string name="duplicated_category">This category is already present in the database, change the name</string>
+    <string name="duplicated_category">This category already exists; change the name</string>
     <string name="add_category_failure">Cannot add new category</string>
     <string name="delete_category_failure">Cannot delete category</string>
     <string name="modify_category_failure">Cannot modify category name</string>
@@ -82,6 +82,6 @@
     <string name="sign_up_msg">Welcome, %1$s</string>
 
     <!--> Activities popup<-->
-    <string name="close_app">Are you sure you want to quit %1$s application</string>
+    <string name="close_app">Are you sure you want to quit %1$s application?</string>
 
 </resources>
