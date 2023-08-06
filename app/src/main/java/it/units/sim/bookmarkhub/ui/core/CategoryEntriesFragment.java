@@ -1,6 +1,7 @@
 package it.units.sim.bookmarkhub.ui.core;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -136,18 +136,10 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
-            HomeFragment homeFragment = (HomeFragment) getParentFragmentManager().findFragmentById(R.id.home_fragment_item);
-            if (homeFragment == null) {
-                homeFragment = new HomeFragment();
-            }
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.hide(this);
-            if (!homeFragment.isAdded()) {
-                transaction.add(R.id.main_nav_host_fragment, homeFragment);
-            } else {
-                transaction.show(homeFragment);
-            }
-            transaction.commit();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_nav_host_fragment, new HomeFragment())
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
         return false;
