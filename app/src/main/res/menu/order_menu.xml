@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_options"
-        android:icon="@drawable/more_icon"
+        android:icon="@drawable/sort_icon"
         android:orderInCategory="200"
         android:title="@string/ordering"
         android:visible="true"
