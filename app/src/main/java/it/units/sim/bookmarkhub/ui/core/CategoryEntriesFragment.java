@@ -92,6 +92,7 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                 if (direction == ItemTouchHelper.LEFT) {
                     Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    String msg = bookmarkToDelete.name + " " + getString(R.string.deleted);
                     builder.setTitle(bookmarkToDelete.name)
                             .setMessage(R.string.confirm_bookmark_deletion)
                             .setPositiveButton(R.string.confirm_dialog, (dialog, which) ->
@@ -100,8 +101,6 @@ public class CategoryEntriesFragment extends Fragment implements MenuProvider {
                                             new FirebaseBookmarkHelper.BookmarkCallback() {
                                                 @Override
                                                 public void onSuccess(List<Bookmark> bookmark) {
-                                                    String msg = bookmarkToDelete.name + " "
-                                                            + requireContext().getResources().getString(R.string.deleted);
                                                     Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                                                 }
 
