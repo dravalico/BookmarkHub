@@ -70,7 +70,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public static void updateLanguage(String language, Context context) {
         Locale locale = new Locale(language);
         Configuration configuration = context.getResources().getConfiguration();
-        configuration.locale = locale;
+        configuration.setLocale(locale);
         context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
     }
 
