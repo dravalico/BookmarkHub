@@ -17,15 +17,27 @@
         <menu>
             <item
                 android:id="@+id/name_ascending"
+                android:checkable="true"
+                android:checkableBehavior="single"
+                android:checked="false"
                 android:title="@string/order_name_a_z" />
             <item
                 android:id="@+id/name_descending"
+                android:checkable="true"
+                android:checkableBehavior="single"
+                android:checked="false"
                 android:title="@string/order_name_z_a" />
             <item
                 android:id="@+id/date_ascending"
+                android:checkable="true"
+                android:checkableBehavior="single"
+                android:checked="false"
                 android:title="@string/order_date_ascending" />
             <item
                 android:id="@+id/date_descending"
+                android:checkable="true"
+                android:checkableBehavior="single"
+                android:checked="false"
                 android:title="@string/order_date_descending" />
         </menu>
     </item>
