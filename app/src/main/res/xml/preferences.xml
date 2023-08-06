@@ -2,17 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="user_interface_category"
-        android:title="User interface">
+        android:title="@string/user_interface">
 
         <ListPreference
             android:entries="@array/languages_entries"
             android:entryValues="@array/languages_values"
             android:key="language"
-            android:title="Language" />
+            android:title="@string/language" />
 
         <SwitchPreferenceCompat
             android:key="dark_mode"
-            android:title="Dark mode" />
+            android:title="@string/dark_mode" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -21,7 +21,7 @@
 
         <Preference
             android:key="logout"
-            android:title="Logout" />
+            android:title="@string/logout" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -61,4 +61,7 @@
     <string name="sign_in_msg">Bentornato, %1$s</string>
     <string name="sign_up_msg">Benvenuto, %1$s</string>
     <string name="close_app">Sei sicuro di voler chiudere l\'applicazione %1$s?</string>
+    <string name="user_interface">Interfaccia utente</string>
+    <string name="language">Lingua</string>
+    <string name="dark_mode">Modalità scura</string>
 </resources>

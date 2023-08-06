@@ -83,5 +83,8 @@
 
     <!--> Activities popup<-->
     <string name="close_app">Are you sure you want to quit %1$s application?</string>
+    <string name="user_interface">User interface</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark mode</string>
 
 </resources>
