@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.Query;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
@@ -32,7 +31,6 @@ public class HomeFragment extends Fragment implements MenuProvider {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        requireActivity().addMenuProvider(this);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.home));
@@ -40,8 +38,8 @@ public class HomeFragment extends Fragment implements MenuProvider {
         RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         FirestoreRecyclerOptions<Category> options = new FirestoreRecyclerOptions.Builder<Category>()
-                .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUser(null,
-                        Query.Direction.ASCENDING), Category.class)
+                .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByAscendingName(),
+                        Category.class)
                 .build();
         categoriesAdapter = new CategoriesAdapter(options, getParentFragmentManager());
         recyclerView.setAdapter(categoriesAdapter);
@@ -51,14 +49,15 @@ public class HomeFragment extends Fragment implements MenuProvider {
     @Override
     public void onStart() {
         super.onStart();
+        requireActivity().addMenuProvider(this);
         categoriesAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        categoriesAdapter.stopListening();
         requireActivity().removeMenuProvider(this);
+        categoriesAdapter.stopListening();
     }
 
     @Override
@@ -71,7 +70,36 @@ public class HomeFragment extends Fragment implements MenuProvider {
         if (menuItem.getItemId() == R.id.add_category) {
             AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
             addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
-        } //TODO handle ordering options
+            return true;
+        }
+        if (menuItem.getItemId() == R.id.name_ascending) {
+            categoriesAdapter.updateOptions(new FirestoreRecyclerOptions.Builder<Category>()
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByAscendingName(),
+                            Category.class)
+                    .build());
+            return true;
+        }
+        if (menuItem.getItemId() == R.id.name_descending) {
+            categoriesAdapter.updateOptions(new FirestoreRecyclerOptions.Builder<Category>()
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDescendingName(),
+                            Category.class)
+                    .build());
+            return true;
+        }
+        if (menuItem.getItemId() == R.id.date_ascending) {
+            categoriesAdapter.updateOptions(new FirestoreRecyclerOptions.Builder<Category>()
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByAscendingDate(),
+                            Category.class)
+                    .build());
+            return true;
+        }
+        if (menuItem.getItemId() == R.id.date_descending) {
+            categoriesAdapter.updateOptions(new FirestoreRecyclerOptions.Builder<Category>()
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDescendingDate(),
+                            Category.class)
+                    .build());
+            return true;
+        }
         return false;
     }
 

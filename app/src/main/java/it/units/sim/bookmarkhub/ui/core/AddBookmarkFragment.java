@@ -20,8 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.firebase.firestore.Query;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -104,8 +102,6 @@ public class AddBookmarkFragment extends Fragment {
 
     private void fetchSpinnerValues() {
         new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
-                "category_name",
-                Query.Direction.ASCENDING,
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {

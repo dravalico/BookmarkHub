@@ -22,19 +22,36 @@ import it.units.sim.bookmarkhub.model.Category;
 public class FirebaseCategoryHelper {
     private static final String CATEGORIES_COLLECTION_NAME = "categories";
 
-    public static Query getQueryForCategoriesListOfCurrentUser(String orderBy, Query.Direction direction) {
-        if (orderBy == null || orderBy.equals("")) {
-            orderBy = "category_name";
-        }
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByAscendingName() {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
         return collectionRef.whereEqualTo("user_id",
-                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-        //.orderBy(orderBy, direction);
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("category_name", Query.Direction.ASCENDING);
     }
 
-    public static void getCategoriesListOfCurrentUser(String orderBy, Query.Direction direction, CategoriesCallback
-            callback) {
-        getQueryForCategoriesListOfCurrentUser(orderBy, direction).addSnapshotListener((value, error) -> {
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDescendingName() {
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
+        return collectionRef.whereEqualTo("user_id",
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("category_name", Query.Direction.DESCENDING);
+    }
+
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByAscendingDate() {
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
+        return collectionRef.whereEqualTo("user_id",
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("creation_date", Query.Direction.ASCENDING);
+    }
+
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDescendingDate() {
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
+        return collectionRef.whereEqualTo("user_id",
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .orderBy("creation_date", Query.Direction.DESCENDING);
+    }
+
+    public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
+        getQueryForCategoriesListOfCurrentUserOrderedByAscendingName().addSnapshotListener((value, error) -> {
             if (error != null) {
                 callback.onError(R.string.categories_retrieve_failure);
             }

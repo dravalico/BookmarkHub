@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.firebase.firestore.Query;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,8 +74,6 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
         new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
-                "category_name",
-                Query.Direction.ASCENDING,
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
