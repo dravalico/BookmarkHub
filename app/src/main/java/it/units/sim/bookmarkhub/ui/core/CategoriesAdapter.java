@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.text.DateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
@@ -36,6 +38,9 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
     protected void onBindViewHolder(@NonNull CategoriesViewHolder holder, int position, @NonNull Category model) {
         holder.itemTextView.setText(model.name);
         holder.itemTextView.setClickable(false);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault());
+        String dateAsString = dateFormat.format(model.creationDate);
+        holder.dateTextView.setText(dateAsString);
         holder.cardView.setOnClickListener(view -> {
             CategoryEntriesFragment fragment = new CategoryEntriesFragment();
             Bundle args = new Bundle();
@@ -100,12 +105,14 @@ public class CategoriesAdapter extends FirestoreRecyclerAdapter<Category, Catego
     static class CategoriesViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
         public final TextView itemTextView;
+        public final TextView dateTextView;
         public final ImageButton menuImageButton;
 
         CategoriesViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
             itemTextView = itemView.findViewById(R.id.category_item_text_view);
+            dateTextView = itemView.findViewById(R.id.category_date_text_view);
             menuImageButton = itemView.findViewById(R.id.menu_image_button);
         }
     }
