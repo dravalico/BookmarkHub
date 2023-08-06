@@ -5,6 +5,8 @@
         android:title="User interface">
 
         <ListPreference
+            android:entries="@array/languages_entries"
+            android:entryValues="@array/languages_values"
             android:key="language"
             android:title="Language" />
 

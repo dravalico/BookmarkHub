@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -20,20 +19,23 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
+import it.units.sim.bookmarkhub.ui.core.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_enabled", false);
+        SettingsFragment.updateDarkMode(isDarkModeEnabled);
+        String language = sharedPreferences.getString("actual_language", "en");
+        SettingsFragment.updateLanguage(language, this);
         setContentView(R.layout.activity_main);
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
             startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
             finish(); // TODO review this... why is it working?
         }
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_enabled", false);
-        updateDarkMode(isDarkModeEnabled);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setBackButtonBehaviour();
@@ -42,14 +44,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    }
-
-    private static void updateDarkMode(boolean isDarkModeEnabled) {
-        if (isDarkModeEnabled) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private void setBackButtonBehaviour() {

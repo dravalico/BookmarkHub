@@ -1,7 +1,9 @@
 package it.units.sim.bookmarkhub.ui.core;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
@@ -49,19 +52,34 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if (key.equals("dark_mode")) {
             boolean isDarkModeEnabled = sharedPreferences.getBoolean(key, false);
             updateDarkMode(isDarkModeEnabled);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("dark_mode_enabled", isDarkModeEnabled);
-            editor.apply();
+            requireActivity().recreate();
+            sharedPreferences.edit()
+                    .putBoolean("dark_mode_enabled", isDarkModeEnabled)
+                    .apply();
+        }
+        if (key.equals("language")) {
+            String language = sharedPreferences.getString(key, "en");
+            updateLanguage(language, requireContext());
+            requireActivity().recreate();
+            sharedPreferences.edit()
+                    .putString("actual_language", language)
+                    .apply();
         }
     }
 
-    private void updateDarkMode(boolean isDarkModeEnabled) {
+    public static void updateLanguage(String language, Context context) {
+        Locale locale = new Locale(language);
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.locale = locale;
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+    }
+
+    public static void updateDarkMode(boolean isDarkModeEnabled) {
         if (isDarkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        requireActivity().recreate();
     }
 
     private void setOnClickLogoutPreference(Preference logoutPreference) {
