@@ -2,6 +2,7 @@ package it.units.sim.bookmarkhub.ui.core;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,11 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            category = (Category) getArguments().getSerializable(ARG); // TODO find an alternative
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                category = getArguments().getSerializable(ARG, Category.class);
+            } else {
+                category = (Category) getArguments().getSerializable(ARG);
+            }
         }
     }
 

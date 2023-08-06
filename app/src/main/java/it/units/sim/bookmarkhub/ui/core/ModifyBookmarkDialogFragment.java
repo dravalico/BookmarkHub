@@ -3,6 +3,7 @@ package it.units.sim.bookmarkhub.ui.core;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,11 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            bookmark = (Bookmark) getArguments().getSerializable(ARG); // TODO find an alternative
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                bookmark = getArguments().getSerializable(ARG, Bookmark.class);
+            } else {
+                bookmark = (Bookmark) getArguments().getSerializable(ARG);
+            }
         }
     }
 
