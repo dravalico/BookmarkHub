@@ -7,8 +7,7 @@
     android:layout_marginTop="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginBottom="2dp"
-    android:padding="10dp"
-    app:cardBackgroundColor="@color/card_view_color">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
