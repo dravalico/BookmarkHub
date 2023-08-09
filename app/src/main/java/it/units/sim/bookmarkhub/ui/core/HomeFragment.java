@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         FirestoreRecyclerOptions<Category> options = getQueryBasedOnSelectedSortingOption(lastSortOption);
         categoriesAdapter = new CategoriesAdapter(options, getParentFragmentManager());
         recyclerView.setAdapter(categoriesAdapter);
-        FloatingActionButton addCategoryButton = view.findViewById(R.id.add_category_button1);
+        FloatingActionButton addCategoryButton = view.findViewById(R.id.open_category_dialog_button);
         addCategoryButton.setOnClickListener(view1 -> {
             AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
             addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);

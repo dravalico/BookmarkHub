@@ -37,7 +37,6 @@
         android:layout_margin="10dp"
         android:gravity="center_horizontal"
         android:text="@string/create_an_account"
-        android:textColor="#18206F"
         android:textSize="16sp" />
 
 </LinearLayout>
