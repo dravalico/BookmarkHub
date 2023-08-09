@@ -69,6 +69,7 @@
     <string name="confirm_bookmark_deletion">Are you sure you want to delete this bookmark?</string>
     <string name="bookmark_modified">Bookmark modified successfully</string>
     <string name="category_modified">Category modified successfully</string>
+    <string name="modify_category">Change the name of your category</string>
     <string name="bookmark_modification_error">"You have to modify at least one field"</string>
     <string name="category_modification_error">"You have to modify the name"</string>
     <string name="select_language">Select language</string>
@@ -86,5 +87,6 @@
     <string name="user_interface">User interface</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark mode</string>
+    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

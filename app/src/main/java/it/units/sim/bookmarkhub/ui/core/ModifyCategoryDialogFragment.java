@@ -59,7 +59,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
     @NonNull
     private AlertDialog createDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("")
+        builder.setTitle(R.string.modify_category)
                 .setView(view)
                 .setPositiveButton(R.string.confirm_dialog, null)
                 .setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
