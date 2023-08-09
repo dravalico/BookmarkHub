@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/add_category"
-        android:icon="@drawable/add_category_menu_icon"
-        android:orderInCategory="100"
-        android:title=""
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_options"
         android:icon="@drawable/sort_icon"
         android:orderInCategory="200"

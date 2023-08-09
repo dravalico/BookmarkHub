@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
@@ -54,6 +55,11 @@ public class HomeFragment extends Fragment implements MenuProvider {
         FirestoreRecyclerOptions<Category> options = getQueryBasedOnSelectedSortingOption(lastSortOption);
         categoriesAdapter = new CategoriesAdapter(options, getParentFragmentManager());
         recyclerView.setAdapter(categoriesAdapter);
+        FloatingActionButton addCategoryButton = view.findViewById(R.id.add_category_button1);
+        addCategoryButton.setOnClickListener(view1 -> {
+            AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
+            addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
+        });
         return view;
     }
 
@@ -88,11 +94,6 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.add_category) {
-            AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
-            addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
-            return true;
-        }
         if (menuItem.getItemId() == R.id.name_ascending) {
             lastSortOption = R.id.name_ascending;
             setMenuItemChecked(menuItem);
