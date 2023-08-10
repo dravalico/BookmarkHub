@@ -70,6 +70,7 @@
     <string name="bookmark_modified">Bookmark modified successfully</string>
     <string name="category_modified">Category modified successfully</string>
     <string name="modify_category">Change the name of your category</string>
+    <string name="modify_bookmark">Change data of your bookmark</string>
     <string name="bookmark_modification_error">"You have to modify at least one field"</string>
     <string name="category_modification_error">"You have to modify the name"</string>
     <string name="select_language">Select language</string>
