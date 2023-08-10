@@ -54,7 +54,8 @@ public class SignInFragment extends Fragment {
 
                     @Override
                     public void onFailure(int errorStringId) {
-                        Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
+                        requireActivity().runOnUiThread(() ->
+                                Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show());
                     }
                 })).start();
     }
