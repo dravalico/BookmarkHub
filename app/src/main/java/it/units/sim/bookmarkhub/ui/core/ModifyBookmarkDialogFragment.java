@@ -82,7 +82,10 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
-                        spinnerAdapter.addAll(category.stream().map(c -> c.name).collect(Collectors.toList()));
+                        spinnerAdapter.clear();
+                        spinnerAdapter.addAll(category.stream()
+                                .map(c -> c.name)
+                                .collect(Collectors.toList()));
                     }
 
                     @Override
@@ -97,7 +100,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     @NonNull
     private AlertDialog createDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setTitle("");
+        builder.setTitle(R.string.modify_bookmark);
         builder.setView(view).setPositiveButton(R.string.confirm_dialog, null).setNegativeButton(R.string.cancel_dialog, (dialog, id) -> dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> setBehaviourOfPositiveButton(alertDialog));
@@ -113,18 +116,20 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 bookmark.name = nameEditText.getText().toString();
                 bookmark.url = urlEditText.getText().toString();
                 bookmark.additionalData = additionalDataEditText.getText().toString();
-                new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(bookmark, new FirebaseBookmarkHelper.BookmarkCallback() {
-                    @Override
-                    public void onSuccess(List<Bookmark> bookmark) {
-                        Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
-                        dismiss();
-                    }
+                new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(
+                        bookmark,
+                        new FirebaseBookmarkHelper.BookmarkCallback() {
+                            @Override
+                            public void onSuccess(List<Bookmark> bookmark) {
+                                Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
+                                dismiss();
+                            }
 
-                    @Override
-                    public void onError(int errorStringId) {
-                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
-                    }
-                })).start();
+                            @Override
+                            public void onError(int errorStringId) {
+                                Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
+                            }
+                        })).start();
             }
         });
     }

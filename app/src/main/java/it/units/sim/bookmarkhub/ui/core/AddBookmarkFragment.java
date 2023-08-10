@@ -105,6 +105,7 @@ public class AddBookmarkFragment extends Fragment {
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
                     public void onSuccess(List<Category> category) {
+                        spinnerAdapter.clear();
                         spinnerAdapter.addAll(category.stream()
                                 .map(c -> c.name)
                                 .collect(Collectors.toList()));
