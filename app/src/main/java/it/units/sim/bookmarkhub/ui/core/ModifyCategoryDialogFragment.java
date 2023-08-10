@@ -79,7 +79,8 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                 categoryNew.userId = category.userId;
                 categoryNew.name = nameEditText.getText().toString();
                 new Thread(() -> FirebaseCategoryHelper.modifyCategoryName(
-                        category, categoryNew,
+                        category,
+                        categoryNew,
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
                             public void onSuccess(List<Category> category) {
