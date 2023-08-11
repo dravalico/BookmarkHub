@@ -8,7 +8,8 @@
             android:entries="@array/languages_entries"
             android:entryValues="@array/languages_values"
             android:key="language"
-            android:title="@string/language" />
+            android:title="@string/language"
+            android:defaultValue="en"/>
 
         <SwitchPreferenceCompat
             android:key="dark_mode"
