@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         SettingsFragment.updateLanguage(language, this);
         setContentView(R.layout.activity_main);
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
-            finish();
             startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
+            finish();
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

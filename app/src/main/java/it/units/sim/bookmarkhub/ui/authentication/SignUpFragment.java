@@ -53,8 +53,8 @@ public class SignUpFragment extends Fragment {
                     public void onSuccess() {
                         String msg = getString(R.string.sign_up_msg, usernameEditText.getText().toString());
                         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-                        requireActivity().finish();
                         startActivity(new Intent(requireActivity(), MainActivity.class));
+                        requireActivity().finish();
                     }
 
                     @Override

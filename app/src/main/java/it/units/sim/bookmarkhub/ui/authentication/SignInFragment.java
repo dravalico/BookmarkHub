@@ -49,8 +49,8 @@ public class SignInFragment extends Fragment {
                         String username = FirebaseAuthenticationHelper.getCurrentUserUsername();
                         String msg = getString(R.string.sign_in_msg, username);
                         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-                        requireActivity().finish();
                         startActivity(new Intent(requireActivity(), MainActivity.class));
+                        requireActivity().finish();
                     }
 
                     @Override
