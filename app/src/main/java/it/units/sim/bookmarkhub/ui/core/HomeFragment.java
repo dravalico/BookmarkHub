@@ -124,24 +124,29 @@ public class HomeFragment extends Fragment implements MenuProvider {
     private static FirestoreRecyclerOptions<Category> getQueryBasedOnSelectedSortingOption(int sortOption) {
         if (sortOption == R.id.name_descending) {
             return new FirestoreRecyclerOptions.Builder<Category>()
-                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDescendingName(),
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByName(
+                                    FirebaseCategoryHelper.Order.DESCENDING),
                             Category.class)
                     .build();
         }
         if (sortOption == R.id.date_ascending) {
             return new FirestoreRecyclerOptions.Builder<Category>()
-                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByAscendingDate(),
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDate(
+                                    FirebaseCategoryHelper.Order.ASCENDING),
                             Category.class)
                     .build();
         }
         if (sortOption == R.id.date_descending) {
             return new FirestoreRecyclerOptions.Builder<Category>()
-                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDescendingDate(),
+                    .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByDate(
+                                    FirebaseCategoryHelper.Order.DESCENDING),
                             Category.class)
                     .build();
         }
         return new FirestoreRecyclerOptions.Builder<Category>()
-                .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByAscendingName(),
+                .setQuery(FirebaseCategoryHelper.getQueryForCategoriesListOfCurrentUserOrderedByName(
+                                FirebaseCategoryHelper.Order.ASCENDING
+                        ),
                         Category.class)
                 .build();
     }

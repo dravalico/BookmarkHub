@@ -21,55 +21,48 @@ import it.units.sim.bookmarkhub.model.Category;
 
 public class FirebaseCategoryHelper {
     private static final String CATEGORIES_COLLECTION_NAME = "categories";
+    private static final String USER_ID_FIELD = "user_id";
+    private static final String CATEGORY_NAME_FIELD = "category_name";
+    private static final String CATEGORY_FOREIGN_KEY_FIELD = "category";
 
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByAscendingName() {
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo("user_id",
-                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("category_name", Query.Direction.ASCENDING);
+    public enum Order {
+        ASCENDING, DESCENDING
     }
 
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDescendingName() {
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByName(Order order) {
+        Query.Direction direction = order == Order.ASCENDING ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo("user_id",
+        return collectionRef.whereEqualTo(USER_ID_FIELD,
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("category_name", Query.Direction.DESCENDING);
+                .orderBy(CATEGORY_NAME_FIELD, direction);
     }
 
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByAscendingDate() {
+    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDate(Order order) {
+        Query.Direction direction = order == Order.ASCENDING ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo("user_id",
+        return collectionRef.whereEqualTo(USER_ID_FIELD,
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("creation_date", Query.Direction.ASCENDING);
-    }
-
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDescendingDate() {
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo("user_id",
-                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("creation_date", Query.Direction.DESCENDING);
+                .orderBy("creation_date", direction);
     }
 
     public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
-        getQueryForCategoriesListOfCurrentUserOrderedByAscendingName().addSnapshotListener((value, error) -> {
+        getQueryForCategoriesListOfCurrentUserOrderedByDate(Order.ASCENDING).addSnapshotListener((value, error) -> {
             if (error != null) {
                 callback.onError(R.string.categories_retrieve_failure);
             }
             if (value != null) {
-                callback.onSuccess(
-                        value.getDocuments()
-                                .stream()
-                                .map(s1 -> s1.toObject(Category.class))
-                                .collect(Collectors.toList()));
+                callback.onSuccess(value.getDocuments()
+                        .stream()
+                        .map(s1 -> s1.toObject(Category.class))
+                        .collect(Collectors.toList()));
             }
         });
     }
 
     public static void addNewCategoryIfNotAlreadySaved(String categoryName, CategoriesCallback callback) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        Task<QuerySnapshot> queryTask = collectionRef
-                .whereEqualTo("category_name", categoryName)
-                .whereEqualTo("user_id", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+        Task<QuerySnapshot> queryTask = collectionRef.whereEqualTo(CATEGORY_NAME_FIELD, categoryName)
+                .whereEqualTo(USER_ID_FIELD, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .get();
         queryTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -103,7 +96,7 @@ public class FirebaseCategoryHelper {
             DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(category.id);
             transaction.delete(categoryRef);
             Query query = db.collection(FirebaseBookmarkHelper.BOOKMARKS_COLLECTION_NAME)
-                    .whereEqualTo("category", category.name);
+                    .whereEqualTo(CATEGORY_FOREIGN_KEY_FIELD, category.name);
             QuerySnapshot querySnapshot = null;
             try {
                 querySnapshot = Tasks.await(query.get());
@@ -126,9 +119,9 @@ public class FirebaseCategoryHelper {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<Void> transactionTask = db.runTransaction(transaction -> {
             DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(categoryNew.id);
-            transaction.update(categoryRef, "category_name", categoryNew.name);
+            transaction.update(categoryRef, CATEGORY_NAME_FIELD, categoryNew.name);
             Query query = db.collection(FirebaseBookmarkHelper.BOOKMARKS_COLLECTION_NAME)
-                    .whereEqualTo("category", categoryOld.name);
+                    .whereEqualTo(CATEGORY_FOREIGN_KEY_FIELD, categoryOld.name);
             QuerySnapshot querySnapshot = null;
             try {
                 querySnapshot = Tasks.await(query.get());
@@ -138,7 +131,7 @@ public class FirebaseCategoryHelper {
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                 DocumentReference documentRef = document.getReference();
-                transaction.update(documentRef, "category", categoryNew.name);
+                transaction.update(documentRef, CATEGORY_FOREIGN_KEY_FIELD, categoryNew.name);
             }
             return null;
         });
