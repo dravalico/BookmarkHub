@@ -66,4 +66,5 @@
     <string name="dark_mode">Modalità scura</string>
     <string name="modify_category">Cambio del nome della categoria</string>
     <string name="modify_bookmark">Cambio dei dati del segnalibro</string>
+    <string name="auth_view_sentence">Il luogo dove puoi memorizzare tutti i tuoi segnalibri. Accedi o Registrati.</string>
 </resources>

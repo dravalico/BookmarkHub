@@ -88,6 +88,8 @@
     <string name="user_interface">User interface</string>
     <string name="language">Language</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="app_logo_description" translatable="false">App logo</string>
+    <string name="auth_view_sentence">The place where you can store all your bookmarks.\nLogin or register.</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
