@@ -14,23 +14,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
-import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
+import it.units.sim.bookmarkhub.ui.MainViewModel;
 
 public class AddBookmarkFragment extends Fragment {
     private NavController navController;
@@ -40,6 +39,7 @@ public class AddBookmarkFragment extends Fragment {
     private ArrayAdapter<String> spinnerAdapter;
     private Spinner spinner;
     private Button addBookmarkButton;
+    private MainViewModel mainViewModel;
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,6 +73,12 @@ public class AddBookmarkFragment extends Fragment {
     };
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
@@ -84,7 +90,7 @@ public class AddBookmarkFragment extends Fragment {
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        fetchSpinnerValues();
+        spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
@@ -100,25 +106,18 @@ public class AddBookmarkFragment extends Fragment {
         return view;
     }
 
-    private void fetchSpinnerValues() {
-        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
-                new FirebaseCategoryHelper.CategoriesCallback() {
-                    @Override
-                    public void onSuccess(List<Category> category) {
-                        spinnerAdapter.clear();
-                        spinnerAdapter.addAll(category.stream()
-                                .map(c -> c.name)
-                                .collect(Collectors.toList()));
-                    }
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        mainViewModel.categoriesList().observe(getViewLifecycleOwner(), strings -> {
+            spinnerAdapter.clear();
+            spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
+        });
+    }
 
-                    @Override
-                    public void onError(int errorStringId) {
-                        if (FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
-                            Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-        ).start();
+    public void clearViewAndOpenHomeFragment() {
+        resetEditTextViews();
+        Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
+        navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
     }
 
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
@@ -144,12 +143,6 @@ public class AddBookmarkFragment extends Fragment {
                 Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void clearViewAndOpenHomeFragment() {
-        resetEditTextViews();
-        Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
-        navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
     }
 
     private void resetEditTextViews() {
