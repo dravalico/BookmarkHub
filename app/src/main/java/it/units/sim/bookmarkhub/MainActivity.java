@@ -28,18 +28,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_enabled", false);
         SettingsFragment.updateDarkMode(isDarkModeEnabled);
         String language = sharedPreferences.getString("actual_language", "en");
         SettingsFragment.updateLanguage(language, this);
-        setContentView(R.layout.activity_main);
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
             startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
             finish();
         }
-        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.fetchCategories(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setBackButtonBehaviour();
@@ -48,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.fetchCategories();
     }
 
     private void setBackButtonBehaviour() {

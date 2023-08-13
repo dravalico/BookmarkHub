@@ -1,5 +1,9 @@
 package it.units.sim.bookmarkhub.repository;
 
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,22 +28,22 @@ public class FirebaseCategoryHelper {
     private static final String CATEGORY_NAME_FIELD = "category_name";
     private static final String CATEGORY_FOREIGN_KEY_FIELD = "category";
 
-    public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
+    public static void getCategoriesListOfCurrentUser(MutableLiveData<List<Category>> categoriesLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .whereEqualTo(USER_ID_FIELD,
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        callback.onError(R.string.categories_retrieve_failure);
+                        Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve categories list");
                     }
                     if (value != null) {
-                        callback.onSuccess(value.getDocuments()
+                        categoriesLiveData.postValue(value.getDocuments()
                                 .stream()
                                 .map(s1 -> s1.toObject(Category.class))
                                 .collect(Collectors.toList()));
                     }
-                }); // TODO maybe remove the observer?
+                });
     }
 
     public static void addNewCategoryIfNotAlreadySaved(String categoryName, CategoriesCallback callback) {
