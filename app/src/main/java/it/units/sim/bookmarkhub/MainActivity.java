@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -18,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
+import it.units.sim.bookmarkhub.ui.MainViewModel;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 import it.units.sim.bookmarkhub.ui.core.SettingsFragment;
 
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
             finish();
         }
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.fetchCategories(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setBackButtonBehaviour();
