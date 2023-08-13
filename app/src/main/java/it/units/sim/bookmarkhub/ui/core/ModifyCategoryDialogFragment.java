@@ -83,7 +83,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                         categoryNew,
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
-                            public void onSuccess(List<Category> category) {
+                            public void onSuccess(List<Category> categories) {
                                 Toast.makeText(requireContext(), R.string.category_modified, Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }

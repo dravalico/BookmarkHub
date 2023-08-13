@@ -50,7 +50,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
                         nameEditText.getText().toString(),
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
-                            public void onSuccess(List<Category> category) {
+                            public void onSuccess(List<Category> categories) {
                                 Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }

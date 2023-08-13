@@ -3,7 +3,6 @@ package it.units.sim.bookmarkhub.repository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,57 +24,42 @@ public class FirebaseCategoryHelper {
     private static final String CATEGORY_NAME_FIELD = "category_name";
     private static final String CATEGORY_FOREIGN_KEY_FIELD = "category";
 
-    public enum Order {
-        ASCENDING, DESCENDING
-    }
-
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByName(Order order) {
-        Query.Direction direction = order == Order.ASCENDING ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo(USER_ID_FIELD,
-                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy(CATEGORY_NAME_FIELD, direction);
-    }
-
-    public static Query getQueryForCategoriesListOfCurrentUserOrderedByDate(Order order) {
-        Query.Direction direction = order == Order.ASCENDING ? Query.Direction.ASCENDING : Query.Direction.DESCENDING;
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        return collectionRef.whereEqualTo(USER_ID_FIELD,
-                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy("creation_date", direction);
-    }
-
     public static void getCategoriesListOfCurrentUser(CategoriesCallback callback) {
-        getQueryForCategoriesListOfCurrentUserOrderedByDate(Order.ASCENDING).addSnapshotListener((value, error) -> {
-            if (error != null) {
-                callback.onError(R.string.categories_retrieve_failure);
-            }
-            if (value != null) {
-                callback.onSuccess(value.getDocuments()
-                        .stream()
-                        .map(s1 -> s1.toObject(Category.class))
-                        .collect(Collectors.toList()));
-            }
-        });
+        FirebaseFirestore.getInstance()
+                .collection(CATEGORIES_COLLECTION_NAME)
+                .whereEqualTo(USER_ID_FIELD,
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        callback.onError(R.string.categories_retrieve_failure);
+                    }
+                    if (value != null) {
+                        callback.onSuccess(value.getDocuments()
+                                .stream()
+                                .map(s1 -> s1.toObject(Category.class))
+                                .collect(Collectors.toList()));
+                    }
+                }); // TODO maybe remove the observer?
     }
 
     public static void addNewCategoryIfNotAlreadySaved(String categoryName, CategoriesCallback callback) {
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(CATEGORIES_COLLECTION_NAME);
-        Task<QuerySnapshot> queryTask = collectionRef.whereEqualTo(CATEGORY_NAME_FIELD, categoryName)
+        FirebaseFirestore.getInstance()
+                .collection(CATEGORIES_COLLECTION_NAME)
+                .whereEqualTo(CATEGORY_NAME_FIELD, categoryName)
                 .whereEqualTo(USER_ID_FIELD, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .get();
-        queryTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                    callback.onError(R.string.duplicated_category);
-                } else {
-                    addNewCategory(categoryName, callback);
-                }
-            } else {
-                callback.onError(R.string.add_category_failure);
-            }
-        });
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            callback.onError(R.string.duplicated_category);
+                        } else {
+                            addNewCategory(categoryName, callback);
+                        }
+                    } else {
+                        callback.onError(R.string.add_category_failure);
+                    }
+                });
     }
 
     private static void addNewCategory(String categoryName, CategoriesCallback callback) {
@@ -142,7 +126,7 @@ public class FirebaseCategoryHelper {
 
 
     public interface CategoriesCallback {
-        void onSuccess(List<Category> category);
+        void onSuccess(List<Category> categories);
 
         void onError(int errorStringId);
     }

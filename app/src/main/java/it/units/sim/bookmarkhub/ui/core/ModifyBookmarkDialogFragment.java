@@ -81,9 +81,9 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
                 new FirebaseCategoryHelper.CategoriesCallback() {
                     @Override
-                    public void onSuccess(List<Category> category) {
+                    public void onSuccess(List<Category> categories) {
                         spinnerAdapter.clear();
-                        spinnerAdapter.addAll(category.stream()
+                        spinnerAdapter.addAll(categories.stream()
                                 .map(c -> c.name)
                                 .collect(Collectors.toList()));
                     }
