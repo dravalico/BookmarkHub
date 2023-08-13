@@ -16,17 +16,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
-import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
+import it.units.sim.bookmarkhub.ui.MainViewModel;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
@@ -35,7 +33,9 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private EditText nameEditText;
     private EditText urlEditText;
     private EditText additionalDataEditText;
+    private Spinner spinner;
     private ArrayAdapter<String> spinnerAdapter;
+    private MainViewModel mainViewModel;
 
     public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark) {
         ModifyBookmarkDialogFragment fragment = new ModifyBookmarkDialogFragment();
@@ -55,6 +55,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 bookmark = (Bookmark) getArguments().getSerializable(ARG);
             }
         }
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @NonNull
@@ -66,7 +67,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
         additionalDataEditText = view.findViewById(R.id.bookmark_data_edit_text);
-        Spinner spinner = view.findViewById(R.id.bookmark_category_spinner);
+        spinner = view.findViewById(R.id.bookmark_category_spinner);
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
@@ -78,23 +79,12 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         nameEditText.setText(bookmark.name);
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
-        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(
-                new FirebaseCategoryHelper.CategoriesCallback() {
-                    @Override
-                    public void onSuccess(List<Category> categories) {
-                        spinnerAdapter.clear();
-                        spinnerAdapter.addAll(categories.stream()
-                                .map(c -> c.name)
-                                .collect(Collectors.toList()));
-                    }
-
-                    @Override
-                    public void onError(int errorStringId) {
-                        if (FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
-                            Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })).start();
+        List<String> categories = mainViewModel.getCategoriesNamesList();
+        spinnerAdapter.addAll(categories);
+        int defaultPosition = categories.indexOf(bookmark.category);
+        if (defaultPosition != -1) {
+            spinner.setSelection(defaultPosition);
+        }
     }
 
     @NonNull
@@ -110,12 +100,16 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(view -> {
-            if ((nameEditText.getText().toString().equals(bookmark.name)) && (urlEditText.getText().toString().equals(bookmark.url)) && (additionalDataEditText.getText().toString().equals(bookmark.additionalData))) {
+            if ((nameEditText.getText().toString().equals(bookmark.name))
+                    && (urlEditText.getText().toString().equals(bookmark.url))
+                    && (additionalDataEditText.getText().toString().equals(bookmark.additionalData))
+                    && (spinner.getSelectedItem().toString().equals(bookmark.category))) {
                 Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
             } else { //TODO check if name and data aren't too long and if is a valid URL
                 bookmark.name = nameEditText.getText().toString();
                 bookmark.url = urlEditText.getText().toString();
                 bookmark.additionalData = additionalDataEditText.getText().toString();
+                bookmark.category = spinner.getSelectedItem().toString();
                 new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(
                         bookmark,
                         new FirebaseBookmarkHelper.BookmarkCallback() {
