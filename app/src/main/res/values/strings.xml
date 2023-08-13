@@ -10,8 +10,10 @@
     <string name="already_member_sign_in">Already member? Sign in</string>
     <string name="sign_in">Sign In</string>
     <string name="create_an_account">Create an account</string>
+    <string name="app_logo_description" translatable="false">App logo</string>
+    <string name="auth_view_sentence">The place where you can store all your bookmarks.\nLogin or register.</string>
 
-    <!--> Bottom menu and settings <-->
+    <!--> Bottom menu<-->
     <string name="home" translatable="false">Home</string>
     <string name="add_bookmark">Add bookmark</string>
     <string name="add_category">Add category</string>
@@ -30,6 +32,17 @@
     <string name="order_date_descending">Order date descending</string>
     <string name="ordering">Ordering</string>
     <string name="category_name">Category name</string>
+
+    <!--> Settings <-->
+    <string name="user_interface">User interface</string>
+    <string name="language">Language</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="select_language">Select language</string>
+    <string name="night_mode">Night mode</string>
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Italian</item>
+    </string-array>
 
     <!--> Firebase authentication errors<-->
     <string name="sign_up_failure">Sign up failed</string>
@@ -73,23 +86,9 @@
     <string name="modify_bookmark">Change data of your bookmark</string>
     <string name="bookmark_modification_error">"You have to modify at least one field"</string>
     <string name="category_modification_error">"You have to modify the name"</string>
-    <string name="select_language">Select language</string>
-    <string name="night_mode">Night mode</string>
-    <string-array name="language_options">
-        <item>English</item>
-        <item>Italian</item>
-    </string-array>
+
     <string name="logout_msg">Goodbye, %1$s</string>
     <string name="sign_in_msg">Welcome back, %1$s</string>
     <string name="sign_up_msg">Welcome, %1$s</string>
-
-    <!--> Activities popup<-->
     <string name="close_app">Are you sure you want to quit %1$s application?</string>
-    <string name="user_interface">User interface</string>
-    <string name="language">Language</string>
-    <string name="dark_mode">Dark mode</string>
-    <string name="app_logo_description" translatable="false">App logo</string>
-    <string name="auth_view_sentence">The place where you can store all your bookmarks.\nLogin or register.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-
 </resources>
