@@ -22,10 +22,6 @@ public class MainViewModel extends ViewModel {
         return categoriesList;
     }
 
-    public List<Category> getCategoriesList() {
-        return categoriesList.getValue();
-    }
-
     public List<String> getCategoriesNamesList() {
         return Objects.requireNonNull(categoriesList.getValue()).stream()
                 .map(c -> c.name)

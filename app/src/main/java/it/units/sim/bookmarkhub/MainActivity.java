@@ -21,7 +21,7 @@ import java.util.Objects;
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
 import it.units.sim.bookmarkhub.ui.MainViewModel;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
-import it.units.sim.bookmarkhub.ui.core.SettingsFragment;
+import it.units.sim.bookmarkhub.ui.core.fragment.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.fetchCategories();
+        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.fetchCategories();
     }
 
     private void setBackButtonBehaviour() {

@@ -6,12 +6,12 @@
     app:startDestination="@id/home_fragment_item">
     <fragment
         android:id="@+id/home_fragment_item"
-        android:name="it.units.sim.bookmarkhub.ui.core.HomeFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/add_bookmark_fragment_item"
-        android:name="it.units.sim.bookmarkhub.ui.core.AddBookmarkFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.fragment.AddBookmarkFragment"
         android:label="fragment_add_bookmark"
         tools:layout="@layout/fragment_add_bookmark">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/settings_fragment"
-        android:name="it.units.sim.bookmarkhub.ui.core.SettingsFragment"
+        android:name="it.units.sim.bookmarkhub.ui.core.fragment.SettingsFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_settings" />
 </navigation>

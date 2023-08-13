@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui.core;
+package it.units.sim.bookmarkhub.ui.core.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

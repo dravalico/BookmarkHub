@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui.core;
+package it.units.sim.bookmarkhub.ui.core.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +26,7 @@ import java.util.List;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
+import it.units.sim.bookmarkhub.ui.core.adapter.BookmarksAdapter;
 
 public class CategoryEntriesFragment extends Fragment implements MenuProvider {
     private static final String ARG = "category_name";

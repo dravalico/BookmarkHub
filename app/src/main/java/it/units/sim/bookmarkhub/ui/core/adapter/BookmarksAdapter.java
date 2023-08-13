@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui.core;
+package it.units.sim.bookmarkhub.ui.core.adapter;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -23,7 +23,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 
-public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, BookmarksAdapter.BookmarkViewHolder> {
+public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, BookmarksAdapter.ViewHolder> {
     private final Activity activity;
 
     public BookmarksAdapter(@NonNull FirestoreRecyclerOptions<Bookmark> options, Activity activity) {
@@ -32,10 +32,10 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position, @NonNull Bookmark model) {
-        holder.nameTextView.setText(model.name);
-        holder.additionalDataTextView.setText(model.additionalData);
-        Uri uri = Uri.parse(model.url);
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Bookmark bookmark) {
+        holder.nameTextView.setText(bookmark.name);
+        holder.additionalDataTextView.setText(bookmark.additionalData);
+        Uri uri = Uri.parse(bookmark.url);
         String scheme = uri.getScheme();
         String host = uri.getHost();
         Glide.with(activity)
@@ -48,24 +48,24 @@ public class BookmarksAdapter extends FirestoreRecyclerAdapter<Bookmark, Bookmar
                 .error(R.drawable.image_not_found)
                 .into(holder.faviconImageView);
         holder.cardView.setOnClickListener(v ->
-                new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(model.url))
+                new CustomTabsIntent.Builder().build().launchUrl(activity, Uri.parse(bookmark.url))
         );
     }
 
     @NonNull
     @Override
-    public BookmarkViewHolder onCreateViewHolder(@NonNull ViewGroup group, int i) {
-        View view = LayoutInflater.from(group.getContext()).inflate(R.layout.bookmark, group, false);
-        return new BookmarkViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bookmark, parent, false);
+        return new ViewHolder(view);
     }
 
-    static class BookmarkViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView cardView;
         public final TextView nameTextView;
         public final TextView additionalDataTextView;
         public final ImageView faviconImageView;
 
-        BookmarkViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card);
             nameTextView = itemView.findViewById(R.id.bookmark_name_text_view);

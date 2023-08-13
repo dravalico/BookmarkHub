@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui.core;
+package it.units.sim.bookmarkhub.ui.core.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -27,10 +27,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.ui.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.adapter.CategoriesAdapter;
 
 public class HomeFragment extends Fragment implements MenuProvider {
     private static final String PREF_LAST_SORT_OPTION = "last_sort_option";
@@ -88,7 +90,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         super.onViewCreated(view, savedInstanceState);
         mainViewModel.categoriesList().observe(getViewLifecycleOwner(), strings -> {
             categories.clear();
-            categories.addAll(mainViewModel.getCategoriesList());
+            categories.addAll(Objects.requireNonNull(mainViewModel.categoriesList().getValue()));
             sortCategories();
             categoriesAdapter.setCategoriesList(categories);
         });

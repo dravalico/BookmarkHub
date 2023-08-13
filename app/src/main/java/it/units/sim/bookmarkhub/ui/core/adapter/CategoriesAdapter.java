@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui.core;
+package it.units.sim.bookmarkhub.ui.core.adapter;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -23,6 +23,9 @@ import java.util.Locale;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
+import it.units.sim.bookmarkhub.ui.core.fragment.CategoryEntriesFragment;
+import it.units.sim.bookmarkhub.ui.core.fragment.ModifyBookmarkDialogFragment;
+import it.units.sim.bookmarkhub.ui.core.fragment.ModifyCategoryDialogFragment;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
     private List<Category> categories;
