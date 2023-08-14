@@ -38,13 +38,13 @@ import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 public class HomeFragment extends Fragment implements MenuProvider {
     private static final String PREF_LAST_SORT_OPTION = "last_sort_option";
     private MainViewModel mainViewModel;
-    private CategoriesAdapter categoriesAdapter;
     private List<Category> categories;
+    private CategoriesAdapter categoriesAdapter;
+    private RecyclerView recyclerView;
     private SharedPreferences sharedPreferences;
     private int lastOrderOption;
     private MenuItem lastSelectedItem;
     private TextView emptyHomeTextView;
-    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

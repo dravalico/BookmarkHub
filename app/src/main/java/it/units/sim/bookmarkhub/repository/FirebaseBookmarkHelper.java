@@ -27,15 +27,14 @@ public class FirebaseBookmarkHelper {
                 .addOnFailureListener(e -> callback.onError(R.string.add_bookmark_failure));
     }
 
-    public static Query getQueryForBookmarksListOfCurrentUser(String category) {
+    public static Query getQueryToRetrieveCategoryBookmarks(String category) {
         return FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .whereEqualTo("category", category)
                 .orderBy("bookmark_name");
     }
 
-    public static void fetchBookmarksOfCurrentUser(String categoryName,
-                                                   MutableLiveData<List<Bookmark>> bookmarksLiveData) {
+    public static void fetchBookmarks(String categoryName, MutableLiveData<List<Bookmark>> bookmarksLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .whereEqualTo("user_id",

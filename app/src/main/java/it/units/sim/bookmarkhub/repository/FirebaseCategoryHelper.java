@@ -28,7 +28,7 @@ public class FirebaseCategoryHelper {
     private static final String CATEGORY_NAME_FIELD = "category_name";
     private static final String CATEGORY_FOREIGN_KEY_FIELD = "category";
 
-    public static void getCategoriesListOfCurrentUser(MutableLiveData<List<Category>> categoriesLiveData) {
+    public static void fetchCategories(MutableLiveData<List<Category>> categoriesLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .whereEqualTo(USER_ID_FIELD,

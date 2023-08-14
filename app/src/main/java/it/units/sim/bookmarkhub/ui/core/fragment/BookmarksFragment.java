@@ -34,11 +34,11 @@ import it.units.sim.bookmarkhub.ui.core.viewmodel.BookmarksViewModel;
 public class BookmarksFragment extends Fragment implements MenuProvider {
     private static final String ARG = "category_name";
     private String categoryName;
+    private BookmarksViewModel bookmarksViewModel;
+    private List<Bookmark> bookmarks;
+    private BookmarksAdapter bookmarksAdapter;
     //private BookmarksAdapter bookmarksAdapter;
     private ActionBar actionBar;
-    private BookmarksViewModel bookmarksViewModel;
-    private BookmarksAdapter bookmarksAdapter;
-    private List<Bookmark> bookmarks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         RecyclerView recyclerView = view.findViewById(R.id.category_entries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         /*FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
-                .setQuery(FirebaseBookmarkHelper.getQueryForBookmarksListOfCurrentUser(category), Bookmark.class)
+                .setQuery(FirebaseBookmarkHelper.getQueryToRetrieveCategoryBookmarks(category), Bookmark.class)
                 .build();
         bookmarksAdapter = new BookmarksAdapter(options, requireActivity());*/
         bookmarksAdapter = new BookmarksAdapter(bookmarks, requireActivity());
@@ -95,6 +95,23 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
             bookmarks.addAll(Objects.requireNonNull(bookmarksViewModel.getBookmarksLiveData().getValue()));
             bookmarksAdapter.setBookmarksList(bookmarks);
         });
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        // Not used
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_nav_host_fragment, new HomeFragment())
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
     private void addSwipeListenerToRecyclerView(RecyclerView recyclerView) {
@@ -146,23 +163,6 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    @Override
-    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-        // Not used
-    }
-
-    @Override
-    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.main_nav_host_fragment, new HomeFragment())
-                    .addToBackStack(null)
-                    .commit();
-            return true;
-        }
-        return false;
     }
 
 }
