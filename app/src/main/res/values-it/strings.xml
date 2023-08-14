@@ -30,7 +30,7 @@
     <string name="confirm_password_not_empty">Devi confermare la password</string>
     <string name="password_match_error">Le password non coincidono</string>
     <string name="username_not_empty">Il campo del nome utente non può essere vuoto</string>
-    <string name="logout_failure">Errore durante l\'accesso</string>
+    <string name="logout_failure">Errore durante la disconessione</string>
     <string name="add_bookmark_failure">Errore durante l\'inserimento del segnalibro</string>
     <string name="delete_bookmark_failure">Errore durante l\'eliminazione del segnalibro</string>
     <string name="modify_bookmark_failure">Errore durante la modifica del segnalibro</string>
@@ -44,15 +44,15 @@
     <string name="cancel_dialog">Cancella</string>
     <string name="add_category_dialog">Aggiungi categoria</string>
     <string name="invalid_url">L\'URL inserito non è valido</string>
-    <string name="bookmark_added">Segnalibro aggiunto correttamente</string>
-    <string name="category_added">Categoria aggiunta correttamente</string>
+    <string name="bookmark_added">Segnalibro aggiunto con successo</string>
+    <string name="category_added">Categoria aggiunta con successo</string>
     <string name="confirm_category_deletion">Sei sicur* di voler eliminare questa categoria e il suo contenuto?</string>
     <string name="category">categoria</string>
     <string name="deleted">eliminato</string>
     <string name="bookmark">segnalibro</string>
     <string name="confirm_bookmark_deletion">Sei sicur* di voler eliminare questo segnalibro?</string>
-    <string name="bookmark_modified">Segnalibro modificato correttamente</string>
-    <string name="category_modified">Categoria modificata correttamente</string>
+    <string name="bookmark_modified">Segnalibro modificato con successo</string>
+    <string name="category_modified">Categoria modificata con successo</string>
     <string name="bookmark_modification_error">Devi modificare almeno un campo</string>
     <string name="category_modification_error">Devi modificare il nome</string>
     <string name="select_language">Selezione la lingua</string>
@@ -65,8 +65,8 @@
     <string name="user_interface">Interfaccia utente</string>
     <string name="language">Lingua</string>
     <string name="dark_mode">Modalità scura</string>
-    <string name="modify_category">Cambio del nome della categoria</string>
-    <string name="modify_bookmark">Cambio dei dati del segnalibro</string>
+    <string name="modify_category">Modifica il nome della categoria</string>
+    <string name="modify_bookmark">Modifica i dati del segnalibro</string>
     <string name="auth_view_sentence">Il luogo dove puoi memorizzare tutti i tuoi segnalibri. Accedi o Registrati.</string>
-    <string name="no_bookmarks">Non c\'è nulla qui... Clicca per aggiungere un nuovo segnalibro</string>
+    <string name="no_bookmarks">Non c\'è niente qui…\nUsa il menu in basso per inserire un nuovo segnalibro</string>
 </resources>
