@@ -12,8 +12,8 @@ import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 public class BookmarksViewModel extends ViewModel {
     private final MutableLiveData<List<Bookmark>> bookmarksLiveData = new MutableLiveData<>(new ArrayList<>());
 
-    public void fetchCategoryEntries(String categoryName) {
-        new Thread(() -> FirebaseBookmarkHelper.fetchCategoryEntriesOfCurrentUser(categoryName, bookmarksLiveData))
+    public void fetchCategoryBookmarks(String categoryName) {
+        new Thread(() -> FirebaseBookmarkHelper.fetchBookmarksOfCurrentUser(categoryName, bookmarksLiveData))
                 .start();
     }
 

@@ -10,36 +10,45 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.ui.core.adapter.BookmarksAdapter;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.BookmarksViewModel;
 
 public class BookmarksFragment extends Fragment implements MenuProvider {
     private static final String ARG = "category_name";
-    private String category;
-    private BookmarksAdapter bookmarksAdapter;
+    private String categoryName;
+    //private BookmarksAdapter bookmarksAdapter;
     private ActionBar actionBar;
+    private BookmarksViewModel bookmarksViewModel;
+    private BookmarksAdapter bookmarksAdapter;
+    private List<Bookmark> bookmarks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            category = getArguments().getString(ARG);
+            categoryName = getArguments().getString(ARG);
         }
+        bookmarksViewModel = new ViewModelProvider(this).get(BookmarksViewModel.class);
+        bookmarksViewModel.fetchCategoryBookmarks(categoryName);
+        bookmarks = new ArrayList<>();
     }
 
     @Override
@@ -48,16 +57,17 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
         actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(category);
+            actionBar.setTitle(categoryName);
             actionBar.setDisplayHomeAsUpEnabled(true);
             requireActivity().addMenuProvider(this);
         }
         RecyclerView recyclerView = view.findViewById(R.id.category_entries_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
+        /*FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
                 .setQuery(FirebaseBookmarkHelper.getQueryForBookmarksListOfCurrentUser(category), Bookmark.class)
                 .build();
-        bookmarksAdapter = new BookmarksAdapter(options, requireActivity());
+        bookmarksAdapter = new BookmarksAdapter(options, requireActivity());*/
+        bookmarksAdapter = new BookmarksAdapter(bookmarks, requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
         addSwipeListenerToRecyclerView(recyclerView);
         return view;
@@ -66,15 +76,25 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public void onStart() {
         super.onStart();
-        bookmarksAdapter.startListening();
+        //bookmarksAdapter.startListening();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        bookmarksAdapter.stopListening();
+        //bookmarksAdapter.stopListening();
         actionBar.setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        bookmarksViewModel.getBookmarksLiveData().observe(getViewLifecycleOwner(), bookmarks1 -> {
+            bookmarks.clear();
+            bookmarks.addAll(Objects.requireNonNull(bookmarksViewModel.getBookmarksLiveData().getValue()));
+            bookmarksAdapter.setBookmarksList(bookmarks);
+        });
     }
 
     private void addSwipeListenerToRecyclerView(RecyclerView recyclerView) {

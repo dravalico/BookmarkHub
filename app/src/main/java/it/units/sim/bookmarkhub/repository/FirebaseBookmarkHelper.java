@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -29,17 +28,19 @@ public class FirebaseBookmarkHelper {
     }
 
     public static Query getQueryForBookmarksListOfCurrentUser(String category) {
-        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(BOOKMARKS_COLLECTION_NAME);
-        return collectionRef.whereEqualTo("category", category);
+        return FirebaseFirestore.getInstance()
+                .collection(BOOKMARKS_COLLECTION_NAME)
+                .whereEqualTo("category", category)
+                .orderBy("bookmark_name");
     }
 
-    public static void fetchCategoryEntriesOfCurrentUser(String categoryName,
-                                                         MutableLiveData<List<Bookmark>> bookmarksLiveData) {
+    public static void fetchBookmarksOfCurrentUser(String categoryName,
+                                                   MutableLiveData<List<Bookmark>> bookmarksLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .whereEqualTo("user_id",
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .whereEqualTo("category_name", categoryName)
+                .whereEqualTo("category", categoryName)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve category entries");

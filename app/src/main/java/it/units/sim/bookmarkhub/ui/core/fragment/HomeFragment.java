@@ -32,8 +32,8 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 import it.units.sim.bookmarkhub.ui.core.adapter.CategoriesAdapter;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 
 public class HomeFragment extends Fragment implements MenuProvider {
     private static final String PREF_LAST_SORT_OPTION = "last_sort_option";
@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), strings -> {
+        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories1 -> {
             categories.clear();
             categories.addAll(Objects.requireNonNull(mainViewModel.getCategoriesLiveData().getValue()));
             if (categories.isEmpty()) {
