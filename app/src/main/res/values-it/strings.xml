@@ -58,6 +58,7 @@
     <string name="select_language">Selezione la lingua</string>
     <string name="night_mode">Modalità scura</string>
     <string name="empty_home">Non c\'è nulla qui… Per aggiungere una nuova categoria, usa il bottone in basso</string>
+    <string name="fields_not_empty">I campi nome e URL non possono essere vuoti</string>
     <string name="logout_msg">Arriverci, %1$s</string>
     <string name="sign_in_msg">Bentornato, %1$s</string>
     <string name="sign_up_msg">Benvenuto, %1$s</string>

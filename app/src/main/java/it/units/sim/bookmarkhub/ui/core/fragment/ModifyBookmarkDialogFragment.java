@@ -100,16 +100,23 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private void setBehaviourOfPositiveButton(AlertDialog alertDialog) {
         Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(view -> {
-            if ((nameEditText.getText().toString().equals(bookmark.name))
-                    && (urlEditText.getText().toString().equals(bookmark.url))
-                    && (additionalDataEditText.getText().toString().equals(bookmark.additionalData))
-                    && (spinner.getSelectedItem().toString().equals(bookmark.category))) {
+            String name = nameEditText.getText().toString();
+            String url = urlEditText.getText().toString();
+            String additionalData = additionalDataEditText.getText().toString();
+            String categoryName = spinner.getSelectedItem().toString();
+            if ((name.equals(bookmark.name))
+                    && (url.equals(bookmark.url))
+                    && (additionalData.equals(bookmark.additionalData))
+                    && (categoryName.equals(bookmark.category))) {
                 Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
+            } else if ((name.isEmpty())
+                    || (url.isEmpty())) {
+                Toast.makeText(requireContext(), R.string.fields_not_empty, Toast.LENGTH_SHORT).show();
             } else { //TODO check if name and data aren't too long and if is a valid URL
-                bookmark.name = nameEditText.getText().toString();
-                bookmark.url = urlEditText.getText().toString();
-                bookmark.additionalData = additionalDataEditText.getText().toString();
-                bookmark.category = spinner.getSelectedItem().toString();
+                bookmark.name = name;
+                bookmark.url = url;
+                bookmark.additionalData = additionalData;
+                bookmark.category = categoryName;
                 new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(
                         bookmark,
                         new FirebaseBookmarkHelper.BookmarkCallback() {

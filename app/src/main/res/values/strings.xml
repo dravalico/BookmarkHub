@@ -87,6 +87,7 @@
     <string name="bookmark_modification_error">You have to modify at least one field</string>
     <string name="category_modification_error">You have to modify the name</string>
     <string name="empty_home">There is nothing here…\nTo add a new category, use the button below</string>
+    <string name="fields_not_empty">Name and URL fields cannot be empty</string>
 
     <string name="logout_msg">Goodbye, %1$s</string>
     <string name="sign_in_msg">Welcome back, %1$s</string>
