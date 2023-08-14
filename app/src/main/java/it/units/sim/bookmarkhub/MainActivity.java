@@ -37,17 +37,18 @@ public class MainActivity extends AppCompatActivity {
         if (!FirebaseAuthenticationHelper.isSomeoneLoggedIn()) {
             startActivity(new Intent(MainActivity.this, AuthenticationActivity.class));
             finish();
+        } else {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            setBackButtonBehaviour();
+            NavHostFragment navHostFragment =
+                    (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+            NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+            MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+            mainViewModel.fetchCategories();
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setBackButtonBehaviour();
-        NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainViewModel.fetchCategories();
     }
 
     private void setBackButtonBehaviour() {
