@@ -18,7 +18,7 @@ public class MainViewModel extends ViewModel {
         new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(categoriesLiveData)).start();
     }
 
-    public MutableLiveData<List<Category>> categoriesList() {
+    public MutableLiveData<List<Category>> getCategoriesLiveData() {
         return categoriesLiveData;
     }
 

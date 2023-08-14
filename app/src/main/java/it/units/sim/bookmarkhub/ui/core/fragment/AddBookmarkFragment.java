@@ -108,7 +108,7 @@ public class AddBookmarkFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mainViewModel.categoriesList().observe(getViewLifecycleOwner(), strings -> {
+        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), strings -> {
             spinnerAdapter.clear();
             spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
         });

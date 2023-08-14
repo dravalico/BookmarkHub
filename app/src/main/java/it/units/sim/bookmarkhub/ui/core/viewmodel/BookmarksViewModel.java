@@ -17,7 +17,7 @@ public class BookmarksViewModel extends ViewModel {
                 .start();
     }
 
-    public MutableLiveData<List<Bookmark>> bookmarksLiveData() {
+    public MutableLiveData<List<Bookmark>> getBookmarksLiveData() {
         return bookmarksLiveData;
     }
 

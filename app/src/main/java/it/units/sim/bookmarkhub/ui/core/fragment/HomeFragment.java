@@ -92,9 +92,9 @@ public class HomeFragment extends Fragment implements MenuProvider {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainViewModel.categoriesList().observe(getViewLifecycleOwner(), strings -> {
+        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), strings -> {
             categories.clear();
-            categories.addAll(Objects.requireNonNull(mainViewModel.categoriesList().getValue()));
+            categories.addAll(Objects.requireNonNull(mainViewModel.getCategoriesLiveData().getValue()));
             if (categories.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
                 emptyHome.setVisibility(View.VISIBLE);
