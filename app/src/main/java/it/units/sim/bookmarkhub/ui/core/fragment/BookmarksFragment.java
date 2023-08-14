@@ -95,8 +95,8 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                         recyclerView.setVisibility(View.GONE);
                         emptyCategoryTextView.setVisibility(View.VISIBLE);
                     } else {
-                        recyclerView.setVisibility(View.VISIBLE);
                         emptyCategoryTextView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                         bookmarksAdapter.setBookmarksList(bookmarks);
                     }
                 }
