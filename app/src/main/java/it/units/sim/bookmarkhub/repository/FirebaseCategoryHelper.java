@@ -66,18 +66,6 @@ public class FirebaseCategoryHelper {
                 });
     }
 
-    private static void addNewCategory(String categoryName, CategoriesCallback callback) {
-        if (categoryName.isEmpty()) {
-            callback.onError(R.string.category_name_not_empty);
-            return;
-        }
-        FirebaseFirestore.getInstance()
-                .collection(CATEGORIES_COLLECTION_NAME)
-                .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
-                .addOnSuccessListener(r -> callback.onSuccess(null))
-                .addOnFailureListener(e -> callback.onError(R.string.add_category_failure));
-    }
-
     public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<Void> transactionTask = db.runTransaction(transaction -> {
@@ -128,6 +116,17 @@ public class FirebaseCategoryHelper {
                 .addOnFailureListener(e -> callback.onError(R.string.modify_category_failure));
     }
 
+    private static void addNewCategory(String categoryName, CategoriesCallback callback) {
+        if (categoryName.isEmpty()) {
+            callback.onError(R.string.category_name_not_empty);
+            return;
+        }
+        FirebaseFirestore.getInstance()
+                .collection(CATEGORIES_COLLECTION_NAME)
+                .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
+                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(R.string.add_category_failure));
+    }
 
     public interface CategoriesCallback {
         void onSuccess(List<Category> categories);

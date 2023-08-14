@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
     private SharedPreferences sharedPreferences;
     private int lastOrderOption;
     private MenuItem lastSelectedItem;
-    private TextView emptyHome;
+    private TextView emptyHomeTextView;
     private RecyclerView recyclerView;
 
     @Override
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
             AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
             addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
         });
-        emptyHome = view.findViewById(R.id.empty_home_text_view);
+        emptyHomeTextView = view.findViewById(R.id.empty_home_text_view);
         return view;
     }
 
@@ -97,12 +97,12 @@ public class HomeFragment extends Fragment implements MenuProvider {
             categories.addAll(Objects.requireNonNull(mainViewModel.getCategoriesLiveData().getValue()));
             if (categories.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
-                emptyHome.setVisibility(View.VISIBLE);
+                emptyHomeTextView.setVisibility(View.VISIBLE);
             } else {
                 sortCategories();
                 categoriesAdapter.setCategoriesList(categories);
                 recyclerView.setVisibility(View.VISIBLE);
-                emptyHome.setVisibility(View.GONE);
+                emptyHomeTextView.setVisibility(View.GONE);
             }
         });
     }
