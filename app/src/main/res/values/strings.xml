@@ -86,10 +86,11 @@
     <string name="modify_bookmark">Change data of your bookmark</string>
     <string name="bookmark_modification_error">You have to modify at least one field</string>
     <string name="category_modification_error">You have to modify the name</string>
-    <string name="empty_home">There is nothing here… To add a new category, use the button below</string>
+    <string name="empty_home">There is nothing here…\nTo add a new category, use the button below</string>
 
     <string name="logout_msg">Goodbye, %1$s</string>
     <string name="sign_in_msg">Welcome back, %1$s</string>
     <string name="sign_up_msg">Welcome, %1$s</string>
     <string name="close_app">Are you sure you want to quit %1$s application?</string>
+    <string name="no_bookmarks">There is nothing here…\nClick to add a new bookmark</string>
 </resources>

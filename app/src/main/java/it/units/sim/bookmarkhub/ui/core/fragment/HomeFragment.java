@@ -98,10 +98,10 @@ public class HomeFragment extends Fragment implements MenuProvider {
                 recyclerView.setVisibility(View.GONE);
                 emptyHomeTextView.setVisibility(View.VISIBLE);
             } else {
-                sortCategories();
-                categoriesAdapter.setCategoriesList(categories);
                 recyclerView.setVisibility(View.VISIBLE);
                 emptyHomeTextView.setVisibility(View.GONE);
+                sortCategories();
+                categoriesAdapter.setCategoriesList(categories);
             }
         });
     }

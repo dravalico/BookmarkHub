@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,9 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     private BookmarksViewModel bookmarksViewModel;
     private BookmarksAdapter bookmarksAdapter;
     //private BookmarksAdapter bookmarksAdapter;
+    private RecyclerView recyclerView;
     private ActionBar actionBar;
+    private TextView emptyCategoryTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,14 +53,14 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_category_entries, container, false);
+        View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(categoryName);
             actionBar.setDisplayHomeAsUpEnabled(true);
             requireActivity().addMenuProvider(this);
         }
-        RecyclerView recyclerView = view.findViewById(R.id.category_entries_recycler_view);
+        recyclerView = view.findViewById(R.id.bookmarks_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         /*FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
                 .setQuery(FirebaseBookmarkHelper.getQueryToRetrieveCategoryBookmarks(category), Bookmark.class)
@@ -66,6 +69,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         bookmarksAdapter = new BookmarksAdapter(bookmarksViewModel.getBookmarksLiveData().getValue(), requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
         addSwipeListenerToRecyclerView(recyclerView);
+        emptyCategoryTextView = view.findViewById(R.id.empty_category_text_view);
         return view;
     }
 
@@ -86,8 +90,16 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bookmarksViewModel.getBookmarksLiveData().observe(getViewLifecycleOwner(),
-                bookmarks -> bookmarksAdapter.setBookmarksList(bookmarks)
+        bookmarksViewModel.getBookmarksLiveData().observe(getViewLifecycleOwner(), bookmarks -> {
+                    if (bookmarks.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        emptyCategoryTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        emptyCategoryTextView.setVisibility(View.GONE);
+                        bookmarksAdapter.setBookmarksList(bookmarks);
+                    }
+                }
         );
     }
 
