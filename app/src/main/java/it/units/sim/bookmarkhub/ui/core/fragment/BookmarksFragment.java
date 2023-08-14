@@ -18,11 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -35,10 +38,10 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     private String categoryName;
     private BookmarksViewModel bookmarksViewModel;
     private BookmarksAdapter bookmarksAdapter;
-    //private BookmarksAdapter bookmarksAdapter;
     private RecyclerView recyclerView;
     private ActionBar actionBar;
     private TextView emptyCategoryTextView;
+    private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,28 +65,25 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         }
         recyclerView = view.findViewById(R.id.bookmarks_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        /*FirestoreRecyclerOptions<Bookmark> options = new FirestoreRecyclerOptions.Builder<Bookmark>()
-                .setQuery(FirebaseBookmarkHelper.getQueryToRetrieveCategoryBookmarks(category), Bookmark.class)
-                .build();
-        bookmarksAdapter = new BookmarksAdapter(options, requireActivity());*/
         bookmarksAdapter = new BookmarksAdapter(bookmarksViewModel.getBookmarksLiveData().getValue(), requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
         addSwipeListenerToRecyclerView(recyclerView);
         emptyCategoryTextView = view.findViewById(R.id.empty_category_text_view);
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        //bookmarksAdapter.startListening();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //bookmarksAdapter.stopListening();
         actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
@@ -111,10 +111,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.main_nav_host_fragment, new HomeFragment())
-                    .addToBackStack(null)
-                    .commit();
+            navController.navigate(R.id.action_bookmarksFragment_to_homeFragment);
             return true;
         }
         return false;
