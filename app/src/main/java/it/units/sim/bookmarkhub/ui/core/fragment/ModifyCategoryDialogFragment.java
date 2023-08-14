@@ -73,6 +73,8 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
         positiveButton.setOnClickListener(view -> {
             if (nameEditText.getText().toString().equals(category.name)) {
                 Toast.makeText(requireContext(), R.string.category_modification_error, Toast.LENGTH_SHORT).show();
+            } else if (nameEditText.getText().toString().isEmpty()) {
+                Toast.makeText(requireContext(), R.string.category_name_not_empty, Toast.LENGTH_SHORT).show();
             } else {
                 Category categoryNew = new Category();
                 categoryNew.id = category.id;
