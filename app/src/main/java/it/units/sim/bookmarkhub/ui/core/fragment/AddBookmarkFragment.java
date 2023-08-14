@@ -53,7 +53,7 @@ public class AddBookmarkFragment extends Fragment {
                 nameEditText.setText(s.subSequence(0, maxNameLength));
                 nameEditText.setSelection(maxNameLength);
             }
-            int maxDataLength = 50;
+            int maxDataLength = 40;
             if (dataEditText.getText().toString().length() > maxDataLength) {
                 dataEditText.setText(s.subSequence(0, maxDataLength));
                 dataEditText.setSelection(maxDataLength);
