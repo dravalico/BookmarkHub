@@ -21,9 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -35,7 +33,6 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     private static final String ARG = "category_name";
     private String categoryName;
     private BookmarksViewModel bookmarksViewModel;
-    private List<Bookmark> bookmarks;
     private BookmarksAdapter bookmarksAdapter;
     //private BookmarksAdapter bookmarksAdapter;
     private ActionBar actionBar;
@@ -48,7 +45,6 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         }
         bookmarksViewModel = new ViewModelProvider(this).get(BookmarksViewModel.class);
         bookmarksViewModel.fetchCategoryBookmarks(categoryName);
-        bookmarks = new ArrayList<>();
     }
 
     @Override
@@ -67,7 +63,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                 .setQuery(FirebaseBookmarkHelper.getQueryToRetrieveCategoryBookmarks(category), Bookmark.class)
                 .build();
         bookmarksAdapter = new BookmarksAdapter(options, requireActivity());*/
-        bookmarksAdapter = new BookmarksAdapter(bookmarks, requireActivity());
+        bookmarksAdapter = new BookmarksAdapter(bookmarksViewModel.getBookmarksLiveData().getValue(), requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
         addSwipeListenerToRecyclerView(recyclerView);
         return view;
@@ -90,11 +86,9 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bookmarksViewModel.getBookmarksLiveData().observe(getViewLifecycleOwner(), bookmarks1 -> {
-            bookmarks.clear();
-            bookmarks.addAll(Objects.requireNonNull(bookmarksViewModel.getBookmarksLiveData().getValue()));
-            bookmarksAdapter.setBookmarksList(bookmarks);
-        });
+        bookmarksViewModel.getBookmarksLiveData().observe(getViewLifecycleOwner(),
+                bookmarks -> bookmarksAdapter.setBookmarksList(bookmarks)
+        );
     }
 
     @Override

@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
@@ -94,7 +93,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         super.onViewCreated(view, savedInstanceState);
         mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories1 -> {
             categories.clear();
-            categories.addAll(Objects.requireNonNull(mainViewModel.getCategoriesLiveData().getValue()));
+            categories.addAll(categories1);
             if (categories.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
                 emptyHomeTextView.setVisibility(View.VISIBLE);
