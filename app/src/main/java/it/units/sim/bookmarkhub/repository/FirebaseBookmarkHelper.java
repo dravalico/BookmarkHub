@@ -1,12 +1,18 @@
 package it.units.sim.bookmarkhub.repository;
 
 
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -25,6 +31,26 @@ public class FirebaseBookmarkHelper {
     public static Query getQueryForBookmarksListOfCurrentUser(String category) {
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection(BOOKMARKS_COLLECTION_NAME);
         return collectionRef.whereEqualTo("category", category);
+    }
+
+    public static void fetchCategoryEntriesOfCurrentUser(String categoryName,
+                                                         MutableLiveData<List<Bookmark>> bookmarksLiveData) {
+        FirebaseFirestore.getInstance()
+                .collection(BOOKMARKS_COLLECTION_NAME)
+                .whereEqualTo("user_id",
+                        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                .whereEqualTo("category_name", categoryName)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve category entries");
+                    }
+                    if (value != null) {
+                        bookmarksLiveData.postValue(value.getDocuments()
+                                .stream()
+                                .map(s1 -> s1.toObject(Bookmark.class))
+                                .collect(Collectors.toList()));
+                    }
+                });
     }
 
     public static void deleteBookmark(Bookmark bookmark, BookmarkCallback callback) {

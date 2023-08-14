@@ -19,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
-import it.units.sim.bookmarkhub.ui.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 import it.units.sim.bookmarkhub.ui.core.fragment.SettingsFragment;
 

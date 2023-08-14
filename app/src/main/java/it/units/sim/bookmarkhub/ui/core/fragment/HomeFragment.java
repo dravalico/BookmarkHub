@@ -32,7 +32,7 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
-import it.units.sim.bookmarkhub.ui.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 import it.units.sim.bookmarkhub.ui.core.adapter.CategoriesAdapter;
 
 public class HomeFragment extends Fragment implements MenuProvider {

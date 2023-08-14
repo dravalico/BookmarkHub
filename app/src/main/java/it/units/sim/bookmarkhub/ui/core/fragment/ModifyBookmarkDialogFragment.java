@@ -24,7 +24,7 @@ import java.util.List;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.ui.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";

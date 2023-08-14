@@ -23,7 +23,7 @@ import java.util.Locale;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
-import it.units.sim.bookmarkhub.ui.core.fragment.CategoryEntriesFragment;
+import it.units.sim.bookmarkhub.ui.core.fragment.BookmarksFragment;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyBookmarkDialogFragment;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyCategoryDialogFragment;
 
@@ -52,7 +52,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         String dateAsString = dateFormat.format(category.creationDate);
         holder.dateTextView.setText(dateAsString);
         holder.cardView.setOnClickListener(view -> {
-            CategoryEntriesFragment fragment = new CategoryEntriesFragment();
+            BookmarksFragment fragment = new BookmarksFragment();
             Bundle args = new Bundle();
             args.putString("category_name", category.name);
             fragment.setArguments(args);

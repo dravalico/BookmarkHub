@@ -1,4 +1,4 @@
-package it.units.sim.bookmarkhub.ui;
+package it.units.sim.bookmarkhub.ui.core.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,18 +12,18 @@ import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class MainViewModel extends ViewModel {
-    private final MutableLiveData<List<Category>> categoriesList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>(new ArrayList<>());
 
     public void fetchCategories() {
-        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(categoriesList)).start();
+        new Thread(() -> FirebaseCategoryHelper.getCategoriesListOfCurrentUser(categoriesLiveData)).start();
     }
 
     public MutableLiveData<List<Category>> categoriesList() {
-        return categoriesList;
+        return categoriesLiveData;
     }
 
     public List<String> getCategoriesNamesList() {
-        return Objects.requireNonNull(categoriesList.getValue()).stream()
+        return Objects.requireNonNull(categoriesLiveData.getValue()).stream()
                 .map(c -> c.name)
                 .collect(Collectors.toList());
     }
