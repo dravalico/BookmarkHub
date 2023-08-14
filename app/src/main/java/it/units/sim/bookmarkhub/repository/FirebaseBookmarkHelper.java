@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,28 +26,25 @@ public class FirebaseBookmarkHelper {
                 .addOnFailureListener(e -> callback.onError(R.string.add_bookmark_failure));
     }
 
-    public static Query getQueryToRetrieveCategoryBookmarks(String category) {
-        return FirebaseFirestore.getInstance()
-                .collection(BOOKMARKS_COLLECTION_NAME)
-                .whereEqualTo("category", category)
-                .orderBy("bookmark_name");
-    }
-
     public static void fetchBookmarks(String categoryName, MutableLiveData<List<Bookmark>> bookmarksLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .whereEqualTo("user_id",
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .whereEqualTo("category", categoryName)
+                .orderBy("bookmark_name")
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve category entries");
                     }
                     if (value != null) {
-                        bookmarksLiveData.postValue(value.getDocuments()
+                        List<Bookmark> fetchedBookmarks = value.getDocuments()
                                 .stream()
                                 .map(s1 -> s1.toObject(Bookmark.class))
-                                .collect(Collectors.toList()));
+                                .collect(Collectors.toList());
+                        if (!fetchedBookmarks.equals(bookmarksLiveData.getValue())) {
+                            bookmarksLiveData.postValue(fetchedBookmarks);
+                        }
                     }
                 });
     }

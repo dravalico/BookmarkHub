@@ -38,10 +38,13 @@ public class FirebaseCategoryHelper {
                         Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve categories list");
                     }
                     if (value != null) {
-                        categoriesLiveData.postValue(value.getDocuments()
+                        List<Category> fetchedCategory = value.getDocuments()
                                 .stream()
                                 .map(s1 -> s1.toObject(Category.class))
-                                .collect(Collectors.toList()));
+                                .collect(Collectors.toList());
+                        if (!fetchedCategory.equals(categoriesLiveData.getValue())) {
+                            categoriesLiveData.postValue(fetchedCategory);
+                        }
                     }
                 });
     }
