@@ -35,11 +35,11 @@ import java.util.Objects;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.ui.core.adapter.CategoriesAdapter;
-import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class HomeFragment extends Fragment implements MenuProvider {
     private static final String PREF_LAST_SORT_OPTION = "last_sort_option";
-    private MainViewModel mainViewModel;
+    private CategoriesViewModel categoriesViewModel;
     private List<Category> categories;
     private CategoriesAdapter categoriesAdapter;
     private RecyclerView recyclerView;
@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         lastOrderOption = sharedPreferences.getInt(PREF_LAST_SORT_OPTION, R.id.name_ascending);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        categoriesViewModel = new ViewModelProvider(requireActivity()).get(CategoriesViewModel.class);
         categories = new ArrayList<>();
     }
 
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories1 -> {
+        categoriesViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories1 -> {
             categories.clear();
             categories.addAll(categories1);
             if (categories.isEmpty()) {

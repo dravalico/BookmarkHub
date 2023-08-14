@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
-public class MainViewModel extends ViewModel {
+public class CategoriesViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>(new ArrayList<>());
 
     public void fetchCategories() {

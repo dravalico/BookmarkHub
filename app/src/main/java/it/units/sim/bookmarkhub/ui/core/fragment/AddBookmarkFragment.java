@@ -29,7 +29,7 @@ import java.util.Objects;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class AddBookmarkFragment extends Fragment {
     private NavController navController;
@@ -39,7 +39,7 @@ public class AddBookmarkFragment extends Fragment {
     private ArrayAdapter<String> spinnerAdapter;
     private Spinner spinner;
     private Button addBookmarkButton;
-    private MainViewModel mainViewModel;
+    private CategoriesViewModel categoriesViewModel;
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -75,7 +75,7 @@ public class AddBookmarkFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        categoriesViewModel = new ViewModelProvider(requireActivity()).get(CategoriesViewModel.class);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AddBookmarkFragment extends Fragment {
         spinnerAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
+        spinnerAdapter.addAll(categoriesViewModel.getCategoriesNamesList());
         nameEditText = view.findViewById(R.id.bookmark_name_edit_text);
         nameEditText.addTextChangedListener(textWatcher);
         urlEditText = view.findViewById(R.id.bookmark_url_edit_text);
@@ -108,13 +108,13 @@ public class AddBookmarkFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories -> {
+        categoriesViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories -> {
             if (categories.isEmpty()) {
                 spinner.setEnabled(false);
                 spinnerAdapter.add(getString(R.string.no_category_defined));
             } else {
                 spinnerAdapter.clear();
-                spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
+                spinnerAdapter.addAll(categoriesViewModel.getCategoriesNamesList());
                 spinner.setEnabled(true);
             }
         });

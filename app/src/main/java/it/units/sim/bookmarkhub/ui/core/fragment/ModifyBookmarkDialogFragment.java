@@ -24,7 +24,7 @@ import java.util.List;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
-import it.units.sim.bookmarkhub.ui.core.viewmodel.MainViewModel;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
     public static final String TAG = "ModifyBookmarkDialogFragment";
@@ -35,7 +35,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private EditText additionalDataEditText;
     private Spinner spinner;
     private ArrayAdapter<String> spinnerAdapter;
-    private MainViewModel mainViewModel;
+    private CategoriesViewModel categoriesViewModel;
 
     public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark) {
         ModifyBookmarkDialogFragment fragment = new ModifyBookmarkDialogFragment();
@@ -55,7 +55,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 bookmark = (Bookmark) getArguments().getSerializable(ARG);
             }
         }
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        categoriesViewModel = new ViewModelProvider(requireActivity()).get(CategoriesViewModel.class);
     }
 
     @NonNull
@@ -79,7 +79,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         nameEditText.setText(bookmark.name);
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
-        List<String> categories = mainViewModel.getCategoriesNamesList();
+        List<String> categories = categoriesViewModel.getCategoriesNamesList();
         spinnerAdapter.addAll(categories);
         int defaultPosition = categories.indexOf(bookmark.category);
         if (defaultPosition != -1) {
