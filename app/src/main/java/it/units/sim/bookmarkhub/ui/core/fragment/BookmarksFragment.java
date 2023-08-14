@@ -1,6 +1,7 @@
 package it.units.sim.bookmarkhub.ui.core.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
             categoryName = getArguments().getString(ARG);
         }
         bookmarksViewModel = new ViewModelProvider(this).get(BookmarksViewModel.class);
+        Log.d("bok", categoryName);
         bookmarksViewModel.fetchCategoryBookmarks(categoryName);
     }
 
@@ -67,7 +69,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         bookmarksAdapter = new BookmarksAdapter(bookmarksViewModel.getBookmarksLiveData().getValue(), requireActivity());
         recyclerView.setAdapter(bookmarksAdapter);
-        addSwipeListenerToRecyclerView(recyclerView);
+        addSwipeListenerToRecyclerView();
         emptyCategoryTextView = view.findViewById(R.id.empty_category_text_view);
         NavHostFragment navHostFragment =
                 (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
@@ -117,7 +119,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         return false;
     }
 
-    private void addSwipeListenerToRecyclerView(RecyclerView recyclerView) {
+    private void addSwipeListenerToRecyclerView() {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
