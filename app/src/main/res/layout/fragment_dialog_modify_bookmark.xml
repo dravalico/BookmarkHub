@@ -4,37 +4,48 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/bookmark_name_edit_text"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="name"
-        android:hint="@string/name"
-        android:inputType="text"
-        android:minHeight="48dp" />
+        android:layout_marginTop="10dp"
+        android:hint="@string/name">
 
-    <EditText
-        android:id="@+id/bookmark_url_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="@string/url"
-        android:inputType="textUri"
-        android:minHeight="48dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bookmark_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/bookmark_data_edit_text"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="@string/additional_info"
-        android:inputType="textUri"
-        android:minHeight="48dp" />
+        android:layout_marginTop="10dp"
+        android:hint="@string/url">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bookmark_url_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/additional_info">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bookmark_data_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
         android:id="@+id/bookmark_category_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp" />
+        android:layout_marginTop="10dp"
+        android:minHeight="50dp" />
 
 </LinearLayout>
