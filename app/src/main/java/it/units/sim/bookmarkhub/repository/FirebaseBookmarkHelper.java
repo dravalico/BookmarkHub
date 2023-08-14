@@ -38,13 +38,10 @@ public class FirebaseBookmarkHelper {
                         Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve category entries");
                     }
                     if (value != null) {
-                        List<Bookmark> fetchedBookmarks = value.getDocuments()
+                        bookmarksLiveData.postValue(value.getDocuments()
                                 .stream()
                                 .map(s1 -> s1.toObject(Bookmark.class))
-                                .collect(Collectors.toList());
-                        if (!fetchedBookmarks.equals(bookmarksLiveData.getValue())) {
-                            bookmarksLiveData.postValue(fetchedBookmarks);
-                        }
+                                .collect(Collectors.toList()));
                     }
                 });
     }

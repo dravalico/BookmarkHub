@@ -36,12 +36,14 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
     private Spinner spinner;
     private ArrayAdapter<String> spinnerAdapter;
     private CategoriesViewModel categoriesViewModel;
+    private DialogCallback callback;
 
-    public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark) {
+    public static ModifyBookmarkDialogFragment newInstance(Bookmark bookmark, DialogCallback callback) {
         ModifyBookmarkDialogFragment fragment = new ModifyBookmarkDialogFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG, bookmark);
         fragment.setArguments(args);
+        fragment.callback = callback;
         return fragment;
     }
 
@@ -124,6 +126,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                             public void onSuccess(List<Bookmark> bookmark) {
                                 Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
                                 dismiss();
+                                callback.onClose();
                             }
 
                             @Override
@@ -133,6 +136,10 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                         })).start();
             }
         });
+    }
+
+    public interface DialogCallback {
+        void onClose();
     }
 
 }
