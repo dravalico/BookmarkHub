@@ -68,7 +68,7 @@
     <string name="modify_category_failure">Cannot modify category name</string>
     <string name="category_name_not_empty">Category name cannot be empty</string>
 
-    <!--> Fragments toast messages<-->
+    <!--> Fragments<-->
     <string name="confirm_dialog">Confirm</string>
     <string name="cancel_dialog">Cancel</string>
     <string name="add_category_dialog">Add category</string>
@@ -84,8 +84,9 @@
     <string name="category_modified">Category modified successfully</string>
     <string name="modify_category">Change the name of your category</string>
     <string name="modify_bookmark">Change data of your bookmark</string>
-    <string name="bookmark_modification_error">"You have to modify at least one field"</string>
-    <string name="category_modification_error">"You have to modify the name"</string>
+    <string name="bookmark_modification_error">You have to modify at least one field</string>
+    <string name="category_modification_error">You have to modify the name</string>
+    <string name="empty_home">There is nothing here… To add a new category, use the button below</string>
 
     <string name="logout_msg">Goodbye, %1$s</string>
     <string name="sign_in_msg">Welcome back, %1$s</string>

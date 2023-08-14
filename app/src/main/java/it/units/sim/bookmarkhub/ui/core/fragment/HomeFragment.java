@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +43,8 @@ public class HomeFragment extends Fragment implements MenuProvider {
     private SharedPreferences sharedPreferences;
     private int lastOrderOption;
     private MenuItem lastSelectedItem;
+    private TextView emptyHome;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.home));
         }
-        RecyclerView recyclerView = view.findViewById(R.id.categories_recycler_view);
+        recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         categoriesAdapter = new CategoriesAdapter(categories, getParentFragmentManager());
         recyclerView.setAdapter(categoriesAdapter);
@@ -70,6 +73,7 @@ public class HomeFragment extends Fragment implements MenuProvider {
             AddCategoryDialogFragment addCategoryDialogFragment = new AddCategoryDialogFragment();
             addCategoryDialogFragment.show(getChildFragmentManager(), AddCategoryDialogFragment.TAG);
         });
+        emptyHome = view.findViewById(R.id.empty_home_text_view);
         return view;
     }
 
@@ -91,8 +95,15 @@ public class HomeFragment extends Fragment implements MenuProvider {
         mainViewModel.categoriesList().observe(getViewLifecycleOwner(), strings -> {
             categories.clear();
             categories.addAll(Objects.requireNonNull(mainViewModel.categoriesList().getValue()));
-            sortCategories();
-            categoriesAdapter.setCategoriesList(categories);
+            if (categories.isEmpty()) {
+                recyclerView.setVisibility(View.GONE);
+                emptyHome.setVisibility(View.VISIBLE);
+            } else {
+                sortCategories();
+                categoriesAdapter.setCategoriesList(categories);
+                recyclerView.setVisibility(View.VISIBLE);
+                emptyHome.setVisibility(View.GONE);
+            }
         });
     }
 
