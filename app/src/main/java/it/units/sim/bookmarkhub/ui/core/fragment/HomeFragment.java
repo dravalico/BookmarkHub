@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
@@ -65,7 +68,10 @@ public class HomeFragment extends Fragment implements MenuProvider {
         }
         recyclerView = view.findViewById(R.id.categories_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        categoriesAdapter = new CategoriesAdapter(categories, getParentFragmentManager());
+        NavHostFragment navHostFragment =
+                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+        categoriesAdapter = new CategoriesAdapter(categories, getParentFragmentManager(), navController);
         recyclerView.setAdapter(categoriesAdapter);
         FloatingActionButton addCategoryButton = view.findViewById(R.id.open_category_dialog_button);
         addCategoryButton.setOnClickListener(view1 -> {

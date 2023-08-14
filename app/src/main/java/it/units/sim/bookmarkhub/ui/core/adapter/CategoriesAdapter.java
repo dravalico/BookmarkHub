@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -23,17 +24,18 @@ import java.util.Locale;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
-import it.units.sim.bookmarkhub.ui.core.fragment.BookmarksFragment;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyBookmarkDialogFragment;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyCategoryDialogFragment;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
     private List<Category> categories;
     private final FragmentManager fragmentManager;
+    private final NavController navController;
 
-    public CategoriesAdapter(List<Category> categories, FragmentManager fragmentManager) {
+    public CategoriesAdapter(List<Category> categories, FragmentManager fragmentManager, NavController navController) {
         this.categories = categories;
         this.fragmentManager = fragmentManager;
+        this.navController = navController;
     }
 
     @NonNull
@@ -52,11 +54,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         String dateAsString = dateFormat.format(category.creationDate);
         holder.dateTextView.setText(dateAsString);
         holder.cardView.setOnClickListener(view -> {
-            BookmarksFragment fragment = new BookmarksFragment();
             Bundle args = new Bundle();
             args.putString("category_name", category.name);
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction().replace(R.id.main_nav_host_fragment, fragment).addToBackStack(null).commit();
+            navController.navigate(R.id.action_homeFragment_to_bookmarksFragment, args);
         });
         holder.menuImageButton.setOnClickListener(view -> showPopupMenu(view, category));
     }

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class AddBookmarkFragment extends Fragment {
     public void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
         Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
-        navController.navigate(AddBookmarkFragmentDirections.actionAddBookmarkFragmentToHomeFragment());
+        navController.navigate(R.id.action_addBookmarkFragment_to_homeFragment);
     }
 
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
