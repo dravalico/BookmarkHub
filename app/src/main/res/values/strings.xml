@@ -93,4 +93,5 @@
     <string name="sign_up_msg">Welcome, %1$s</string>
     <string name="close_app">Are you sure you want to quit %1$s application?</string>
     <string name="no_bookmarks">There is nothing here…\nUse the bottom menu to insert a new bookmark</string>
+    <string name="no_category_defined">You must first create at least one category</string>
 </resources>

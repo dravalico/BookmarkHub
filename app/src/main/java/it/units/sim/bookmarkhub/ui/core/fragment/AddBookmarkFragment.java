@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
@@ -109,9 +108,15 @@ public class AddBookmarkFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), strings -> {
-            spinnerAdapter.clear();
-            spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
+        mainViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories -> {
+            if (categories.isEmpty()) {
+                spinner.setEnabled(false);
+                spinnerAdapter.add(getString(R.string.no_category_defined));
+            } else {
+                spinnerAdapter.clear();
+                spinnerAdapter.addAll(mainViewModel.getCategoriesNamesList());
+                spinner.setEnabled(true);
+            }
         });
     }
 

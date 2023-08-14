@@ -69,4 +69,5 @@
     <string name="modify_bookmark">Modifica i dati del segnalibro</string>
     <string name="auth_view_sentence">Il luogo dove puoi memorizzare tutti i tuoi segnalibri. Accedi o Registrati.</string>
     <string name="no_bookmarks">Non c\'è niente qui…\nUsa il menu in basso per inserire un nuovo segnalibro</string>
+    <string name="no_category_defined">Devi prima creare almeno una categoria</string>
 </resources>
