@@ -2,10 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_options"
+        android:id="@+id/sort_menu"
         android:icon="@drawable/sort_icon"
-        android:orderInCategory="200"
-        android:title="@string/ordering"
+        android:title="@string/sorting"
         android:visible="true"
         app:showAsAction="always">
         <menu>
@@ -14,25 +13,25 @@
                 android:checkable="true"
                 android:checkableBehavior="single"
                 android:checked="false"
-                android:title="@string/order_name_a_z" />
+                android:title="@string/sort_name_a_z" />
             <item
                 android:id="@+id/name_descending"
                 android:checkable="true"
                 android:checkableBehavior="single"
                 android:checked="false"
-                android:title="@string/order_name_z_a" />
+                android:title="@string/sort_name_z_a" />
             <item
                 android:id="@+id/date_ascending"
                 android:checkable="true"
                 android:checkableBehavior="single"
                 android:checked="false"
-                android:title="@string/order_date_ascending" />
+                android:title="@string/sort_date_ascending" />
             <item
                 android:id="@+id/date_descending"
                 android:checkable="true"
                 android:checkableBehavior="single"
                 android:checked="false"
-                android:title="@string/order_date_descending" />
+                android:title="@string/sort_date_descending" />
         </menu>
     </item>
 </menu>

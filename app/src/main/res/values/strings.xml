@@ -26,11 +26,11 @@
     <string name="modify">Modify</string>
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
-    <string name="order_name_a_z">Sort by name A - Z</string>
-    <string name="order_name_z_a">Sort by name Z - A</string>
-    <string name="order_date_ascending">Sort by date ascending</string>
-    <string name="order_date_descending">Sort by date descending</string>
-    <string name="ordering">Sorting</string>
+    <string name="sort_name_a_z">Sort by name A - Z</string>
+    <string name="sort_name_z_a">Sort by name Z - A</string>
+    <string name="sort_date_ascending">Sort by date ascending</string>
+    <string name="sort_date_descending">Sort by date descending</string>
+    <string name="sorting">Sorting</string>
     <string name="category_name">Category name</string>
 
     <!--> Settings <-->

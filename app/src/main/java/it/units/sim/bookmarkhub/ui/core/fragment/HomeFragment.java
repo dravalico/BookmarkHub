@@ -114,8 +114,8 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.order_menu, menu);
-        Menu submenu = menu.findItem(R.id.action_options).getSubMenu();
+        menuInflater.inflate(R.menu.sort_menu, menu);
+        Menu submenu = menu.findItem(R.id.sort_menu).getSubMenu();
         if (submenu != null) {
             for (int i = 0; i < submenu.size(); i++) {
                 MenuItem menuItem = submenu.getItem(i);

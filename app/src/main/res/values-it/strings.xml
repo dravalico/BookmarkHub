@@ -16,11 +16,11 @@
     <string name="modify">Modifica</string>
     <string name="delete">Elimina</string>
     <string name="logout">Esci</string>
-    <string name="order_name_a_z">Ordina per nome A - Z</string>
-    <string name="order_name_z_a">Ordina per nome Z - A</string>
-    <string name="order_date_ascending">Ordina per data crescente</string>
-    <string name="order_date_descending">Ordina per data decrescente</string>
-    <string name="ordering">Ordinamento</string>
+    <string name="sort_name_a_z">Ordina per nome A - Z</string>
+    <string name="sort_name_z_a">Ordina per nome Z - A</string>
+    <string name="sort_date_ascending">Ordina per data crescente</string>
+    <string name="sort_date_descending">Ordina per data decrescente</string>
+    <string name="sorting">Ordinamento</string>
     <string name="category_name">Nome della categoria</string>
     <string name="sign_up_failure">Registrazione fallita</string>
     <string name="sign_in_failure">Accesso fallito</string>
