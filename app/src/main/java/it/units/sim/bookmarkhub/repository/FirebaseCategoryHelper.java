@@ -33,7 +33,7 @@ public class FirebaseCategoryHelper {
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .whereEqualTo(USER_ID_FIELD,
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                .orderBy(CATEGORY_NAME_FIELD, Query.Direction.DESCENDING)
+                .orderBy(CATEGORY_NAME_FIELD, Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve categories list");
