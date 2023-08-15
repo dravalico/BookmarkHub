@@ -77,10 +77,20 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         return createDialog(view);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        categoriesViewModel.getCategoriesLiveData().observe(getViewLifecycleOwner(), categories ->
+                setSpinnerValues());
+    }
+
     private void setFieldsForModification() {
         nameEditText.setText(bookmark.name);
         urlEditText.setText(bookmark.url);
         additionalDataEditText.setText(bookmark.additionalData);
+        setSpinnerValues();
+    }
+
+    private void setSpinnerValues() {
         List<String> categories = categoriesViewModel.getCategoriesNamesList();
         spinnerAdapter.addAll(categories);
         int defaultPosition = categories.indexOf(bookmark.category);
