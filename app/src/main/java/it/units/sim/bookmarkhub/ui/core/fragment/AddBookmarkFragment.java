@@ -123,7 +123,7 @@ public class AddBookmarkFragment extends Fragment {
     public void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
         Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_addBookmarkFragment_to_homeFragment);
+        navController.navigate(R.id.action_add_bookmark_to_home);
     }
 
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {

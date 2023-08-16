@@ -10,7 +10,7 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_bookmarksFragment"
+            android:id="@+id/action_home_to_bookmarks"
             app:destination="@id/bookmarks_fragment" />
     </fragment>
     <fragment
@@ -19,7 +19,7 @@
         android:label="fragment_add_bookmark"
         tools:layout="@layout/fragment_add_bookmark">
         <action
-            android:id="@+id/action_addBookmarkFragment_to_homeFragment"
+            android:id="@+id/action_add_bookmark_to_home"
             app:destination="@id/home_fragment" />
     </fragment>
     <fragment
@@ -33,7 +33,7 @@
         android:label="fragment_bookmarks"
         tools:layout="@layout/fragment_bookmarks">
         <action
-            android:id="@+id/action_bookmarksFragment_to_homeFragment"
+            android:id="@+id/action_bookmarks_to_home"
             app:destination="@id/home_fragment" />
     </fragment>
 </navigation>

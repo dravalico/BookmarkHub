@@ -113,7 +113,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
-            navController.navigate(R.id.action_bookmarksFragment_to_homeFragment);
+            navController.navigate(R.id.action_bookmarks_to_home);
             return true;
         }
         return false;
