@@ -20,11 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -33,6 +32,7 @@ import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class AddBookmarkFragment extends Fragment {
     private NavController navController;
+    private NavController.OnDestinationChangedListener onDestinationChangedListener;
     private EditText nameEditText;
     private EditText urlEditText;
     private EditText dataEditText;
@@ -53,7 +53,7 @@ public class AddBookmarkFragment extends Fragment {
                 nameEditText.setText(s.subSequence(0, maxNameLength));
                 nameEditText.setSelection(maxNameLength);
             }
-            int maxDataLength = 40;
+            int maxDataLength = 30;
             if (dataEditText.getText().toString().length() > maxDataLength) {
                 dataEditText.setText(s.subSequence(0, maxDataLength));
                 dataEditText.setSelection(maxDataLength);
@@ -99,10 +99,9 @@ public class AddBookmarkFragment extends Fragment {
         dataEditText.addTextChangedListener(textWatcher);
         addBookmarkButton = view.findViewById(R.id.add_bookmark_button);
         addCLickListenerForNewBookmarkAndInsertIfValid();
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        navController = Objects.requireNonNull(navHostFragment).getNavController();
-        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> resetEditTextViews());
+        navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
+        onDestinationChangedListener = (navController, navDestination, bundle) -> resetEditTextViews();
+        navController.addOnDestinationChangedListener(onDestinationChangedListener);
         return view;
     }
 
@@ -120,7 +119,15 @@ public class AddBookmarkFragment extends Fragment {
         });
     }
 
-    public void clearViewAndOpenHomeFragment() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (onDestinationChangedListener != null) {
+            navController.removeOnDestinationChangedListener(onDestinationChangedListener);
+        }
+    }
+
+    private void clearViewAndOpenHomeFragment() {
         resetEditTextViews();
         Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
         navController.navigate(R.id.action_add_bookmark_to_home);

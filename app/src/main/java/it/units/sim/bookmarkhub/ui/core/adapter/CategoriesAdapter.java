@@ -56,7 +56,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.cardView.setOnClickListener(view -> {
             Bundle args = new Bundle();
             args.putString("category_name", category.name);
-            navController.navigate(R.id.action_homeFragment_to_bookmarksFragment, args);
+            navController.navigate(R.id.bookmarks_fragment, args);
         });
         holder.menuImageButton.setOnClickListener(view -> showPopupMenu(view, category));
     }

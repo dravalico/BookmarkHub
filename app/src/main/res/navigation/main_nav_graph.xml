@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/auth_nav_graph"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/home_fragment">
     <fragment
         android:id="@+id/home_fragment"
@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_add_bookmark_to_home"
             app:destination="@id/home_fragment" />
+        <action
+            android:id="@+id/action_add_bookmark_to_bookmarks"
+            app:destination="@id/bookmarks_fragment"/>
     </fragment>
     <fragment
         android:id="@+id/settings_fragment"
@@ -35,5 +38,8 @@
         <action
             android:id="@+id/action_bookmarks_to_home"
             app:destination="@id/home_fragment" />
+        <action
+            android:id="@+id/action_bookmarks_to_add_bookmark"
+            app:destination="@id/add_bookmark_fragment"/>
     </fragment>
 </navigation>

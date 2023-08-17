@@ -20,13 +20,12 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
@@ -47,11 +46,11 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("", "listttt");
         if (getArguments() != null) {
             categoryName = getArguments().getString(ARG);
         }
         bookmarksViewModel = new ViewModelProvider(this).get(BookmarksViewModel.class);
-        Log.d("bok", categoryName);
         bookmarksViewModel.fetchCategoryBookmarks(categoryName);
     }
 
@@ -71,9 +70,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         recyclerView.setAdapter(bookmarksAdapter);
         addSwipeListenerToRecyclerView();
         emptyCategoryTextView = view.findViewById(R.id.empty_category_text_view);
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
-        navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navController = Navigation.findNavController(requireActivity(), R.id.main_nav_host_fragment);
         return view;
     }
 

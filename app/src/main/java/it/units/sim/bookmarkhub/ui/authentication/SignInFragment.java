@@ -12,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
-import androidx.navigation.fragment.NavHostFragment;
-
-import java.util.Objects;
+import androidx.navigation.Navigation;
 
 import it.units.sim.bookmarkhub.MainActivity;
 import it.units.sim.bookmarkhub.R;
@@ -29,9 +27,7 @@ public class SignInFragment extends Fragment {
         EditText emailEditText = view.findViewById(R.id.email_edit_text);
         EditText passwordEditText = view.findViewById(R.id.password_edit_text);
         view.findViewById(R.id.sign_in_button).setOnClickListener(view1 -> signIn(emailEditText, passwordEditText));
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         view.findViewById(R.id.sign_up_redirect_button).setOnClickListener(view1 -> {
             NavDirections action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment();
             navController.navigate(action);
