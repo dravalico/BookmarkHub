@@ -19,9 +19,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
-import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 import it.units.sim.bookmarkhub.ui.core.fragment.SettingsFragment;
+import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             setBackButtonBehaviour();
-            NavHostFragment navHostFragment =
-                    (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_fragment);
             NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
@@ -55,12 +54,7 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("")
-                        .setMessage(getString(R.string.close_app, getString(R.string.app_name)))
-                        .setPositiveButton(R.string.confirm_dialog, (dialog, which) -> finishAffinity())
-                        .setNegativeButton(R.string.cancel_dialog, null)
-                        .show();
+                new AlertDialog.Builder(MainActivity.this).setTitle("").setMessage(getString(R.string.close_app, getString(R.string.app_name))).setPositiveButton(R.string.confirm_dialog, (dialog, which) -> finishAffinity()).setNegativeButton(R.string.cancel_dialog, null).show();
             }
         });
     }
