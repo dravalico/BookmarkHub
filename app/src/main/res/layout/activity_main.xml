@@ -27,7 +27,6 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
-        style="@style/Base.Theme.BookmarkHub"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:elevation="0dp"

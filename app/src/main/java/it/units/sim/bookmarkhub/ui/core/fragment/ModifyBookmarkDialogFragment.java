@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -116,36 +117,41 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
             String url = urlEditText.getText().toString();
             String additionalData = additionalDataEditText.getText().toString();
             String categoryName = spinner.getSelectedItem().toString();
-            if ((name.equals(bookmark.name))
-                    && (url.equals(bookmark.url))
-                    && (additionalData.equals(bookmark.additionalData))
-                    && (categoryName.equals(bookmark.category))) {
+            if ((name.equals(bookmark.name)) &&
+                    (url.equals(bookmark.url)) &&
+                    (additionalData.equals(bookmark.additionalData)) &&
+                    (categoryName.equals(bookmark.category))) {
                 Toast.makeText(requireContext(), R.string.bookmark_modification_error, Toast.LENGTH_SHORT).show();
-            } else if ((name.isEmpty())
-                    || (url.isEmpty())) {
+            } else if ((name.isEmpty()) || (url.isEmpty())) {
                 Toast.makeText(requireContext(), R.string.fields_not_empty, Toast.LENGTH_SHORT).show();
-            } else { //TODO check if name and data aren't too long and if is a valid URL
-                bookmark.name = name;
-                bookmark.url = url;
-                bookmark.additionalData = additionalData;
-                bookmark.category = categoryName;
-                FirebaseBookmarkHelper.modifyBookmark(
-                        bookmark,
-                        new FirebaseBookmarkHelper.BookmarkCallback() {
-                            @Override
-                            public void onSuccess(List<Bookmark> bookmark) {
-                                Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
-                                dismiss();
-                                callback.onClose();
-                            }
-
-                            @Override
-                            public void onError(int errorStringId) {
-                                Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            } else if (!URLUtil.isValidUrl(urlEditText.getText().toString())) {
+                Toast.makeText(requireContext(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
+            } else {
+                modifyBookmark(name, url, additionalData, categoryName);
             }
         });
+    }
+
+    private void modifyBookmark(String name, String url, String additionalData, String categoryName) {
+        bookmark.name = name;
+        bookmark.url = url;
+        bookmark.additionalData = additionalData;
+        bookmark.category = categoryName;
+        FirebaseBookmarkHelper.modifyBookmark(
+                bookmark,
+                new FirebaseBookmarkHelper.BookmarkCallback() {
+                    @Override
+                    public void onSuccess(List<Bookmark> bookmark) {
+                        Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        callback.onClose();
+                    }
+
+                    @Override
+                    public void onError(int errorStringId) {
+                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public interface DialogCallback {
