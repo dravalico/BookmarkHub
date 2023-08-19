@@ -115,12 +115,6 @@ public class AddBookmarkFragment extends Fragment {
         }
     }
 
-    private void clearViewAndOpenHomeFragment() {
-        resetEditTextViews();
-        Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_add_bookmark_to_home);
-    }
-
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
         addBookmarkButton.setOnClickListener(v -> {
             if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
@@ -144,6 +138,12 @@ public class AddBookmarkFragment extends Fragment {
                 Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void clearViewAndOpenHomeFragment() {
+        resetEditTextViews();
+        Toast.makeText(requireActivity(), R.string.bookmark_added, Toast.LENGTH_SHORT).show();
+        navController.navigate(R.id.action_add_bookmark_to_home);
     }
 
     private void resetEditTextViews() {
