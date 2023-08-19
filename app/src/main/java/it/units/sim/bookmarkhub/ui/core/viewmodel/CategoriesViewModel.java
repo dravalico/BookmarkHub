@@ -15,7 +15,7 @@ public class CategoriesViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> categoriesLiveData = new MutableLiveData<>(new ArrayList<>());
 
     public void fetchCategories() {
-        new Thread(() -> FirebaseCategoryHelper.fetchCategories(categoriesLiveData)).start();
+        FirebaseCategoryHelper.fetchCategories(categoriesLiveData);
     }
 
     public MutableLiveData<List<Category>> getCategoriesLiveData() {

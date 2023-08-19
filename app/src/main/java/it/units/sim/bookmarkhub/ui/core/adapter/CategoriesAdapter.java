@@ -98,7 +98,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         builder.setTitle(category.name);
         builder.setMessage(R.string.confirm_category_deletion);
         builder.setPositiveButton(R.string.confirm_dialog, (dialogInterface, i) ->
-                new Thread(() -> FirebaseCategoryHelper.deleteCategoryAndContent(
+                FirebaseCategoryHelper.deleteCategoryAndContent(
                         category,
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
@@ -111,7 +111,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                             public void onError(int errorStringId) {
                                 Toast.makeText(view.getContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
-                        })).start());
+                        }));
         builder.setNegativeButton(R.string.cancel_dialog, null);
         builder.show();
     }

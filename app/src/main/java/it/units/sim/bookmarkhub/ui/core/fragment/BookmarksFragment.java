@@ -152,7 +152,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         builder.setTitle(bookmarkToDelete.name)
                 .setMessage(R.string.confirm_bookmark_deletion)
                 .setPositiveButton(R.string.confirm_dialog, (dialog, which) ->
-                        new Thread(() -> FirebaseBookmarkHelper.deleteBookmark(
+                        FirebaseBookmarkHelper.deleteBookmark(
                                 bookmarkToDelete,
                                 new FirebaseBookmarkHelper.BookmarkCallback() {
                                     @Override
@@ -165,7 +165,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                                         Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT)
                                                 .show();
                                     }
-                                })).start())
+                                }))
                 .setNegativeButton(R.string.cancel_dialog, (dialog, which) ->
                         bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                 .setOnCancelListener(dialog ->

@@ -129,7 +129,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 bookmark.url = url;
                 bookmark.additionalData = additionalData;
                 bookmark.category = categoryName;
-                new Thread(() -> FirebaseBookmarkHelper.modifyBookmark(
+                FirebaseBookmarkHelper.modifyBookmark(
                         bookmark,
                         new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
@@ -143,7 +143,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                             public void onError(int errorStringId) {
                                 Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
-                        })).start();
+                        });
             }
         });
     }

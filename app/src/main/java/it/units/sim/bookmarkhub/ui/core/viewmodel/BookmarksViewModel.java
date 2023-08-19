@@ -13,8 +13,7 @@ public class BookmarksViewModel extends ViewModel {
     private final MutableLiveData<List<Bookmark>> bookmarksLiveData = new MutableLiveData<>(new ArrayList<>());
 
     public void fetchCategoryBookmarks(String categoryName) {
-        new Thread(() -> FirebaseBookmarkHelper.fetchBookmarks(categoryName, bookmarksLiveData))
-                .start();
+        FirebaseBookmarkHelper.fetchBookmarks(categoryName, bookmarksLiveData);
     }
 
     public MutableLiveData<List<Bookmark>> getBookmarksLiveData() {

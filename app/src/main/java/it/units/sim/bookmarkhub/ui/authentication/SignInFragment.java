@@ -36,7 +36,7 @@ public class SignInFragment extends Fragment {
     }
 
     private void signIn(EditText emailEditText, EditText passwordEditText) {
-        new Thread(() -> FirebaseAuthenticationHelper.signIn(
+        FirebaseAuthenticationHelper.signIn(
                 emailEditText.getText().toString(),
                 passwordEditText.getText().toString(),
                 new FirebaseAuthenticationHelper.AuthenticationCallback() {
@@ -54,7 +54,7 @@ public class SignInFragment extends Fragment {
                         requireActivity().runOnUiThread(() ->
                                 Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show());
                     }
-                })).start();
+                });
     }
 
 }

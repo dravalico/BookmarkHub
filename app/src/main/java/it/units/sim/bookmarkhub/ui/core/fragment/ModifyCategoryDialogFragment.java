@@ -80,7 +80,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                 categoryNew.id = category.id;
                 categoryNew.userId = category.userId;
                 categoryNew.name = nameEditText.getText().toString();
-                new Thread(() -> FirebaseCategoryHelper.modifyCategoryName(
+                FirebaseCategoryHelper.modifyCategoryName(
                         category,
                         categoryNew,
                         new FirebaseCategoryHelper.CategoriesCallback() {
@@ -94,7 +94,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                             public void onError(int errorStringId) {
                                 Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
-                        })).start();
+                        });
             }
         });
     }
