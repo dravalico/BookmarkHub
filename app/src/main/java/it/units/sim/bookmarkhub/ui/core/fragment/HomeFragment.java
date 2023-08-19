@@ -3,7 +3,6 @@ package it.units.sim.bookmarkhub.ui.core.fragment;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,7 +54,6 @@ public class HomeFragment extends Fragment implements MenuProvider {
         lastOrderOption = sharedPreferences.getInt(PREF_LAST_SORT_OPTION, R.id.name_ascending);
         categoriesViewModel = new ViewModelProvider(requireActivity()).get(CategoriesViewModel.class);
         categories = new ArrayList<>();
-        Log.d("DEB", this + "created");
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -90,12 +88,6 @@ public class HomeFragment extends Fragment implements MenuProvider {
     public void onStop() {
         super.onStop();
         requireActivity().removeMenuProvider(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("DEB", this + "destroyed");
     }
 
     @Override

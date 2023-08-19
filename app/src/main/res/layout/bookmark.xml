@@ -39,6 +39,7 @@
                 android:textSize="15sp"
                 android:textStyle="italic" />
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
