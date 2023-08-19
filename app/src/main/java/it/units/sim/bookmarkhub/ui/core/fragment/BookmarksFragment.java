@@ -1,7 +1,6 @@
 package it.units.sim.bookmarkhub.ui.core.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +45,6 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("", "listttt");
         if (getArguments() != null) {
             categoryName = getArguments().getString(ARG);
         }
@@ -56,7 +54,6 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -78,12 +75,14 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     public void onStart() {
         super.onStart();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        toggleBottomNav();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         actionBar.setDisplayHomeAsUpEnabled(false);
+        toggleBottomNav();
     }
 
     @Override
@@ -110,7 +109,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
-            navController.navigate(R.id.action_bookmarks_to_home);
+            navController.popBackStack();
             return true;
         }
         return false;
@@ -172,6 +171,15 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                 .setOnCancelListener(dialog ->
                         bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition()))
                 .show();
+    }
+
+    private void toggleBottomNav() {
+        View bottomNav = requireActivity().findViewById(R.id.bottom_navigation_view);
+        if (bottomNav.getVisibility() == View.VISIBLE) {
+            bottomNav.setVisibility(View.GONE);
+        } else {
+            bottomNav.setVisibility(View.VISIBLE);
+        }
     }
 
 }
