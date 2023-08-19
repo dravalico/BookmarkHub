@@ -80,7 +80,6 @@ public class AddBookmarkFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.add_bookmark));
@@ -136,7 +135,7 @@ public class AddBookmarkFragment extends Fragment {
     private void addCLickListenerForNewBookmarkAndInsertIfValid() {
         addBookmarkButton.setOnClickListener(v -> {
             if (URLUtil.isValidUrl(urlEditText.getText().toString())) {
-                new Thread(() -> FirebaseBookmarkHelper.addNewBookmark(
+                FirebaseBookmarkHelper.addNewBookmark(
                         nameEditText.getText().toString(),
                         urlEditText.getText().toString(),
                         dataEditText.getText().toString(),
@@ -151,7 +150,7 @@ public class AddBookmarkFragment extends Fragment {
                             public void onError(int errorStringId) {
                                 Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
-                        })).start();
+                        });
             } else {
                 Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
             }
@@ -159,9 +158,13 @@ public class AddBookmarkFragment extends Fragment {
     }
 
     private void resetEditTextViews() {
-        nameEditText.setText("");
-        urlEditText.setText("");
-        dataEditText.setText("");
+        if (!nameEditText.getText().toString().isEmpty()
+                || !urlEditText.getText().toString().isEmpty()
+                || !dataEditText.getText().toString().isEmpty()) {
+            dataEditText.setText("");
+            urlEditText.setText("");
+            dataEditText.setText("");
+        }
     }
 
 }
