@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -102,9 +104,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                         category,
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
-                            public void onSuccess(List<Category> categories) {
+                            public void onSuccess() {
                                 String msg = category.name + " " + view.getResources().getString(R.string.deleted);
-                                Toast.makeText(view.getContext(), msg, Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
                             }
 
                             @Override

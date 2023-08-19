@@ -15,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.List;
-
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
@@ -85,7 +83,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                         categoryNew,
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
-                            public void onSuccess(List<Category> categories) {
+                            public void onSuccess() {
                                 Toast.makeText(requireContext(), R.string.category_modified, Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }

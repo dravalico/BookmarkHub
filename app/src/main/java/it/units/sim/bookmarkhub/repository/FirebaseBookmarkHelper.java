@@ -23,7 +23,7 @@ public class FirebaseBookmarkHelper {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, data, category))
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnSuccessListener(r -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.add_bookmark_failure));
     }
 
@@ -52,7 +52,7 @@ public class FirebaseBookmarkHelper {
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
                 .delete()
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnSuccessListener(r -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.delete_bookmark_failure));
     }
 
@@ -61,12 +61,12 @@ public class FirebaseBookmarkHelper {
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
                 .set(bookmark)
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnSuccessListener(r -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.modify_bookmark_failure));
     }
 
     public interface BookmarkCallback {
-        void onSuccess(List<Bookmark> bookmark);
+        void onSuccess();
 
         void onError(int errorStringId);
     }

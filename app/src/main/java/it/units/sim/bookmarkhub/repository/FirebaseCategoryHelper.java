@@ -91,7 +91,7 @@ public class FirebaseCategoryHelper {
             return null;
         });
         transactionTask
-                .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnSuccessListener(unused -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.delete_category_failure));
     }
 
@@ -116,7 +116,7 @@ public class FirebaseCategoryHelper {
             return null;
         });
         transactionTask
-                .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnSuccessListener(unused -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.modify_category_failure));
     }
 
@@ -128,12 +128,12 @@ public class FirebaseCategoryHelper {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
-                .addOnSuccessListener(r -> callback.onSuccess(null))
+                .addOnSuccessListener(r -> callback.onSuccess())
                 .addOnFailureListener(e -> callback.onError(R.string.add_category_failure));
     }
 
     public interface CategoriesCallback {
-        void onSuccess(List<Category> categories);
+        void onSuccess();
 
         void onError(int errorStringId);
     }

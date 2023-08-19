@@ -141,7 +141,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                 bookmark,
                 new FirebaseBookmarkHelper.BookmarkCallback() {
                     @Override
-                    public void onSuccess(List<Bookmark> bookmark) {
+                    public void onSuccess() {
                         Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
                         dismiss();
                         callback.onClose();

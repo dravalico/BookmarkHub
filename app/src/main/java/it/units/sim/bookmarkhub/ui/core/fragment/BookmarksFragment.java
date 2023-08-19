@@ -24,8 +24,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
@@ -156,7 +154,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                                 bookmarkToDelete,
                                 new FirebaseBookmarkHelper.BookmarkCallback() {
                                     @Override
-                                    public void onSuccess(List<Bookmark> bookmark) {
+                                    public void onSuccess() {
                                         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                                     }
 

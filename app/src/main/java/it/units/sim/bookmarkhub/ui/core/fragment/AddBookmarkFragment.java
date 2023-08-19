@@ -23,10 +23,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.units.sim.bookmarkhub.R;
-import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
 import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
@@ -133,7 +131,7 @@ public class AddBookmarkFragment extends Fragment {
                         spinner.getSelectedItem().toString(),
                         new FirebaseBookmarkHelper.BookmarkCallback() {
                             @Override
-                            public void onSuccess(List<Bookmark> bookmark) {
+                            public void onSuccess() {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
                             }
 
