@@ -20,6 +20,7 @@ import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ModifyCategoryDialogFragment extends DialogFragment {
+    public static final String TAG = "ModifyCategoryDialogFragment";
     private static final String ARG = "category";
     private Category category;
     private EditText nameEditText;

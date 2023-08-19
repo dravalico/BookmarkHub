@@ -26,7 +26,6 @@ import java.util.Locale;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
-import it.units.sim.bookmarkhub.ui.core.fragment.ModifyBookmarkDialogFragment;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyCategoryDialogFragment;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
@@ -82,7 +81,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             if (itemId == R.id.action_edit) {
                 ModifyCategoryDialogFragment dialogFragment =
                         ModifyCategoryDialogFragment.newInstance(category);
-                dialogFragment.show(fragmentManager, ModifyBookmarkDialogFragment.TAG);
+                dialogFragment.show(fragmentManager, ModifyCategoryDialogFragment.TAG);
                 return true;
             }
             if (itemId == R.id.action_delete) {
