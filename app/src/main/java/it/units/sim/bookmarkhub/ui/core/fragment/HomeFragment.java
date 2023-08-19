@@ -125,26 +125,12 @@ public class HomeFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.name_ascending) {
-            lastOrderOption = R.id.name_ascending;
-            setMenuItemChecked(menuItem);
-            sortCategories();
-            return true;
-        }
-        if (menuItem.getItemId() == R.id.name_descending) {
-            lastOrderOption = R.id.name_descending;
-            setMenuItemChecked(menuItem);
-            sortCategories();
-            return true;
-        }
-        if (menuItem.getItemId() == R.id.date_ascending) {
-            lastOrderOption = R.id.date_ascending;
-            setMenuItemChecked(menuItem);
-            sortCategories();
-            return true;
-        }
-        if (menuItem.getItemId() == R.id.date_descending) {
-            lastOrderOption = R.id.date_descending;
+        int selectedItemId = menuItem.getItemId();
+        if (selectedItemId == R.id.name_ascending ||
+                selectedItemId == R.id.name_descending ||
+                selectedItemId == R.id.date_ascending ||
+                selectedItemId == R.id.date_descending) {
+            lastOrderOption = selectedItemId;
             setMenuItemChecked(menuItem);
             sortCategories();
             return true;
