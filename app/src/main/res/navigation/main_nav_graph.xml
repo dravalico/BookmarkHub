@@ -14,9 +14,7 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_bookmarks"
-            app:destination="@id/bookmarks_fragment"
-            app:popUpTo="@+id/bookmarks_fragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/bookmarks_fragment" />
     </fragment>
     <fragment
         android:id="@+id/add_bookmark_fragment"

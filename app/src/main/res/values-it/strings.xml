@@ -71,4 +71,6 @@
     <string name="auth_view_sentence">Il luogo dove puoi memorizzare tutti i tuoi segnalibri. Accedi o Registrati.</string>
     <string name="no_bookmarks">Non c\'è niente qui…\nUsa il menu in basso per inserire un nuovo segnalibro</string>
     <string name="no_category_defined">Devi prima creare almeno una categoria</string>
+    <string name="no_internet_connection">Connesione assente</string>
+    <string name="no_internet_connection_msg">La connessione a Internet non è disponibile. Attendi il ripristino della connessione o verifica le impostazioni.</string>
 </resources>
