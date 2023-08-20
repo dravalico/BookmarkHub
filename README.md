@@ -29,7 +29,11 @@ from [this apk](https://github.com/damianoravalico/BookmarkHub/releases).
 
 <table>
   <tr>
-    <td><img src="https://drive.google.com/uc?export=view&id=1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS" alt="home_light" width="250"></td>
-    <td><img src="https://drive.google.com/uc?export=view&id=1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq" alt="home_dark" width="250"></td>
+    <td style="border: 1px solid black;">
+        <img src="https://drive.google.com/uc?export=view&id=1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS" alt="home_light" width="250">
+    </td>
+    <td style="border: 1px solid black;">
+        <img src="https://drive.google.com/uc?export=view&id=1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq" alt="home_dark" width="250">
+    </td>
   </tr>
 </table>
