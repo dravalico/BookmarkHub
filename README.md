@@ -4,5 +4,28 @@
 
 # BookmarkHub
 
-This repository contains the Java code of an Android application for the Integrated and Mobile Systems course @
-University of Trieste.
+This repository contains the Java code of an Android application for the Integrated and Mobile Systems @ course
+University of Trieste. This app, written in Java allows you to register and later save all your important links /
+bookmarks, sorting them into categories and view directly from within the app.
+
+### Try it
+
+Without clone the repository, you can just download and install it in your Android phone from
+[this apk](https://github.com/damianoravalico/BookmarkHub/releases).
+
+## Features
+
+- Creating a remote account, so you can access your bookmarks from any Android device
+- Categorize bookmarks for order
+- Editing and deleting categories and bookmarks
+- Real-time data update on all devices thanks to [Firebase](https://console.firebase.google.com)
+- Ability to open bookmarks directly from the application
+- Settings to change the language (English or Italian), set the theme (light or dark) and log out of the account
+- Sort categories by name and creation date (preference maintained locally)
+
+## Preview
+
+<div style="display: flex;">
+    <img src="https://drive.google.com/file/d/1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS/view?usp=sharing" alt="img1" width="400"/>
+    <img src="https://drive.google.com/file/d/1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq/view?usp=sharing" alt="img2" width="400"/>
+</div>
