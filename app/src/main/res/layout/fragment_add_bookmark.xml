@@ -57,6 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:enabled="false"
-        android:text="@string/add_bookmark" />
+        android:text="@string/add_bookmark_dialog" />
 
 </LinearLayout>

@@ -89,9 +89,6 @@
     <string name="empty_home">There is nothing here…\nTo add a new category, use the button below</string>
     <string name="fields_not_empty">Name and URL fields cannot be empty</string>
 
-    <string name="logout_msg">Goodbye, %1$s</string>
-    <string name="sign_in_msg">Welcome back, %1$s</string>
-    <string name="sign_up_msg">Welcome, %1$s</string>
     <string name="close_app">Are you sure you want to quit %1$s application?</string>
     <string name="no_bookmarks">There is nothing here…\nUse the bottom menu to insert a new bookmark</string>
     <string name="no_category_defined">You must first create at least one category</string>
@@ -99,4 +96,5 @@
     <!--> No internet <-->
     <string name="no_internet_connection">No connection</string>
     <string name="no_internet_connection_msg">Internet connection is not available. Wait for the connection to be restored or check the settings.</string>
+    <string name="add_bookmark_dialog">Add bookmark</string>
 </resources>

@@ -43,14 +43,15 @@
     <string name="confirm_dialog">Conferma</string>
     <string name="cancel_dialog">Cancella</string>
     <string name="add_category_dialog">Aggiungi categoria</string>
+    <string name="add_bookmark_dialog">Aggiungi segnalibro</string>
     <string name="invalid_url">L\'URL inserito non è valido</string>
     <string name="bookmark_added">Segnalibro aggiunto con successo</string>
     <string name="category_added">Categoria aggiunta con successo</string>
-    <string name="confirm_category_deletion">Sei sicur* di voler eliminare questa categoria e il suo contenuto?</string>
+    <string name="confirm_category_deletion">Sei sicuro/a di voler eliminare questa categoria e il suo contenuto?</string>
     <string name="category">categoria</string>
     <string name="deleted">eliminato</string>
     <string name="bookmark">segnalibro</string>
-    <string name="confirm_bookmark_deletion">Sei sicur* di voler eliminare questo segnalibro?</string>
+    <string name="confirm_bookmark_deletion">Sei sicuro/a di voler eliminare questo segnalibro?</string>
     <string name="bookmark_modified">Segnalibro modificato con successo</string>
     <string name="category_modified">Categoria modificata con successo</string>
     <string name="bookmark_modification_error">Devi modificare almeno un campo</string>
@@ -59,9 +60,6 @@
     <string name="night_mode">Modalità scura</string>
     <string name="empty_home">Non c\'è nulla qui… Per aggiungere una nuova categoria, usa il bottone in basso</string>
     <string name="fields_not_empty">I campi nome e URL non possono essere vuoti</string>
-    <string name="logout_msg">Arriverci, %1$s</string>
-    <string name="sign_in_msg">Bentornato, %1$s</string>
-    <string name="sign_up_msg">Benvenuto, %1$s</string>
     <string name="close_app">Sei sicuro di voler chiudere l\'applicazione %1$s?</string>
     <string name="user_interface">Interfaccia utente</string>
     <string name="language">Lingua</string>
