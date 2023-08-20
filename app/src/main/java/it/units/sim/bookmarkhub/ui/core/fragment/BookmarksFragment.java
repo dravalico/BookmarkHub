@@ -146,7 +146,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
     private void deleteBookmarkDialog(RecyclerView.ViewHolder viewHolder, int swipedPosition) {
         Bookmark bookmarkToDelete = bookmarksAdapter.getItem(swipedPosition);
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        String msg = bookmarkToDelete.name + " " + getString(R.string.deleted);
+        String msg = getString(R.string.bookmark_deleted, bookmarkToDelete.name);
         builder.setTitle(bookmarkToDelete.name)
                 .setMessage(R.string.confirm_bookmark_deletion)
                 .setPositiveButton(R.string.confirm_dialog, (dialog, which) ->

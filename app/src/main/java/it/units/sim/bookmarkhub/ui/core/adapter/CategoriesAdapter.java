@@ -102,7 +102,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                         new FirebaseCategoryHelper.CategoriesCallback() {
                             @Override
                             public void onSuccess() {
-                                String msg = category.name + " " + view.getResources().getString(R.string.deleted);
+                                String msg = view.getResources().getString(R.string.category_deleted, category.name);
                                 Toast.makeText(view.getContext(), msg, Toast.LENGTH_SHORT).show();
                             }
 
