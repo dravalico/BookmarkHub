@@ -93,8 +93,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
                         @Override
                         public void onFailure(int errorStringId) {
-                            requireActivity().runOnUiThread(() ->
-                                    Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
+                            Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                         }
                     });
             return true;
