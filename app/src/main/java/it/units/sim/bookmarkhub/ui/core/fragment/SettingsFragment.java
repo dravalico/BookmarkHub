@@ -84,25 +84,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private void setOnClickLogoutPreference(Preference logoutPreference) {
         logoutPreference.setOnPreferenceClickListener(preference -> {
-            new Thread(() -> {
-                String username = FirebaseAuthenticationHelper.getCurrentUserUsername();
-                FirebaseAuthenticationHelper.signOut(
-                        new FirebaseAuthenticationHelper.AuthenticationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                String msg = getString(R.string.logout_msg, username);
-                                requireActivity().runOnUiThread(() ->
-                                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show());
-                                startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
-                            }
+            FirebaseAuthenticationHelper.signOut(
+                    new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                        @Override
+                        public void onSuccess() {
+                            startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                        }
 
-                            @Override
-                            public void onFailure(int errorStringId) {
-                                requireActivity().runOnUiThread(() ->
-                                        Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
-                            }
-                        });
-            }).start();
+                        @Override
+                        public void onFailure(int errorStringId) {
+                            requireActivity().runOnUiThread(() ->
+                                    Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show());
+                        }
+                    });
             return true;
         });
     }
