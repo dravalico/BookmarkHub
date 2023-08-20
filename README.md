@@ -23,6 +23,7 @@ from [this apk](https://github.com/damianoravalico/BookmarkHub/releases).
 - Ability to open bookmarks directly from the application
 - Settings to change the language (English or Italian), set the theme (light or dark) and log out of the account
 - Sort categories by name or creation date (preference maintained locally)
+- Management of lack of Internet access through Broadcasts
 
 ## Preview
 
