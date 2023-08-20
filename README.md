@@ -4,14 +4,14 @@
 
 # BookmarkHub
 
-This repository contains the Java code of an Android application for the Integrated and Mobile Systems @ course
+This repository contains the Java code of an Android application for the course Integrated and Mobile Systems @
 University of Trieste. This app, written in Java allows you to register and later save all your important links /
-bookmarks, sorting them into categories and view directly from within the app.
+bookmarks, sorting them into categories and viewing them directly from the app.
 
 ### Try it
 
-Without clone the repository, you can just download and install it in your Android phone from
-[this apk](https://github.com/damianoravalico/BookmarkHub/releases).
+Without cloning the repository, you can simply download and install it on your Android phone
+from [this apk](https://github.com/damianoravalico/BookmarkHub/releases).
 
 ## Features
 
