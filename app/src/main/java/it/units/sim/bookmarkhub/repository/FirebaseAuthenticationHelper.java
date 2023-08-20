@@ -51,10 +51,6 @@ public class FirebaseAuthenticationHelper {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    public static String getCurrentUserUsername() {
-        return Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getDisplayName();
-    }
-
     public static void signOut(AuthenticationCallback callback) {
         try {
             FirebaseAuth.getInstance().signOut();
