@@ -21,11 +21,9 @@ Without clone the repository, you can just download and install it in your Andro
 - Real-time data update on all devices thanks to [Firebase](https://console.firebase.google.com)
 - Ability to open bookmarks directly from the application
 - Settings to change the language (English or Italian), set the theme (light or dark) and log out of the account
-- Sort categories by name and creation date (preference maintained locally)
+- Sort categories by name or creation date (preference maintained locally)
 
 ## Preview
 
-<div style="display: flex;">
-    <img src="https://drive.google.com/file/d/1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS/view?usp=sharing" alt="img1" width="400"/>
-    <img src="https://drive.google.com/file/d/1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq/view?usp=sharing" alt="img2" width="400"/>
-</div>
+![home_light](https://drive.google.com/file/d/1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS/view?usp=drive_link)
+![home_dark](https://drive.google.com/file/d/1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq/view?usp=drive_link)
