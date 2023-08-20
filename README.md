@@ -25,5 +25,9 @@ Without clone the repository, you can just download and install it in your Andro
 
 ## Preview
 
-![home_light](https://drive.google.com/uc?export=view&id=1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS)
-![home_dark](https://drive.google.com/uc?export=view&id=1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq)
+<table>
+  <tr>
+    <td><img src="https://drive.google.com/uc?export=view&id=1gvSgm7rLhwrk3Jm4nB37q0cL1TD9AkrS" alt="home_light" width="400"></td>
+    <td><img src="https://drive.google.com/uc?export=view&id=1gFl6HhlMYaiplYUlTpJifr0E6QhP6WJq" alt="home_dark" width="400"></td>
+  </tr>
+</table>
