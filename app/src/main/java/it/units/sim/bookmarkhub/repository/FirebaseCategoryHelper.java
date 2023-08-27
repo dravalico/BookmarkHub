@@ -28,6 +28,9 @@ public class FirebaseCategoryHelper {
     private static final String CATEGORY_NAME_FIELD = "category_name";
     private static final String CATEGORY_FOREIGN_KEY_FIELD = "category";
 
+    private FirebaseCategoryHelper() {
+    }
+
     public static void fetchCategories(MutableLiveData<List<Category>> categoriesLiveData) {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
@@ -50,7 +53,7 @@ public class FirebaseCategoryHelper {
                 });
     }
 
-    public static void addNewCategoryIfNotAlreadySaved(String categoryName, CategoriesCallback callback) {
+    public static void addNewCategoryIfNotAlreadySaved(String categoryName, FirebaseCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .whereEqualTo(CATEGORY_NAME_FIELD, categoryName)
@@ -60,17 +63,17 @@ public class FirebaseCategoryHelper {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            callback.onError(R.string.duplicated_category);
+                            callback.onFailure(R.string.duplicated_category);
                         } else {
                             addNewCategory(categoryName, callback);
                         }
                     } else {
-                        callback.onError(R.string.add_category_failure);
+                        callback.onFailure(R.string.add_category_failure);
                     }
                 });
     }
 
-    public static void deleteCategoryAndContent(Category category, CategoriesCallback callback) {
+    public static void deleteCategoryAndContent(Category category, FirebaseCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<Void> transactionTask = db.runTransaction(transaction -> {
             DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(category.id);
@@ -81,7 +84,7 @@ public class FirebaseCategoryHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(R.string.delete_category_failure);
+                callback.onFailure(R.string.delete_category_failure);
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -92,10 +95,10 @@ public class FirebaseCategoryHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.delete_category_failure));
+                .addOnFailureListener(e -> callback.onFailure(R.string.delete_category_failure));
     }
 
-    public static void modifyCategoryName(Category categoryOld, Category categoryNew, CategoriesCallback callback) {
+    public static void modifyCategoryName(Category categoryOld, Category categoryNew, FirebaseCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Task<Void> transactionTask = db.runTransaction(transaction -> {
             DocumentReference categoryRef = db.collection(CATEGORIES_COLLECTION_NAME).document(categoryNew.id);
@@ -106,7 +109,7 @@ public class FirebaseCategoryHelper {
             try {
                 querySnapshot = Tasks.await(query.get());
             } catch (ExecutionException | InterruptedException e) {
-                callback.onError(R.string.modify_category_failure);
+                callback.onFailure(R.string.modify_category_failure);
             }
             assert querySnapshot != null;
             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
@@ -117,25 +120,19 @@ public class FirebaseCategoryHelper {
         });
         transactionTask
                 .addOnSuccessListener(unused -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.modify_category_failure));
+                .addOnFailureListener(e -> callback.onFailure(R.string.modify_category_failure));
     }
 
-    private static void addNewCategory(String categoryName, CategoriesCallback callback) {
+    private static void addNewCategory(String categoryName, FirebaseCallback callback) {
         if (categoryName.isEmpty()) {
-            callback.onError(R.string.category_name_not_empty);
+            callback.onFailure(R.string.category_name_not_empty);
             return;
         }
         FirebaseFirestore.getInstance()
                 .collection(CATEGORIES_COLLECTION_NAME)
                 .add(new Category(FirebaseAuth.getInstance().getUid(), categoryName, new Date()))
                 .addOnSuccessListener(r -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.add_category_failure));
-    }
-
-    public interface CategoriesCallback {
-        void onSuccess();
-
-        void onError(int errorStringId);
+                .addOnFailureListener(e -> callback.onFailure(R.string.add_category_failure));
     }
 
 }

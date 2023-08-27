@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import it.units.sim.bookmarkhub.MainActivity;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 
 public class SignUpFragment extends Fragment {
 
@@ -43,7 +44,7 @@ public class SignUpFragment extends Fragment {
                 emailEditText.getText().toString(),
                 passwordEditText.getText().toString(),
                 confirmPasswordEditText.getText().toString(),
-                new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                new FirebaseCallback() {
                     @Override
                     public void onSuccess() {
                         startActivity(new Intent(requireActivity(), MainActivity.class));

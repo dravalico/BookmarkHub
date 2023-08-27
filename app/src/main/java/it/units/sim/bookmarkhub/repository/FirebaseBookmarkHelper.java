@@ -19,12 +19,15 @@ import it.units.sim.bookmarkhub.model.Bookmark;
 public class FirebaseBookmarkHelper {
     public static final String BOOKMARKS_COLLECTION_NAME = "bookmarks";
 
-    public static void addNewBookmark(String name, String url, String data, String category, BookmarkCallback callback) {
+    private FirebaseBookmarkHelper() {
+    }
+
+    public static void addNewBookmark(String name, String url, String data, String category, FirebaseCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .add(new Bookmark(FirebaseAuth.getInstance().getUid(), name, url, data, category))
                 .addOnSuccessListener(r -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.add_bookmark_failure));
+                .addOnFailureListener(e -> callback.onFailure(R.string.add_bookmark_failure));
     }
 
     public static void fetchBookmarks(String categoryName, MutableLiveData<List<Bookmark>> bookmarksLiveData) {
@@ -47,28 +50,22 @@ public class FirebaseBookmarkHelper {
                 });
     }
 
-    public static void deleteBookmark(Bookmark bookmark, BookmarkCallback callback) {
+    public static void deleteBookmark(Bookmark bookmark, FirebaseCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
                 .delete()
                 .addOnSuccessListener(r -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.delete_bookmark_failure));
+                .addOnFailureListener(e -> callback.onFailure(R.string.delete_bookmark_failure));
     }
 
-    public static void modifyBookmark(Bookmark bookmark, BookmarkCallback callback) {
+    public static void modifyBookmark(Bookmark bookmark, FirebaseCallback callback) {
         FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .document(bookmark.id)
                 .set(bookmark)
                 .addOnSuccessListener(r -> callback.onSuccess())
-                .addOnFailureListener(e -> callback.onError(R.string.modify_bookmark_failure));
-    }
-
-    public interface BookmarkCallback {
-        void onSuccess();
-
-        void onError(int errorStringId);
+                .addOnFailureListener(e -> callback.onFailure(R.string.modify_bookmark_failure));
     }
 
 }

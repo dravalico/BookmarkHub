@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class ModifyCategoryDialogFragment extends DialogFragment {
@@ -82,7 +83,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                 FirebaseCategoryHelper.modifyCategoryName(
                         category,
                         categoryNew,
-                        new FirebaseCategoryHelper.CategoriesCallback() {
+                        new FirebaseCallback() {
                             @Override
                             public void onSuccess() {
                                 Toast.makeText(requireContext(), R.string.category_modified, Toast.LENGTH_SHORT).show();
@@ -90,7 +91,7 @@ public class ModifyCategoryDialogFragment extends DialogFragment {
                             }
 
                             @Override
-                            public void onError(int errorStringId) {
+                            public void onFailure(int errorStringId) {
                                 Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         });

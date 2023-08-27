@@ -25,6 +25,7 @@ import java.util.List;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class ModifyBookmarkDialogFragment extends DialogFragment {
@@ -137,7 +138,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
         bookmark.category = categoryName;
         FirebaseBookmarkHelper.modifyBookmark(
                 bookmark,
-                new FirebaseBookmarkHelper.BookmarkCallback() {
+                new FirebaseCallback() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(requireContext(), R.string.bookmark_modified, Toast.LENGTH_SHORT).show();
@@ -145,7 +146,7 @@ public class ModifyBookmarkDialogFragment extends DialogFragment {
                     }
 
                     @Override
-                    public void onError(int errorStringId) {
+                    public void onFailure(int errorStringId) {
                         Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Category;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 import it.units.sim.bookmarkhub.ui.core.fragment.ModifyCategoryDialogFragment;
 
@@ -99,7 +100,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         builder.setPositiveButton(R.string.confirm_dialog, (dialogInterface, i) ->
                 FirebaseCategoryHelper.deleteCategoryAndContent(
                         category,
-                        new FirebaseCategoryHelper.CategoriesCallback() {
+                        new FirebaseCallback() {
                             @Override
                             public void onSuccess() {
                                 String msg = view.getResources().getString(R.string.category_deleted, category.name);
@@ -107,7 +108,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                             }
 
                             @Override
-                            public void onError(int errorStringId) {
+                            public void onFailure(int errorStringId) {
                                 Toast.makeText(view.getContext(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         }));

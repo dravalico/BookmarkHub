@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import it.units.sim.bookmarkhub.R;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.repository.FirebaseCategoryHelper;
 
 public class AddCategoryDialogFragment extends DialogFragment {
@@ -45,7 +46,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
             } else {
                 FirebaseCategoryHelper.addNewCategoryIfNotAlreadySaved(
                         nameEditText.getText().toString(),
-                        new FirebaseCategoryHelper.CategoriesCallback() {
+                        new FirebaseCallback() {
                             @Override
                             public void onSuccess() {
                                 Toast.makeText(requireActivity(), R.string.category_added, Toast.LENGTH_SHORT).show();
@@ -53,7 +54,7 @@ public class AddCategoryDialogFragment extends DialogFragment {
                             }
 
                             @Override
-                            public void onError(int errorStringId) {
+                            public void onFailure(int errorStringId) {
                                 Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.model.Bookmark;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.ui.core.adapter.BookmarksAdapter;
 import it.units.sim.bookmarkhub.ui.core.viewmodel.BookmarksViewModel;
 
@@ -149,14 +150,14 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                 .setPositiveButton(R.string.confirm_dialog, (dialog, which) ->
                         FirebaseBookmarkHelper.deleteBookmark(
                                 bookmarkToDelete,
-                                new FirebaseBookmarkHelper.BookmarkCallback() {
+                                new FirebaseCallback() {
                                     @Override
                                     public void onSuccess() {
                                         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
-                                    public void onError(int errorStringId) {
+                                    public void onFailure(int errorStringId) {
                                         Toast.makeText(requireContext(), errorStringId, Toast.LENGTH_SHORT)
                                                 .show();
                                     }

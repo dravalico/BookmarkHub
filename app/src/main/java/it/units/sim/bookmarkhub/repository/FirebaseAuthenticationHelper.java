@@ -16,7 +16,7 @@ public class FirebaseAuthenticationHelper {
     }
 
     public static void signUp(String username, String email, String password, String confirmPassword,
-                              AuthenticationCallback callback) {
+                              FirebaseCallback callback) {
         if (!isSignUpFieldsCompleted(username, email, password, confirmPassword, callback)) {
             return;
         }
@@ -32,7 +32,7 @@ public class FirebaseAuthenticationHelper {
         });
     }
 
-    public static void signIn(String email, String password, AuthenticationCallback callback) {
+    public static void signIn(String email, String password, FirebaseCallback callback) {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             callback.onFailure(R.string.email_password_not_empty);
             return;
@@ -51,7 +51,7 @@ public class FirebaseAuthenticationHelper {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    public static void signOut(AuthenticationCallback callback) {
+    public static void signOut(FirebaseCallback callback) {
         try {
             FirebaseAuth.getInstance().signOut();
             callback.onSuccess();
@@ -61,7 +61,7 @@ public class FirebaseAuthenticationHelper {
     }
 
     private static boolean isSignUpFieldsCompleted(String username, String email, String password, String confirmPassword,
-                                                   AuthenticationCallback callback) {
+                                                   FirebaseCallback callback) {
         if (TextUtils.isEmpty(username)) {
             callback.onFailure(R.string.username_not_empty);
             return false;
@@ -85,7 +85,7 @@ public class FirebaseAuthenticationHelper {
         return true;
     }
 
-    private static void updateUserName(FirebaseUser firebaseUser, String username, AuthenticationCallback callback) {
+    private static void updateUserName(FirebaseUser firebaseUser, String username, FirebaseCallback callback) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(username)
                 .build();
@@ -94,12 +94,6 @@ public class FirebaseAuthenticationHelper {
                 callback.onFailure(R.string.update_user_info_failure);
             }
         });
-    }
-
-    public interface AuthenticationCallback {
-        void onSuccess();
-
-        void onFailure(int errorStringId);
     }
 
 }

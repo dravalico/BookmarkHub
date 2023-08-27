@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.repository.FirebaseAuthenticationHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.ui.authentication.AuthenticationActivity;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -85,7 +86,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private void setOnClickLogoutPreference(Preference logoutPreference) {
         logoutPreference.setOnPreferenceClickListener(preference -> {
             FirebaseAuthenticationHelper.signOut(
-                    new FirebaseAuthenticationHelper.AuthenticationCallback() {
+                    new FirebaseCallback() {
                         @Override
                         public void onSuccess() {
                             startActivity(new Intent(requireActivity(), AuthenticationActivity.class));

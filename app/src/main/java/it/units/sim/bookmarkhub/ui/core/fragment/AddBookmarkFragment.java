@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import it.units.sim.bookmarkhub.R;
 import it.units.sim.bookmarkhub.repository.FirebaseBookmarkHelper;
+import it.units.sim.bookmarkhub.repository.FirebaseCallback;
 import it.units.sim.bookmarkhub.ui.core.viewmodel.CategoriesViewModel;
 
 public class AddBookmarkFragment extends Fragment {
@@ -123,14 +124,14 @@ public class AddBookmarkFragment extends Fragment {
                         urlEditText.getText().toString(),
                         dataEditText.getText().toString(),
                         spinner.getSelectedItem().toString(),
-                        new FirebaseBookmarkHelper.BookmarkCallback() {
+                        new FirebaseCallback() {
                             @Override
                             public void onSuccess() {
                                 AddBookmarkFragment.this.clearViewAndOpenHomeFragment();
                             }
 
                             @Override
-                            public void onError(int errorStringId) {
+                            public void onFailure(int errorStringId) {
                                 Toast.makeText(requireActivity(), errorStringId, Toast.LENGTH_SHORT).show();
                             }
                         });
