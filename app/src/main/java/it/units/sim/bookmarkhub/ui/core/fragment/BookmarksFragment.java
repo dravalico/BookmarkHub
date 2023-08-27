@@ -131,10 +131,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
                 if (direction == ItemTouchHelper.RIGHT) {
                     bookmarksAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
                     ModifyBookmarkDialogFragment dialogFragment =
-                            ModifyBookmarkDialogFragment.newInstance(
-                                    bookmarksAdapter.getItem(swipedPosition), () ->
-                                            BookmarksFragment.this.bookmarksViewModel
-                                                    .fetchCategoryBookmarks(BookmarksFragment.this.categoryName));
+                            ModifyBookmarkDialogFragment.newInstance(bookmarksAdapter.getItem(swipedPosition));
                     dialogFragment.show(getChildFragmentManager(), ModifyBookmarkDialogFragment.TAG);
                 }
             }

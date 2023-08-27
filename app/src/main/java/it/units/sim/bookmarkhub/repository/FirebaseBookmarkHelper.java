@@ -33,10 +33,10 @@ public class FirebaseBookmarkHelper {
                 .whereEqualTo("user_id",
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .whereEqualTo("category", categoryName)
-                .orderBy("bookmark_name", Query.Direction.DESCENDING)
+                .orderBy("bookmark_name", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        Log.d(FirebaseCategoryHelper.class.getName(), "Error while retrieve category entries");
+                        Log.d(FirebaseBookmarkHelper.class.getName(), "Error while retrieve category entries");
                     }
                     if (value != null) {
                         bookmarksLiveData.postValue(value.getDocuments()
