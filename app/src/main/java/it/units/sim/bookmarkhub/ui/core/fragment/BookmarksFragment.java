@@ -82,6 +82,7 @@ public class BookmarksFragment extends Fragment implements MenuProvider {
         super.onStop();
         actionBar.setDisplayHomeAsUpEnabled(false);
         toggleBottomNav();
+        bookmarksViewModel.stopFetch();
     }
 
     @Override

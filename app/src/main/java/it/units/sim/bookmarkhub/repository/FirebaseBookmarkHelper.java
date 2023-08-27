@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
 import java.util.List;
@@ -30,8 +31,8 @@ public class FirebaseBookmarkHelper {
                 .addOnFailureListener(e -> callback.onFailure(R.string.add_bookmark_failure));
     }
 
-    public static void fetchBookmarks(String categoryName, MutableLiveData<List<Bookmark>> bookmarksLiveData) {
-        FirebaseFirestore.getInstance()
+    public static ListenerRegistration fetchBookmarks(String categoryName, MutableLiveData<List<Bookmark>> bookmarksLiveData) {
+        return FirebaseFirestore.getInstance()
                 .collection(BOOKMARKS_COLLECTION_NAME)
                 .whereEqualTo("user_id",
                         Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
