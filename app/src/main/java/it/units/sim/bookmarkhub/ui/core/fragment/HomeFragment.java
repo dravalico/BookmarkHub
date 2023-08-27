@@ -88,7 +88,6 @@ public class HomeFragment extends Fragment implements MenuProvider {
     public void onStop() {
         super.onStop();
         requireActivity().removeMenuProvider(this);
-        categoriesViewModel.stopFetch();
     }
 
     @Override
